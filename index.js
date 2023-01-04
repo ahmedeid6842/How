@@ -62,13 +62,14 @@ const specs = swaggerJsDoc(option);
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 require("./start/sessionConfig")(app);
 app.use(morgan("tiny"));
 app.use(helmet());
 app.use(compression());
 app.use(cors());
 
-app.get("/", (req, res,next) => {
+app.get("/", (req, res, next) => {
     return res.redirect("/api-docs");
 })
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));

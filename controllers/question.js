@@ -71,8 +71,6 @@ module.exports.deleteQuestion = async (req, res) => {
 
     //DONE: if question not found return 404
     let question = await Question.findOneAndDelete({ _id: req.params.id, author: req.user.userName });
-    console.log(req.user);
-    console.log(question);
     if (!question) return res.status(404).send("no question with that ID found")
     return res.send("question deleted succesfully");
 }

@@ -3,6 +3,7 @@ const express = require("express");
 const User = require("../controllers/user");
 const isAuth = require("../middleware/isAuth");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const isValidToken = require("../middleware/validateToken");
 
 const route = express.Router();
 /**
@@ -95,9 +96,71 @@ const route = express.Router();
  *                      
  */
 
+/**
+ * @swagger 
+ * /user/reset-password:
+ *  post:
+ *      summary: asking to reset password 
+ *      tags : [login & signup]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                              description: email that  want to reset password    
+ *      responses:
+ *          200:
+ *              description: succesfully send email 
+ *          400:
+ *              description : the request was invalid check you body
+ *          404:
+ *              description : email or user name wasn't found or wrong password
+ *                      
+ */
+
+
+
+/**
+ * @swagger 
+ * /user/reset-password/{token}:
+ *  post:
+ *      summary: set a new password by providing token that sent to your email 
+ *      tags : [login & signup]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      properties:
+ *                          password:
+ *                              type: string
+ *                              description: the new password
+ *      parameters:
+ *          - in: path
+ *            name: token
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: token that sent to your email to use 
+ *      responses:
+ *          200:
+ *              description: you password update sucesfully
+ *          400:
+ *              description : the request was invalid check you body
+ *          404:
+ *              description : user not found
+ *                      
+ */
+
 
 
 route.post("/register", isLoggedIn, User.register);
 route.post("/login", isLoggedIn, User.login);
+route.post("/reset-password", User.postResetPassword)
+route.get("/reset-password/:token", isValidToken, User.getResetPassword)
+route.post("/reset-password/:token",isValidToken, User.setNewPassword)
 route.get("/logout", isAuth, User.logout);
 module.exports = route;

@@ -49,6 +49,11 @@ userSchema.methods.createSession = function (req) {
     req.session.userName = this.userName;
 }
 
+userSchema.methods.createResetPasswordToken = function (req) {
+    //DONE: method to create a token that will be used when reseting password
+    return jwt.sign({ userName: this.userName }, process.env.jwtSecret, { expiresIn: "1h" });
+}
+
 function registerValidate(user) {
     const schema = Joi.object({
         userName: Joi.string().min(5).max(50).required(),
@@ -73,6 +78,28 @@ function loginValidate(user) {
     return schema.validate(user);
 }
 
+function NewPasswordValidate(body, method) {
+    if (method === "asking") {
+        const schema = Joi.object({
+            email: Joi.string().email().required(),
+        })
+        return schema.validate(body);
+    } else if (method === "updating") {
+        const schema = Joi.object({
+            password: joiPassword
+                .string()
+                .minOfSpecialCharacters(1)
+                .minOfLowercase(1)
+                .minOfUppercase(1)
+                .minOfNumeric(6)
+                .noWhiteSpaces()
+                .required()
+        })
+        return schema.validate(body);
+    }
+}
+
 module.exports.User = mongoose.model("User", userSchema);
 module.exports.registerValidate = registerValidate;
 module.exports.loginValidate = loginValidate;
+module.exports.NewPasswordValidate = NewPasswordValidate;
