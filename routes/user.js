@@ -1,6 +1,8 @@
 const express = require("express");
 
 const User = require("../controllers/user");
+const isAuth = require("../middleware/isAuth");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
 const route = express.Router();
 /**
@@ -35,10 +37,11 @@ const route = express.Router();
  *          200:
  *              description: sucessfully signed up
  *              headers:
- *                  x-auth-token:
+ *                  Set-Cookie:
  *                      schema:
  *                          type: string
- *                      description: header you will use in authentication
+ *                      description: containing sessionId for authentication
+ *                      example: sessionID=s3%akdfjldskfjdf.ckjsdlf; path=/;sameSite=strict;secure=true
  *          400:
  *              description : the request was invalid check you body
  *                      
@@ -66,10 +69,11 @@ const route = express.Router();
  *          200:
  *              description: sucessfully logged in
  *              headers:
- *                  x-auth-token:
+ *                  Set-Cookie:
  *                      schema:
  *                          type: string
- *                      description: header you will use in authentication
+ *                      description: containing sessionId for authentication
+ *                      example: sessionID=s3%akdfjldskfjdf.ckjsdlf; path=/;sameSite=strict;secure=true
  *          400:
  *              description : the request was invalid check you body
  *          404:
@@ -77,7 +81,23 @@ const route = express.Router();
  *                      
  */
 
-route.post("/register", User.register);
-route.post("/login", User.login);
+/**
+ * @swagger 
+ * /user/logout:
+ *  get:
+ *      summary: logout the user  
+ *      tags : [login & signup]
+ *      responses:
+ *          200:
+ *              description: sucessfully logged our
+ *          500:
+ *              description : something went wrong
+ *                      
+ */
 
+
+
+route.post("/register", isLoggedIn, User.register);
+route.post("/login", isLoggedIn, User.login);
+route.get("/logout", isAuth, User.logout);
 module.exports = route;

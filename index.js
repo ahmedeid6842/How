@@ -9,11 +9,14 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const cors = require("cors");
 
+
 const user = require("./routes/user");
 const question = require("./routes/question");
 const answer = require("./routes/answer");
 const error = require("./middleware/error");
 const logger = require("./utils/logger");
+
+
 
 
 //DONE: uncaught execption handling
@@ -59,6 +62,7 @@ const specs = swaggerJsDoc(option);
 const app = express();
 
 app.use(express.json());
+require("./start/sessionConfig")(app);
 app.use(morgan("tiny"));
 app.use(helmet());
 app.use(compression());

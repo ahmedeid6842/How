@@ -39,15 +39,14 @@ const userSchema = new mongoose.Schema({
     }],
     questions: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref:"Question"
+        ref: "Question"
     }]
 })
 
 
-userSchema.methods.createAuthToken = function () {
-    //DONE: method to create jwt
-    //TODO:set expiration date for json web token
-    return jwt.sign({ userName: this.userName }, process.env.jwtSecret)
+userSchema.methods.createSession = function (req) {
+    //DONE: method to create user session and store it
+    req.session.userName = this.userName;
 }
 
 function registerValidate(user) {

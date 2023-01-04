@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const Question = require("../controllers/question");
-const auth = require("../middleware/auth");
+const isAuth = require("../middleware/isAuth");
 
 
 /**
@@ -87,13 +87,6 @@ const auth = require("../middleware/auth");
  *  post:
  *      summary: add a new question, you must be authenticated 
  *      tags : [Questions]
- *      parameters:
- *          - in: header
- *            name: x-auth-token
- *            schema:
- *              type: string
- *            required: true
- *            description: the user token, for authentication
  *      requestBody:
  *          required: true
  *          content:
@@ -122,12 +115,6 @@ const auth = require("../middleware/auth");
  *      summary: update existing question, you must be authenticated 
  *      tags : [Questions]
  *      parameters:
- *          - in: header
- *            name: x-auth-token
- *            schema:
- *              type: string
- *            required: true
- *            description: the user token, for authentication
  *          - in: path
  *            name: id
  *            schema:
@@ -168,12 +155,6 @@ const auth = require("../middleware/auth");
  *      summary: delete a question, you must be authenticated 
  *      tags : [Questions]
  *      parameters:
- *          - in: header
- *            name: x-auth-token
- *            schema:
- *              type: string
- *            required: true
- *            description: the user token, for authentication
  *          - in: path
  *            name: id
  *            schema:
@@ -188,10 +169,10 @@ const auth = require("../middleware/auth");
  *          
  *                      
  */
-route.post("/", auth, Question.newQuestion);
+route.post("/", isAuth, Question.newQuestion);
 route.get("/:id", Question.getQuestion);
-route.put("/:id", auth, Question.updateQuestion);
-route.delete("/:id", auth, Question.deleteQuestion);
+route.put("/:id", isAuth, Question.updateQuestion);
+route.delete("/:id", isAuth, Question.deleteQuestion);
 
 
 module.exports = route;

@@ -1,5 +1,5 @@
 const express = require("express");
-const auth = require("../middleware/auth");
+const isAuth = require("../middleware/isAuth");
 const route = express.Router();
 
 const Answer = require("../controllers/answer");
@@ -18,12 +18,6 @@ const Answer = require("../controllers/answer");
  *      summary: add a new answer, you must be authenticated 
  *      tags : [Answers]
  *      parameters:
- *          - in: header
- *            name: x-auth-token
- *            schema:
- *              type: string
- *            required: true
- *            description: the user token, for authentication
  *          - in: path
  *            name: questionId
  *            schema:
@@ -55,12 +49,6 @@ const Answer = require("../controllers/answer");
  *      summary: like answer in question by using question id and answer if
  *      tags : [Answers]
  *      parameters:
- *          - in: header
- *            name: x-auth-token
- *            schema:
- *              type: string
- *            required: true
- *            description: the user token, for authentication
  *          - in: path
  *            name: questionId
  *            schema:
@@ -87,12 +75,6 @@ const Answer = require("../controllers/answer");
  *      summary: delete answer you submit by question id and answer id
  *      tags : [Answers]
  *      parameters:
- *          - in: header
- *            name: x-auth-token
- *            schema:
- *              type: string
- *            required: true
- *            description: the user token, for authentication
  *          - in: path
  *            name: questionId
  *            schema:
@@ -112,8 +94,8 @@ const Answer = require("../controllers/answer");
  *              description : answer of question not found 
  */
 
-route.post("/:questionId", auth, Answer.newAnswer);
-route.post("/:questionId/:answerId", auth, Answer.likeAnswer);
-route.delete("/:questionId/:answerId", auth, Answer.deleteAnswer);
+route.post("/:questionId", isAuth, Answer.newAnswer);
+route.post("/:questionId/:answerId", isAuth, Answer.likeAnswer);
+route.delete("/:questionId/:answerId", isAuth, Answer.deleteAnswer);
 
 module.exports = route;
