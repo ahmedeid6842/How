@@ -68,6 +68,9 @@ app.use(helmet());
 app.use(compression());
 app.use(cors());
 
+app.get("/", (req, res,next) => {
+    return res.redirect("/api-docs");
+})
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use("/user", user);
 app.use("/question", question);

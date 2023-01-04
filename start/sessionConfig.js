@@ -18,7 +18,6 @@ module.exports = (app) => {
         cookie: {
             httpOnly: true,
             sameSite: "strict",
-            secure: process.env.NODE_ENV == 'production' ? true : false,
             maxAge: 3 * 24 * 60 * 60 * 1000 // three day
         },
         store
