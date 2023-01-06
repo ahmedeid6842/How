@@ -4,6 +4,7 @@ const User = require("../controllers/user");
 const isAuth = require("../middleware/isAuth");
 const isLoggedIn = require("../middleware/isLoggedIn");
 const isValidToken = require("../middleware/validateToken");
+const passport = require("passport");
 
 const route = express.Router();
 /**
@@ -15,7 +16,7 @@ const route = express.Router();
 
 /**
  * @swagger 
- * /user/register:
+ * /auth/register:
  *  post:
  *      summary: user sign-up
  *      tags : [login & signup]
@@ -50,7 +51,7 @@ const route = express.Router();
 
 /**
  * @swagger 
- * /user/login:
+ * /auth/login:
  *  post:
  *      summary: login user 
  *      tags : [login & signup]
@@ -84,7 +85,7 @@ const route = express.Router();
 
 /**
  * @swagger 
- * /user/logout:
+ * /auth/logout:
  *  get:
  *      summary: logout the user  
  *      tags : [login & signup]
@@ -98,7 +99,7 @@ const route = express.Router();
 
 /**
  * @swagger 
- * /user/reset-password:
+ * /auth/reset-password:
  *  post:
  *      summary: asking to reset password 
  *      tags : [login & signup]
@@ -125,7 +126,7 @@ const route = express.Router();
 
 /**
  * @swagger 
- * /user/reset-password/{token}:
+ * /auth/reset-password/{token}:
  *  post:
  *      summary: set a new password by providing token that sent to your email 
  *      tags : [login & signup]
@@ -155,12 +156,32 @@ const route = express.Router();
  *                      
  */
 
+/**
+ * @swagger 
+ * /auth/google:
+ *  get:
+ *      summary: login or register the user using google account
+ *      tags : [login & signup]
+ *      description: Click here [/auth/google](/auth/google) for Google Authentication
+ *      responses:
+ *          200:
+ *              description: sucessfully logged our
+ *          500:
+ *              description : something went wrong
+ *                      
+ */
 
+route.get("/google", passport.authenticate("google", {
+    scope: ['profile', 'email']
+}));
+route.get("/google/redirect", passport.authenticate("google"), (req, res) => {
+    return res.redirect("/");
+})
 
 route.post("/register", isLoggedIn, User.register);
 route.post("/login", isLoggedIn, User.login);
 route.post("/reset-password", User.postResetPassword)
 route.get("/reset-password/:token", isValidToken, User.getResetPassword)
-route.post("/reset-password/:token",isValidToken, User.setNewPassword)
+route.post("/reset-password/:token", isValidToken, User.setNewPassword)
 route.get("/logout", isAuth, User.logout);
 module.exports = route;

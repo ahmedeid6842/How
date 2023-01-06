@@ -22,7 +22,8 @@ module.exports.register = async (req, res) => {
     user = new User({
         userName,
         email,
-        password
+        password,
+        userType : "Local"
     })
     await user.save();
     user.createSession(req);

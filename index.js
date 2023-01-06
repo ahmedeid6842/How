@@ -6,9 +6,10 @@ const mongoose = require("mongoose");
 const app = express();
 
 require("./start/logginError")();
-require("./start/sessionConfig")(app);
-require("./start/swaggerConfig")(app);
-require("./start/routes")(app,express);
+require("./config/session")(app);
+require("./config/swagger")(app);
+require("./start/routes")(app, express);
+require("./config/passport")();
 
 const port = process.env.PORT || 3000;
 mongoose.connect(process.env.mongoURL)
