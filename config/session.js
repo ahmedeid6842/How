@@ -9,8 +9,8 @@ const store = new MongoDBStore({
 
 //DONE: set the secret in environment varialbes 
 //DONE: set the session configuration 
-module.exports = (app) => {
-    app.use(session({
+module.exports.session = session(
+    {
         name: "sessionID",
         saveUninitialized: false,
         secret: process.env.sessionSecret,
@@ -21,5 +21,5 @@ module.exports = (app) => {
             maxAge: 3 * 24 * 60 * 60 * 1000 // three day
         },
         store
-    }))
-}
+    }
+)

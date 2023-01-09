@@ -26,6 +26,7 @@
     "nodemailer": "^6.8.0",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
+    "pm2": "^5.2.2",
     "swagger-jsdoc": "^6.2.7",
     "swagger-ui-express": "^4.6.0",
     "winston": "^3.8.2"

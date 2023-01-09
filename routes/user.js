@@ -171,7 +171,7 @@ const route = express.Router();
  *                      
  */
 
-route.get("/google", passport.authenticate("google", {
+route.get("/google", isLoggedIn, passport.authenticate("google", {
     scope: ['profile', 'email']
 }));
 route.get("/google/redirect", passport.authenticate("google"), (req, res) => {
