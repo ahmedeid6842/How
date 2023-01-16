@@ -56,6 +56,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.createSession = function (req) {
     //DONE: method to create user session and store it
+    req.session.passport = {}
     req.session.passport.user = this.userName;
 }
 

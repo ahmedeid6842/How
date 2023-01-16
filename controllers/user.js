@@ -1,4 +1,6 @@
 const bcrypt = require("bcrypt");
+const { query } = require("express");
+const { default: mongoose } = require("mongoose");
 const { User, registerValidate, loginValidate, NewPasswordValidate } = require("../models/user");
 const logger = require("../utils/logger");
 const sendingEmails = require("../utils/sendingEmails");
@@ -23,7 +25,7 @@ module.exports.register = async (req, res) => {
         userName,
         email,
         password,
-        userType : "Local"
+        userType: "Local"
     })
     await user.save();
     user.createSession(req);
@@ -122,4 +124,103 @@ module.exports.setNewPassword = async (req, res) => {
     await user.save();
     //DONE: clear cookie and destroy session if exist 
     res.status(200).clearCookie("sessionID").send("your password changed correctly")
+}
+
+module.exports.follow = async (req, res) => {
+    //TODO: solve duplicated followers and following for users , user can follow the same person more than once
+
+    //DONE: commit the two operations as tranaction
+    const session = await User.startSession();
+    session.startTransaction();
+
+    //DONE: find follower user and push new one
+    let followerUser = await User.findOneAndUpdate({ userName: req.body.followUserName }, { $addToSet: { followers: { userName: req.user.userName } } }, { session });
+    if (!followerUser) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(404).send(`no user with that name ${req.body.followUserName}`);
+    }
+
+    //DONE: find following user and push new one , prefered to do DB all operation on it's side
+    console.log(req.user._id);
+    let followingUser = await User.findByIdAndUpdate(req.user._id, { $addToSet: { following: { userName: req.body.followUserName } } }, { session });
+    if (!followingUser) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(404).send(`no user with that name ${req.body.followUserName}`)
+    };
+
+    await session.commitTransaction();
+    session.endSession();
+    return res.send("done");
+}
+
+module.exports.getFollow = async (req, res) => {
+    //TODO: get followers   
+    let query = {};
+    if (req.query.followers) {
+        query.projection = "followers"
+        query.selection = { userName: req.query.followers || null }
+    } else if (req.query.following) {
+        query.projection = "following"
+        query.selection = { userName: req.query.following || null }
+    } else {
+        //DONE: in case no query provided
+        return res.send([]);
+    }
+
+    console.log(query);
+    let result = await User.aggregate([
+        { $match: { userName: query.selection.userName } },
+        {
+            $project: {
+                [query.projection]: 1
+            }
+        }
+    ])
+    return res.send(result);
+}
+
+module.exports.unfollow = async (req, res) => {
+    // DONE: adding transactions
+    const session = await User.startSession();
+    session.startTransaction();
+
+    // DONE: remove query userName req.query.unfollow from current logged in user following
+    let followingUser = await User.findOneAndUpdate(
+        { userName: req.user.userName },
+        {
+            $pull: {
+                following: { userName: req.query.userName }
+            }
+        }
+    );
+
+    if (!followingUser) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(404).send(`no user with that name ${req.user.userName}`);
+    }
+
+    // DONE: remove logged-in user from followers of query userName
+    let followerUser = await User.findOneAndUpdate(
+        { userName: req.query.userName },
+        {
+            $pull: {
+                followers: { userName: req.user.userName }
+            }
+        }
+    )
+
+    if (!followerUser) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(404).send(`no user with that name ${req.query.userName}`);
+    }
+    
+    await session.commitTransaction();
+    session.endSession();
+
+    return res.send("done");
+
 }

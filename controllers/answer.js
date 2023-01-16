@@ -11,11 +11,8 @@ module.exports.newAnswer = async (req, res) => {
     if (!question) return res.status(404).send("no question found with that id");
 
     //DONE: check if the answer not submitted before 
-    for (let answers of question.answers) {
-        if (answers.answer === req.body.answer) {
-            return res.status(400).send("this answer already exist")
-        }
-    }
+    let checkUniqueAnser = question.answers.every((element) => element.answer !== req.body.answer)
+    if (checkUniqueAnser === false) return res.status(400).send("this answer already exist");
 
     //DONE: save the answer
     req.body.userName = req.user.userName;

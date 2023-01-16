@@ -6,6 +6,7 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 const isValidToken = require("../middleware/validateToken");
 const passport = require("passport");
 
+
 const route = express.Router();
 /**
  * @swagger
@@ -171,6 +172,34 @@ const route = express.Router();
  *                      
  */
 
+/**
+ * @swagger 
+ * /auth/follow:
+ *  post:
+ *      summary: follow a new user by user Name
+ *      tags : [login & signup]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      properties:
+ *                          followUserName:
+ *                              type: string
+ *                              description: user name 
+ *      responses:
+ *          200:
+ *              description: you are following 
+ *          400:
+ *              description : the request was invalid check you body
+ *          404:
+ *              description : user not found
+ *                      
+ */
+
+
+                   
+
 route.get("/google", isLoggedIn, passport.authenticate("google", {
     scope: ['profile', 'email']
 }));
@@ -184,4 +213,8 @@ route.post("/reset-password", User.postResetPassword)
 route.get("/reset-password/:token", isValidToken, User.getResetPassword)
 route.post("/reset-password/:token", isValidToken, User.setNewPassword)
 route.get("/logout", isAuth, User.logout);
+route.post("/follow", isAuth, User.follow);
+route.put("/unfollow", isAuth, User.unfollow);
+route.get("/follow", User.getFollow) // this route are comptiable to get follower and following based on query 
+
 module.exports = route;

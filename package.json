@@ -29,7 +29,8 @@
     "pm2": "^5.2.2",
     "swagger-jsdoc": "^6.2.7",
     "swagger-ui-express": "^4.6.0",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "winston-mongodb": "^5.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

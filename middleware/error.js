@@ -3,6 +3,7 @@
 const logger = require("../utils/logger");
 
 module.exports = async (error, req, res, next) => {
+    console.log(error);
     console.log(`${Date.now()} error occured`);
     logger.log({
         level: "error",
