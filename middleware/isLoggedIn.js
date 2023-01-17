@@ -2,7 +2,7 @@
 //it's very useful because if the user are logged in and logged in again with different username the sessionId will be overwriten
 module.exports = async (req, res, next) => {
     if (req.session.passport) {
-        return res.status(400).send(`you already logged In with user named : ${req.session.passport.user}`)
+        return res.status(400).send(`logout first , you already logged In with user named : ${req.session.passport.user}`)
     }
     next();
 }

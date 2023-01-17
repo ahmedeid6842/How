@@ -33,7 +33,7 @@ module.exports.newQuestion = async (req, res) => {
 
 module.exports.getQuestion = async (req, res) => {
     //DONE: find a question by id and populate the user and answers
-    const question = await Question.findById(req.params.id);
+    const question = await Question.findById(req.params.id).cache(option = { key: req.params.id });
     //DONE: if question not found return 404
     if (!question) return res.status(404).send("no question found");
     //DONE: if the question found return it 
