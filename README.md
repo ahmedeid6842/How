@@ -1,9 +1,9 @@
 ## Diagrams 
 ### [ERD diagram](https://drawsql.app/teams/microverse-114/diagrams/how)
 
-![Image](https://github.com/ahmedeid6842/how/assets/57197702/b4c0a57c-2318-408a-98c6-dc2a3932d465)
+![ERD-Diagram](https://github.com/ahmedeid6842/how/assets/57197702/b4c0a57c-2318-408a-98c6-dc2a3932d465)
 
-## [API Reference]
+## [API Reference](https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Routes.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1cm8hPAiCQOY4uXJ_YldCuLxKX9SANdIT%26export%3Ddownload#%7B%22pageId%22%3A%22pBkF-awqWtSFPUcyi1-K%22%7D)
 
 ## Authentication 
 
