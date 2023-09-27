@@ -39,8 +39,8 @@ export class UsersService {
         return this.userRepo.find({ where });
     }
 
-    async update(id: number, attrs: Partial<User>) { // Patial to make the property is optional
-        const user = await this.findOne(id);
+    async update(userId: number, attrs: Partial<User>) { // Patial to make the property is optional
+        const user = await this.findOne(userId);
 
         if (!user) {
             throw new NotFoundException('user not found');
