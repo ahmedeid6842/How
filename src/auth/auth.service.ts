@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -27,7 +27,19 @@ export class AuthService {
         return user;
     }
 
-    async login(user: LoginUserDto) {
+    async login(userCredentials: LoginUserDto) {
+        const user = await this.userService.find(userCredentials.email, userCredentials.userName);
+
+        if (!user.length) {
+            throw new NotFoundException(`user not found`)
+        }
+
+        const verifiedUser = await bcrypt.compare(userCredentials.password, user[0].password)
+
+        if (!verifiedUser) {
+            throw new BadRequestException('incorrect password')
+        }
+
         return user;
     }
 }
