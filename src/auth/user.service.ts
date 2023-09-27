@@ -12,4 +12,12 @@ export class UsersService {
 
         return this.userRepo.save(user);
     }
+
+    findOne(id: number) {
+        if (!id) { // this condition is added becuase the default behaviour of findOne, if you pass null it will return the first record
+            return null;
+        }
+
+        return this.userRepo.findOne({ where: { id } })
+    }
 }
