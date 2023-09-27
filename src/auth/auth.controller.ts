@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Session } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -11,7 +12,16 @@ export class AuthController {
         const user = await this.authService.register(body.email, body.userName, body.password);
 
         session.userId = user.id
-        
+
         return user;
+    }
+
+    @Post('/login')
+    async login(@Body() body: LoginUserDto, @Session() session: any) {
+        const user = await this.authService.login(body);
+        
+        // session.userId = user.id;
+
+        return user
     }
 }
