@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./user.entity";
-import { Repository } from "typeorm";
+import { Repository, FindManyOptions } from "typeorm";
 
 @Injectable()
 export class UsersService {
@@ -20,4 +20,23 @@ export class UsersService {
 
         return this.userRepo.findOne({ where: { id } })
     }
+
+    find(email?: string, userName?: string) {
+        if (!email && !userName) {
+            throw new BadRequestException("At least one of email or userName must be provided.")
+        }
+
+        const where: FindManyOptions<User>['where'] = {}; //Define the type of the where object. It represents the conditions used for finding entities in the find method.
+
+        if (email) {
+            where.email = email
+        }
+
+        if (userName) {
+            where.userName = userName
+        }
+
+        return this.userRepo.find({ where });
+    }
+
 }
