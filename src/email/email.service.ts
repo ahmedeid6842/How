@@ -13,6 +13,13 @@ export class EmailService {
         })
     }
     async sendResetPasswordEmail(email: string, resetPasswordUrl: string) {
+        const message = {
+            from: 'ahmedeid2684@gmail.com',
+            to: email,
+            subject: 'Password Reset',
+            text: `Click the following link to reset your password: ${resetPasswordUrl}`,
+        };
 
+        return await this.transporter.sendMail(message);
     }
 }
