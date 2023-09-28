@@ -23,7 +23,7 @@ export class AuthController {
     async login(@Body() body: LoginUserDto, @Session() session: any) {
         const user = await this.authService.login(body);
         
-        // session.userId = user.id;
+        session.userId = user.id;
 
         return user
     }
