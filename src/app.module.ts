@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
+import { JwtModule } from "@nestjs/jwt"
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -15,7 +16,13 @@ import { User } from './auth/user.entity';
     database: 'How',
     entities: [User],
     synchronize: process.env.NODE_ENV == 'development' ? true : false
-  }), AuthModule],
+  }),
+  JwtModule.register({
+    global: true,
+    secret: "ThisIsMySecert",
+    signOptions: { expiresIn: '60s' }
+  }),
+    AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -3,10 +3,13 @@ import { UsersService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { EmailService } from './email.service';
+import { JwtService } from "@nestjs/jwt"
 
 @Injectable()
 export class AuthService {
-    constructor(private userService: UsersService, private emailService: EmailService) { }
+    constructor(private userService: UsersService,
+        private emailService: EmailService,
+        private jwtService: JwtService) { }
 
     async register(email: string, userName: string, password: string) {
         // check if user email is unique
