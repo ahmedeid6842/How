@@ -1,14 +1,21 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UsersService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { EmailService } from '../email/email.service';
+import { IsValidToken } from './middleware/is-valid-token.middelware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [AuthController],
   providers: [AuthService, UsersService, EmailService]
 })
-export class AuthModule { }
+export class AuthModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+    .apply(IsValidToken)
+    .forRoutes({ path: 'auth/reset-password/:token', method: RequestMethod.POST });  }
+
+}
