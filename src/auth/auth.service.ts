@@ -61,8 +61,7 @@ export class AuthService {
     }
 
     private generateResetPasswordToken(userId: number): string {
-        // it should return a token with user id and expired in one hour
-        return "userToken"
+        return this.jwtService.sign({ userId }, { expiresIn: '1h' })
     }
 
 }
