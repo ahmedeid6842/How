@@ -2,10 +2,11 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { UsersService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
+import { EmailService } from './email.service';
 
 @Injectable()
 export class AuthService {
-    constructor(private userService: UsersService) { }
+    constructor(private userService: UsersService, private emailService: EmailService) { }
 
     async register(email: string, userName: string, password: string) {
         // check if user email is unique
@@ -44,6 +45,21 @@ export class AuthService {
     }
 
     async sendResetPasswordEmail(userData: any) {
-        return "email sent"
+        const [user] = await this.userService.find(userData.email, userData.userName);
+
+        if (!user) {
+            throw new NotFoundException(`user not found`)
+        }
+
+        const token = this.generateResetPasswordToken(user.id)
+        const resetPasswordUrl = `localhost:3000/reset-password/${token}`
+
+        await this.emailService.sendResetPasswordEmail(user.email, resetPasswordUrl);
     }
+
+    private generateResetPasswordToken(userId: number): string {
+        // it should return a token with user id and expired in one hour
+        return "userToken"
+    }
+
 }
