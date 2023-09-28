@@ -59,13 +59,20 @@ export class AuthService {
 
         await this.emailService.sendResetPasswordEmail(user.email, resetPasswordUrl);
     }
-    
+
     async resetPassword(token: string, password: string) {
-        return "user"
+        const { userId } = await this.jwtService.decode(token) as { userId: number };
+
+        if (!userId) {
+            throw new BadRequestException('Invalid reset password token.');
+        }
+
+        const salt = await bcrypt.genSalt()
+        password = await bcrypt.hash(password, salt);
+        return await this.userService.update(userId, { password })
     }
 
     private generateResetPasswordToken(userId: number): string {
         return this.jwtService.sign({ userId }, { expiresIn: '1h' })
     }
-
 }
