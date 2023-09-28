@@ -39,4 +39,9 @@ export class AuthController {
         const user = await this.authService.resetPassword(token, body.password)
         return user;
     }
+
+    @Post('/logout')
+    signOut(@Session() session: any) {
+        session.userId = null;
+    }
 }
