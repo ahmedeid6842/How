@@ -42,4 +42,8 @@ export class AuthService {
 
         return user[0];
     }
+
+    async sendResetPasswordEmail(userData: any) {
+        return "email sent"
+    }
 }

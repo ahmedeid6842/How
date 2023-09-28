@@ -22,9 +22,14 @@ export class AuthController {
     @Post('/login')
     async login(@Body() body: LoginUserDto, @Session() session: any) {
         const user = await this.authService.login(body);
-        
+
         session.userId = user.id;
 
         return user
+    }
+
+    @Post('/reset-password')
+    async askResetPassword(@Body() body: any) {
+        await this.authService.sendResetPasswordEmail(body)
     }
 }
