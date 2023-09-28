@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { UsersService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { EmailService } from './email.service';
+import { EmailService } from '../email/email.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
