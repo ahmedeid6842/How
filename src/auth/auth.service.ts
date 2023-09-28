@@ -59,6 +59,10 @@ export class AuthService {
 
         await this.emailService.sendResetPasswordEmail(user.email, resetPasswordUrl);
     }
+    
+    async resetPassword(token: string, password: string) {
+        return "user"
+    }
 
     private generateResetPasswordToken(userId: number): string {
         return this.jwtService.sign({ userId }, { expiresIn: '1h' })
