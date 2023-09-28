@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { UsersService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
-import { EmailService } from './email.service';
+import { EmailService } from '../email/email.service';
 import { JwtService } from "@nestjs/jwt"
 
 @Injectable()
