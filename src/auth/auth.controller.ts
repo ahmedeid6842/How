@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Serialize(UserDto)
 @Controller('auth')
@@ -34,8 +35,8 @@ export class AuthController {
     }
 
     @Post('/reset-password/:token')
-    async resetPassword(@Param('token') token: string, @Body('password') password: string) {
-        const user = await this.authService.resetPassword(token, password)
+    async resetPassword(@Param('token') token: string, @Body() body: ResetPasswordDto) {
+        const user = await this.authService.resetPassword(token, body.password)
         return user;
     }
 }
