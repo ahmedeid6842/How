@@ -2,10 +2,14 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { UsersService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
+import { EmailService } from '../email/email.service';
+import { JwtService } from "@nestjs/jwt"
 
 @Injectable()
 export class AuthService {
-    constructor(private userService: UsersService) { }
+    constructor(private userService: UsersService,
+        private emailService: EmailService,
+        private jwtService: JwtService) { }
 
     async register(email: string, userName: string, password: string) {
         // check if user email is unique
@@ -41,5 +45,34 @@ export class AuthService {
         }
 
         return user[0];
+    }
+
+    async sendResetPasswordEmail(userData: any) {
+        const [user] = await this.userService.find(userData.email, userData.userName);
+
+        if (!user) {
+            throw new NotFoundException(`user not found`)
+        }
+
+        const token = this.generateResetPasswordToken(user.id)
+        const resetPasswordUrl = `localhost:3000/reset-password/${token}`
+
+        await this.emailService.sendResetPasswordEmail(user.email, resetPasswordUrl);
+    }
+
+    async resetPassword(token: string, password: string) {
+        const { userId } = await this.jwtService.decode(token) as { userId: number };
+
+        if (!userId) {
+            throw new BadRequestException('Invalid reset password token.');
+        }
+
+        const salt = await bcrypt.genSalt()
+        password = await bcrypt.hash(password, salt);
+        return await this.userService.update(userId, { password })
+    }
+
+    private generateResetPasswordToken(userId: number): string {
+        return this.jwtService.sign({ userId }, { expiresIn: '1h' })
     }
 }
