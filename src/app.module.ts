@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
 import { JwtModule } from "@nestjs/jwt"
 import { EmailModule } from './email/email.module';
+import { FollowModule } from './follow/follow.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -24,7 +25,8 @@ import { EmailModule } from './email/email.module';
     signOptions: { expiresIn: '60s' }
   }),
     AuthModule,
-    EmailModule],
+    EmailModule,
+    FollowModule],
   controllers: [AppController],
   providers: [AppService],
 })
