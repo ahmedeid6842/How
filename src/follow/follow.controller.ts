@@ -1,4 +1,15 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
+import { FollowService } from './follow.service';
+import { User } from 'src/auth/user.entity';
+
 
 @Controller('follow')
-export class FollowController {}
+export class FollowController {
+  constructor(private readonly followersService: FollowService) { }
+
+  @Get('/followers/:id')
+  async getUserFollowers(@Param('id') userId: number) {
+    return this.followersService.getUserFollowers(userId);
+  }
+
+}
