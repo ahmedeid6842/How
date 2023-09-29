@@ -1,18 +1,21 @@
-import { Check, Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Follow } from "src/follow/follow.entity";
 
 @Entity()
-@Unique(["userName"])
-@Unique(["email"])
 export class User {
-    @PrimaryGeneratedColumn("uuid")
-    id: number
+  @PrimaryGeneratedColumn("uuid")
+  id: number;
 
-    @Column({ length: 100 })
-    email: string
+  @Column({ length: 100 })
+  email: string;
 
-    @Column({ length: 50, name: 'user_name' })
-    userName: string
+  @Column({ length: 50, name: "user_name" })
+  userName: string;
 
-    @Column()
-    password: string;
+  @Column()
+  password: string;
+
+  @OneToMany(() => Follow, (follow) => follow.user)
+  follows: Follow[];
+
 }

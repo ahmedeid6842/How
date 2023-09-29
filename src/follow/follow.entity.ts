@@ -6,4 +6,9 @@ export class Follow {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
+    @ManyToOne(() => User, user => user.follows)
+    user: User;
+
+    @ManyToOne(() => User, user => user.follows)
+    follower: User;
 }
