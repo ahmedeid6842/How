@@ -15,6 +15,11 @@ export class FollowService {
 
     async startUserFollowing(followingId: number, follower: User) {
         const following = await this.userService.findOne(followingId);
+
+        if (followingId == follower.id) {
+            throw new BadRequestException("you can't follow yourself")
+        }
+
         if (!following) {
             throw new BadRequestException("Invalid user id")
         }
@@ -58,7 +63,6 @@ export class FollowService {
                 follower: { id: followerId },
             },
         });
-        console.log(follow.length ? true : false)
         return follow.length ? true : false;
     }
 }
