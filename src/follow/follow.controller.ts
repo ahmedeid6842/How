@@ -15,7 +15,7 @@ export class FollowController {
 
   @Post('/')
   async followUser(@Body('following_id') followingId: number, @CurrentUser() user: User) {
-    return this.followeService.startUserFollowing(user.id, followingId);
+    return this.followeService.startUserFollowing(user, followingId);
   }
 
   @Get('/followers/:id')
