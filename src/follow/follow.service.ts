@@ -18,4 +18,8 @@ export class FollowService {
         });
         return follows.map((follow) => follow.follower);
     }
+
+    async getUserFollowing(userId: number) {
+      return "following"
+    }
 }

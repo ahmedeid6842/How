@@ -12,4 +12,9 @@ export class FollowController {
     return this.followersService.getUserFollowers(userId);
   }
 
+  @Get('/following/:id')
+  async getUserFollowing(@Param('id') userId: number) {
+    return this.followersService.getUserFollowing(userId);
+  }
+
 }
