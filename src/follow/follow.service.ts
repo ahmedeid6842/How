@@ -16,7 +16,7 @@ export class FollowService {
             where: { user: { id: userId } },
             relations: ['follower'],
         });
-        return follows.map((follow) => follow.follower);
+        return follows;
     }
 
     async getUserFollowing(userId: number) {
@@ -25,6 +25,6 @@ export class FollowService {
             relations: ['user'],
         });
 
-        return follows.map((follow) => follow.user);
+        return follows;
     }
 }
