@@ -10,7 +10,6 @@ export class IsValidToken implements NestMiddleware {
 
     async use(req: Request, res: Response, next: NextFunction) {
         const { token } = req.params || {}
-        console.log("here*************");
         if (!token) {
             throw new BadRequestException("not token provided");
         }
