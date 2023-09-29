@@ -1,8 +1,10 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { FollowService } from './follow.service';
 import { User } from 'src/auth/user.entity';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { UserDto } from 'src/auth/dto/user.dto';
 
-
+@Serialize(UserDto)
 @Controller('follow')
 export class FollowController {
   constructor(private readonly followersService: FollowService) { }
