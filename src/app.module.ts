@@ -7,6 +7,7 @@ import { User } from './auth/user.entity';
 import { JwtModule } from "@nestjs/jwt"
 import { EmailModule } from './email/email.module';
 import { FollowModule } from './follow/follow.module';
+import { Follow } from './follow/follow.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -16,7 +17,7 @@ import { FollowModule } from './follow/follow.module';
     username: 'postgres',
     password: 'root',
     database: 'How',
-    entities: [User],
+    entities: [User, Follow],
     synchronize: process.env.NODE_ENV == 'development' ? true : false
   }),
   JwtModule.register({
