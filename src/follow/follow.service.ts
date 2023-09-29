@@ -13,13 +13,13 @@ export class FollowService {
         private readonly userService: UsersService
     ) { }
 
-    async startUserFollowing(follower: User, followingId: number) {
+    async startUserFollowing(followingId: number, follower: User) {
         const following = await this.userService.findOne(followingId);
         if (!following) {
             throw new BadRequestException("Invalid user id")
         }
 
-        const isFollowExists = this.followExist(followingId, follower.id);
+        const isFollowExists = await this.followExist(followingId, follower.id);
 
         if (isFollowExists) {
             throw new BadRequestException("you already a follwer")
@@ -52,6 +52,13 @@ export class FollowService {
 
 
     private async followExist(userId, followerId): Promise<boolean> {
-        return false;
+        const follow = await this.followRepository.find({
+            where: {
+                user: { id: userId },
+                follower: { id: followerId },
+            },
+        });
+        console.log(follow.length ? true : false)
+        return follow.length ? true : false;
     }
 }

@@ -14,8 +14,8 @@ export class FollowController {
   constructor(private readonly followeService: FollowService) { }
 
   @Post('/')
-  async followUser(@Body('following_id') followingId: number, @CurrentUser() user: User) {
-    return this.followeService.startUserFollowing(user, followingId);
+  async followUser(@Body('following_id') followingId: number, @CurrentUser() follower: User) {
+    return this.followeService.startUserFollowing(followingId, follower);
   }
 
   @Get('/followers/:id')
