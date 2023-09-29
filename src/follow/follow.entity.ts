@@ -1,7 +1,8 @@
-import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { User } from "src/auth/user.entity";
 
 @Entity()
+@Unique(["user", "follower"])
 export class Follow {
     @PrimaryGeneratedColumn("uuid")
     id: string;
