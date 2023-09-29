@@ -8,7 +8,7 @@ export class FollowController {
   constructor(private readonly followersService: FollowService) { }
 
   @Get('/followers/:id')
-  async getUserFollowers(@Param('id') userId: number) {
+  async getUserFollowers(@Param('id') userId: number): Promise<User[]> {
     return this.followersService.getUserFollowers(userId);
   }
 
