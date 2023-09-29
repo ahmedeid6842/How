@@ -11,7 +11,8 @@ import { CurrentUserMiddleware } from './middleware/current-user.middleware';
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, EmailService]
+  providers: [AuthService, UsersService, EmailService],
+  exports: [UsersService]
 })
 export class AuthModule {
   configure(consumer: MiddlewareConsumer) {
