@@ -7,6 +7,9 @@ export class FollowDto {
     id: string;
 
     @Expose()
+    createdAt: Date
+
+    @Expose()
     @Type(() => UserDto)
     follower: UserDto;
 

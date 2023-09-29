@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "src/auth/user.entity";
 
 @Entity()
@@ -11,4 +11,7 @@ export class Follow {
 
     @ManyToOne(() => User, user => user.follows)
     follower: User;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }
