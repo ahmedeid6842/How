@@ -10,6 +10,9 @@ export class FollowService {
         private readonly followRepository: Repository<Follow>,
     ) { }
 
+    async startUserFollowing(userId: number, followingId: number) {
+        return "followed sucessfully";
+    }
 
     async getUserFollowers(userId: number) {
         const follows = await this.followRepository.find({
