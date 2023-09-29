@@ -20,6 +20,11 @@ export class FollowService {
     }
 
     async getUserFollowing(userId: number) {
-      return "following"
+        const follows = await this.followRepository.find({
+            where: { follower: { id: userId } },
+            relations: ['user'],
+        });
+
+        return follows.map((follow) => follow.user);
     }
 }

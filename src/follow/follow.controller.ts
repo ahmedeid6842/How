@@ -13,7 +13,7 @@ export class FollowController {
   }
 
   @Get('/following/:id')
-  async getUserFollowing(@Param('id') userId: number) {
+  async getUserFollowing(@Param('id') userId: number): Promise<User[]> {
     return this.followersService.getUserFollowing(userId);
   }
 
