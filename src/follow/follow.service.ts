@@ -56,8 +56,27 @@ export class FollowService {
     }
 
     async unFollowUser(followingId: number, follower: User) {
-        return "unfollow sucessed."
-    }
+        const following = await this.userService.findOne(followingId);
+      
+        if (!following) {
+          throw new BadRequestException("Invalid user id");
+        }
+      
+        const follow = await this.followRepository.findOne({
+          where: {
+            user: following,
+            follower,
+          },
+        });
+      
+        if (!follow) {
+          throw new BadRequestException("You are not following this user");
+        }
+      
+        await this.followRepository.remove(follow);
+      
+        return follower;
+      }
 
     private async followExist(userId, followerId): Promise<boolean> {
         const follow = await this.followRepository.find({
