@@ -55,6 +55,9 @@ export class FollowService {
         return follows;
     }
 
+    async unFollowUser(followingId: number, follower: User) {
+        return "unfollow sucessed."
+    }
 
     private async followExist(userId, followerId): Promise<boolean> {
         const follow = await this.followRepository.find({
