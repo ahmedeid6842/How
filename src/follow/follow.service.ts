@@ -35,7 +35,7 @@ export class FollowService {
             follower
         });
 
-        return (await this.followRepository.save(follow)).follower;
+        await this.followRepository.save(follow);
     }
 
     async getUserFollowers(userId: number) {
@@ -70,8 +70,6 @@ export class FollowService {
         }
 
         await this.followRepository.remove(follow);
-
-        return follower;
     }
 
     private async followExist(userId, followerId): Promise<Follow[]> {
