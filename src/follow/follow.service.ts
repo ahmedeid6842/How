@@ -26,7 +26,7 @@ export class FollowService {
 
         const isFollowExists = await this.followExist(followingId, follower.id);
 
-        if (isFollowExists) {
+        if (isFollowExists.length) {
             throw new BadRequestException("you already a follwer")
         }
 
@@ -57,34 +57,30 @@ export class FollowService {
 
     async unFollowUser(followingId: number, follower: User) {
         const following = await this.userService.findOne(followingId);
-      
-        if (!following) {
-          throw new BadRequestException("Invalid user id");
-        }
-      
-        const follow = await this.followRepository.findOne({
-          where: {
-            user: following,
-            follower,
-          },
-        });
-      
-        if (!follow) {
-          throw new BadRequestException("You are not following this user");
-        }
-      
-        await this.followRepository.remove(follow);
-      
-        return follower;
-      }
 
-    private async followExist(userId, followerId): Promise<boolean> {
+        if (!following) {
+            throw new BadRequestException("Invalid user id");
+        }
+
+        const follow = await this.followExist(followingId, follower.id);
+
+
+        if (!follow.length) {
+            throw new BadRequestException("You are not following this user");
+        }
+
+        await this.followRepository.remove(follow);
+
+        return follower;
+    }
+
+    private async followExist(userId, followerId): Promise<Follow[]> {
         const follow = await this.followRepository.find({
             where: {
                 user: { id: userId },
                 follower: { id: followerId },
             },
         });
-        return follow.length ? true : false;
+        return follow;
     }
 }
