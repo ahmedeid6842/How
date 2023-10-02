@@ -8,6 +8,7 @@ import { JwtModule } from "@nestjs/jwt"
 import { EmailModule } from './email/email.module';
 import { FollowModule } from './follow/follow.module';
 import { Follow } from './follow/follow.entity';
+import { QuestionModule } from './question/question.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -27,7 +28,8 @@ import { Follow } from './follow/follow.entity';
   }),
     AuthModule,
     EmailModule,
-    FollowModule],
+    FollowModule,
+    QuestionModule],
   controllers: [AppController],
   providers: [AppService],
 })
