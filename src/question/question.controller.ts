@@ -5,7 +5,10 @@ import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { QueryQuestionDto } from './dto/query-question.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { QuestionDto } from './dto/question.dto';
 
+@Serialize(QuestionDto)
 @Controller('question')
 export class QuestionController {
     constructor(private questionService: QuestionService) { }
@@ -18,6 +21,6 @@ export class QuestionController {
 
     @Get("/")
     getQuestion(@Query() query: QueryQuestionDto) {
-       return  this.questionService.getQuestion(query);
+        return this.questionService.getQuestion(query);
     }
 }
