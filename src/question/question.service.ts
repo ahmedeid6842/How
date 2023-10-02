@@ -54,12 +54,15 @@ export class QuestionService {
         return questions;
     }
 
-    updateQuestion(question: Question, body: Partial<CreateQuestionDto>) {
+    async updateQuestion(question: Question, body: Partial<CreateQuestionDto>) {
 
         Object.assign(question, body);
 
-        return this.questionRepository.save(question);
+        return await this.questionRepository.save(question);
     }
 
+    async deleteQuestion(question: Question) {
+        return await this.questionRepository.remove(question);
+    }
 
 }
