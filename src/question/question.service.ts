@@ -4,6 +4,7 @@ import { User } from 'src/auth/user.entity';
 import { Question } from './question.entity';
 import { Repository } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { QueryQuestionDto } from './dto/query-question.dto';
 
 @Injectable()
 export class QuestionService {
@@ -19,7 +20,27 @@ export class QuestionService {
         await this.questionRepository.save(savedQuestion);
     }
 
-    async getQuestion(questionQuery) {
-        return { title: "qeustion title", description: "question description" }
+    async getQuestion(queryQuestion: QueryQuestionDto) {
+        const { questionId, title, description, authorId, creationDate } = queryQuestion;
+
+        const queryBuilder = await this.questionRepository.createQueryBuilder('question').leftJoinAndSelect('question.author', 'author');
+
+        if (questionId) {
+            queryBuilder.andWhere('question.id = :questionId', { questionId });
+        }
+
+        if (title) {
+            queryBuilder.andWhere('question.title ILIKE :title', { title: `%${title}%` });
+        }
+
+        if (description) {
+            queryBuilder.andWhere('question.description ILIKE :description', { description: `%${description}%` });
+        }
+
+        if (authorId) {
+            queryBuilder.andWhere('question.authorId = :authorId', { authorId });
+        }
+
+        return await queryBuilder.getMany();
     }
 }
