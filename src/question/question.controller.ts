@@ -33,12 +33,14 @@ export class QuestionController {
         return questions;
     }
 
+    @UseGuards(AuthGuard)
     @UseGuards(QuestionOwnerGuard)
     @Patch("/:questionId")
     async updateQuestion(@OwnerQuestion() question: Question, @Body() body: Partial<CreateQuestionDto>) {
         return this.questionService.updateQuestion(question, body);
     }
 
+    @UseGuards(AuthGuard)
     @UseGuards(QuestionOwnerGuard)
     @Delete("/:questionId")
     async deleteQuestion(@OwnerQuestion() question: Question) {
