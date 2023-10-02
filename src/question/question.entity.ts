@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/auth/user.entity";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Question {
@@ -10,10 +11,13 @@ export class Question {
 
     @Column()
     description: string
-    
+
     @Column()
     likes_count: number
-    
+
     @CreateDateColumn()
     creation_date: Date
+
+    @ManyToOne(() => User, user => user.questions)
+    author: User
 }

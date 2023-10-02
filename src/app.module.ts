@@ -9,6 +9,7 @@ import { EmailModule } from './email/email.module';
 import { FollowModule } from './follow/follow.module';
 import { Follow } from './follow/follow.entity';
 import { QuestionModule } from './question/question.module';
+import { Question } from './question/question.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -18,7 +19,7 @@ import { QuestionModule } from './question/question.module';
     username: 'postgres',
     password: 'root',
     database: 'How',
-    entities: [User, Follow],
+    entities: [User, Follow, Question],
     synchronize: process.env.NODE_ENV == 'development' ? true : false
   }),
   JwtModule.register({
