@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { QuestionService } from './question.service';
@@ -13,5 +13,10 @@ export class QuestionController {
     @Post("/")
     createQuestion(@Body() body: CreateQuestionDto, @CurrentUser() user: User) {
         this.questionService.addQuestion(body, user);
+    }
+
+    @Get("/")
+    getQuestion(@Query() query) {
+        this.questionService.getQuestion(query);
     }
 }

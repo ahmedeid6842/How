@@ -18,4 +18,8 @@ export class QuestionService {
 
         await this.questionRepository.save(savedQuestion);
     }
+
+    async getQuestion(questionQuery) {
+        return { title: "qeustion title", description: "question description" }
+    }
 }
