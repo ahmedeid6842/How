@@ -35,7 +35,7 @@ export class QuestionController {
 
     @UseGuards(QuestionOwnerGuard)
     @Patch("/:questionId")
-    async updateQuestion(@OwnerQuestion() question: Question, @Body() body: Partial<CreateQuestionDto>, @CurrentUser() user: User) {
-        return this.questionService.updateQuestion(question, body, user);
+    async updateQuestion(@OwnerQuestion() question: Question, @Body() body: Partial<CreateQuestionDto>) {
+        return this.questionService.updateQuestion(question, body);
     }
 }

@@ -54,7 +54,11 @@ export class QuestionService {
         return questions;
     }
 
-    updateQuestion(question: Question, body: Partial<CreateQuestionDto>, user: User) {
+    updateQuestion(question: Question, body: Partial<CreateQuestionDto>) {
+
+        Object.assign(question, body);
+
+        return this.questionRepository.save(question);
     }
 
 
