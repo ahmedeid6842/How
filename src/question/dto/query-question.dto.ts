@@ -18,6 +18,5 @@ export class QueryQuestionDto {
   authorId?: string;
 
   @IsOptional()
-//   @IsDateString()
   creationDate?: string;
 }

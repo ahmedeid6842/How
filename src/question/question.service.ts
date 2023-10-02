@@ -8,6 +8,7 @@ import { QueryQuestionDto } from './dto/query-question.dto';
 
 @Injectable()
 export class QuestionService {
+
     constructor(@InjectRepository(Question) private readonly questionRepository: Repository<Question>) { }
 
     async addQuestion(questionBody: CreateQuestionDto, user: User) {
@@ -51,5 +52,9 @@ export class QuestionService {
         const questions = await queryBuilder.getMany();
 
         return questions;
+    }
+
+    updateQuestion(body: Partial<CreateQuestionDto>, user: User) {
+        return "question updated"
     }
 }
