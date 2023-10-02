@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
 import { Question } from './question.entity';
@@ -41,6 +41,12 @@ export class QuestionService {
             queryBuilder.andWhere('question.authorId = :authorId', { authorId });
         }
 
-        return await queryBuilder.getMany();
+        const questions = await queryBuilder.getMany();
+        
+        if (!questions.length) {
+            throw new NotFoundException("No question found the given properties")
+        }
+
+        return questions;
     }
 }
