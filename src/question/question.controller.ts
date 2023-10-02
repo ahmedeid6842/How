@@ -46,4 +46,10 @@ export class QuestionController {
     async deleteQuestion(@OwnerQuestion() question: Question) {
         return this.questionService.deleteQuestion(question);
     }
+
+    @UseGuards(AuthGuard)
+    @Patch("/like/:questionId")
+    async likeQuestion(@Param("questionId") questionId: string, @CurrentUser() user: User) {
+        return this.questionService.likeQuestion(questionId, user);
+    }
 }
