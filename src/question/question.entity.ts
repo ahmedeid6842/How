@@ -12,7 +12,7 @@ export class Question {
     @Column()
     description: string
 
-    @Column()
+    @Column({ default: 0 })
     likes_count: number
 
     @CreateDateColumn()
