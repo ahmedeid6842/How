@@ -8,6 +8,8 @@ import { QueryQuestionDto } from './dto/query-question.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { QuestionDto } from './dto/question.dto';
 import { QuestionOwnerGuard } from './guards/question-owner.guard';
+import { OwnerQuestion } from './decorators/owner-question.decorator';
+import { Question } from './question.entity';
 
 @Serialize(QuestionDto)
 @Controller('question')
@@ -33,7 +35,7 @@ export class QuestionController {
 
     @UseGuards(QuestionOwnerGuard)
     @Patch("/:questionId")
-    async updateQuestion(@Param("questionId") questionId: string, @Body() body: Partial<CreateQuestionDto>, @CurrentUser() user: User) {
-        return this.questionService.updateQuestion(questionId, body, user);
+    async updateQuestion(@OwnerQuestion() question: Question, @Body() body: Partial<CreateQuestionDto>, @CurrentUser() user: User) {
+        return this.questionService.updateQuestion(question, body, user);
     }
 }
