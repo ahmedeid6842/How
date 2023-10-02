@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Post, Query, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { QuestionService } from './question.service';
@@ -20,7 +20,13 @@ export class QuestionController {
     }
 
     @Get("/")
-    getQuestion(@Query() query: QueryQuestionDto) {
-        return this.questionService.getQuestion(query);
+    async getQuestion(@Query() query: QueryQuestionDto) {
+        const questions = await this.questionService.getQuestion(query);
+
+        if (!questions.length) {
+            throw new NotFoundException("No question found with the given properties")
+        }
+
+        return questions;
     }
 }
