@@ -4,6 +4,7 @@ import { User } from 'src/auth/user.entity';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { QueryQuestionDto } from './dto/query-question.dto';
 
 @Controller('question')
 export class QuestionController {
@@ -16,7 +17,7 @@ export class QuestionController {
     }
 
     @Get("/")
-    getQuestion(@Query() query) {
-        this.questionService.getQuestion(query);
+    getQuestion(@Query() query: QueryQuestionDto) {
+       return  this.questionService.getQuestion(query);
     }
 }
