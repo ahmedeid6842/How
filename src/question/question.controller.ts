@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { QuestionService } from './question.service';
@@ -7,6 +7,7 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { QueryQuestionDto } from './dto/query-question.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { QuestionDto } from './dto/question.dto';
+import { QuestionOwnerGuard } from './guards/question-owner.guard';
 
 @Serialize(QuestionDto)
 @Controller('question')
@@ -30,8 +31,9 @@ export class QuestionController {
         return questions;
     }
 
+    @UseGuards(QuestionOwnerGuard)
     @Patch("/:questionId")
-    async updateQuestion(@Body() body: Partial<CreateQuestionDto>, @CurrentUser() user: User) {
-        return this.questionService.updateQuestion(body, user);
+    async updateQuestion(@Param("questionId") questionId: string, @Body() body: Partial<CreateQuestionDto>, @CurrentUser() user: User) {
+        return this.questionService.updateQuestion(questionId, body, user);
     }
 }

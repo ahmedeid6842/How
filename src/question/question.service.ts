@@ -54,7 +54,9 @@ export class QuestionService {
         return questions;
     }
 
-    updateQuestion(body: Partial<CreateQuestionDto>, user: User) {
+    updateQuestion(questionId: string, body: Partial<CreateQuestionDto>, user: User) {
         return "question updated"
     }
+
+
 }
