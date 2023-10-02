@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Follow } from "src/follow/follow.entity";
+import { Question } from "src/question/question.entity";
 
 @Entity()
 export class User {
@@ -18,4 +19,6 @@ export class User {
   @OneToMany(() => Follow, (follow) => follow.user)
   follows: Follow[];
 
+  @OneToMany(() => Question, (question) => question.author)
+  questions: Question[]
 }
