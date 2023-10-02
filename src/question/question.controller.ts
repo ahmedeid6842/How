@@ -16,7 +16,7 @@ export class QuestionController {
     @UseGuards(AuthGuard)
     @Post("/")
     createQuestion(@Body() body: CreateQuestionDto, @CurrentUser() user: User) {
-        this.questionService.addQuestion(body, user);
+        return this.questionService.addQuestion(body, user);
     }
 
     @Get("/")

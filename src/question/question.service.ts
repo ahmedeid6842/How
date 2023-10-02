@@ -14,7 +14,7 @@ export class QuestionService {
         const { title, description } = questionBody;
         const uniqueQuestion = await this.getQuestion({ title: title });
 
-        if (!uniqueQuestion) {
+        if (uniqueQuestion.length) {
             throw new BadRequestException(`this question title already exists id:${uniqueQuestion[0].id}`)
         }
 
