@@ -14,22 +14,22 @@ export class FollowController {
   constructor(private readonly followService: FollowService) { }
 
   @Post('/')
-  async followUser(@Body('following_id') followingId: number, @CurrentUser() follower: User) {
+  async followUser(@Body('following_id') followingId: string, @CurrentUser() follower: User) {
     return this.followService.startUserFollowing(followingId, follower);
   }
 
   @Get('/followers/:id')
-  async getUserFollowers(@Param('id') userId: number): Promise<Follow[]> {
+  async getUserFollowers(@Param('id') userId: string): Promise<Follow[]> {
     return this.followService.getUserFollowers(userId);
   }
 
   @Get('/following/:id')
-  async getUserFollowing(@Param('id') userId: number): Promise<Follow[]> {
+  async getUserFollowing(@Param('id') userId: string): Promise<Follow[]> {
     return this.followService.getUserFollowing(userId);
   }
 
   @Patch('/unfollow')
-  async unFollowUser(@Body('following_id') followingId: number, @CurrentUser() follower: User) {
+  async unFollowUser(@Body('following_id') followingId: string, @CurrentUser() follower: User) {
     return this.followService.unFollowUser(followingId, follower);
   }
 }

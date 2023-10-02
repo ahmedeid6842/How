@@ -6,7 +6,7 @@ import { Question } from "./question.entity";
 @Unique(["user", "question"])
 export class QuestionLikes {
     @PrimaryGeneratedColumn("uuid")
-    id: number
+    id: string;
 
     @ManyToOne(() => User, (user) => user.questionLikes)
     user: User

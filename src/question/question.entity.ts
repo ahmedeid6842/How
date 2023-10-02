@@ -5,7 +5,7 @@ import { QuestionLikes } from "./like.entity";
 @Entity()
 export class Question {
     @PrimaryGeneratedColumn("uuid")
-    id: number
+    id: string
 
     @Column()
     title: string

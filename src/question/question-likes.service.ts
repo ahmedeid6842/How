@@ -9,7 +9,7 @@ import { User } from "src/auth/user.entity";
 export class QuestionLikesService {
     constructor(@InjectRepository(QuestionLikes) private readonly questionLikesRepository: Repository<QuestionLikes>) { }
 
-    async getLike(questionId: number, userId: number) {
+    async getLike(questionId: string, userId: string) {
 
         if (questionId == null || userId == null) {
             return null;

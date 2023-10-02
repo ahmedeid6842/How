@@ -13,7 +13,7 @@ export class UsersService {
         return this.userRepo.save(user);
     }
 
-    findOne(id: number) {
+    findOne(id: string) {
         if (!id) { // this condition is added becuase the default behaviour of findOne, if you pass null it will return the first record
             return null;
         }
@@ -39,7 +39,7 @@ export class UsersService {
         return this.userRepo.find({ where });
     }
 
-    async update(userId: number, attrs: Partial<User>) { // Patial to make the property is optional
+    async update(userId: string, attrs: Partial<User>) { // Patial to make the property is optional
         const user = await this.findOne(userId);
 
         if (!user) {

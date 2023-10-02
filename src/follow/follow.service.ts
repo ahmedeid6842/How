@@ -13,7 +13,7 @@ export class FollowService {
         private readonly userService: UsersService
     ) { }
 
-    async startUserFollowing(followingId: number, follower: User) {
+    async startUserFollowing(followingId: string, follower: User) {
         const following = await this.userService.findOne(followingId);
 
         if (followingId == follower.id) {
@@ -38,7 +38,7 @@ export class FollowService {
         await this.followRepository.save(follow);
     }
 
-    async getUserFollowers(userId: number) {
+    async getUserFollowers(userId: string) {
         const follows = await this.followRepository.find({
             where: { user: { id: userId } },
             relations: ['follower'],
@@ -46,7 +46,7 @@ export class FollowService {
         return follows;
     }
 
-    async getUserFollowing(userId: number) {
+    async getUserFollowing(userId: string) {
         const follows = await this.followRepository.find({
             where: { follower: { id: userId } },
             relations: ['user'],
@@ -55,7 +55,7 @@ export class FollowService {
         return follows;
     }
 
-    async unFollowUser(followingId: number, follower: User) {
+    async unFollowUser(followingId: string, follower: User) {
         const following = await this.userService.findOne(followingId);
 
         if (!following) {
