@@ -5,12 +5,12 @@ import { Question } from "./question.entity";
 @Entity()
 @Unique(["user", "question"])
 export class QuestionLikes {
-@PrimaryGeneratedColumn("uuid")
-id: number
+    @PrimaryGeneratedColumn("uuid")
+    id: number
 
-@ManyToOne(() => User, (user) => user.questionLikes)
-user: User
+    @ManyToOne(() => User, (user) => user.questionLikes)
+    user: User
 
-@ManyToOne(() => Question, (question) => question.likes)
-question: Question
+    @ManyToOne(() => Question, (question) => question.likes)
+    question: Question
 }

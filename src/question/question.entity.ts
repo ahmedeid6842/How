@@ -4,24 +4,25 @@ import { QuestionLikes } from "./like.entity";
 
 @Entity()
 export class Question {
-@PrimaryGeneratedColumn("uuid")
-id: number
+    @PrimaryGeneratedColumn("uuid")
+    id: number
 
-@Column()
-title: string
+    @Column()
+    title: string
 
-@Column()
-description: string
+    @Column()
+    description: string
 
-@Column({ default: 0 })
-likes_count: number
+    @Column({ default: 0 })
+    likes_count: number
 
-@CreateDateColumn()
-creation_date: Date
+    @CreateDateColumn()
+    creation_date: Date
 
-@ManyToOne(() => User, user => user.questions)
-author: User
+    @ManyToOne(() => User, user => user.questions)
+    author: User
 
-@OneToMany(() => QuestionLikes, (likes) => likes.question)
-likes: QuestionLikes[]
+    @OneToMany(() => QuestionLikes, (likes) => likes.question)
+    likes: QuestionLikes[]
+
 }
