@@ -81,9 +81,10 @@ export class QuestionService {
         if (likeExists) {
             throw new BadRequestException("you have liked this question before")
         }
-
+        
         const newLike = this.questionLikesService.addLike(question, user)
 
-
+        question.likes_count += 1;
+        await this.questionRepository.save(question);
     }
 }
