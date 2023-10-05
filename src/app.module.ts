@@ -11,6 +11,7 @@ import { Follow } from './follow/follow.entity';
 import { QuestionModule } from './question/question.module';
 import { Question } from './question/question.entity';
 import { QuestionLikes } from './question/like.entity';
+import { AnswerModule } from './answer/answer.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -31,7 +32,8 @@ import { QuestionLikes } from './question/like.entity';
     AuthModule,
     EmailModule,
     FollowModule,
-    QuestionModule],
+    QuestionModule,
+    AnswerModule],
   controllers: [AppController],
   providers: [AppService],
 })
