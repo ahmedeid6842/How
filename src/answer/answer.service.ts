@@ -57,6 +57,7 @@ export class AnswerService {
     }
 
     async updateAnswer(answer: Answer, body: CreateAnswernDto) {
-        return "updated answer"
+        Object.assign(answer, body);
+        return await this.answerRepository.save(answer);
     }
 }
