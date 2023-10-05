@@ -5,7 +5,10 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { CreateAnswernDto } from './dto/create-answer.dto';
 import { QueryAnswernDto } from './dto/query-answer.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { AnswerDto } from './dto/answer.dto';
 
+@Serialize(AnswerDto)
 @Controller('answer')
 export class AnswerController {
     constructor(private answerSerivce: AnswerService) { }
