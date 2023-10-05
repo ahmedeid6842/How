@@ -4,7 +4,7 @@ import { AnswerService } from './answer.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Answer } from './answer.entity';
 import { QuestionModule } from 'src/question/question.module';
-import { AnswerLikes } from './like-answer.entity';
+import { AnswerLikes } from './answer-likes.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Answer,AnswerLikes]),QuestionModule],

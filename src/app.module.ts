@@ -13,7 +13,7 @@ import { Question } from './question/question.entity';
 import { QuestionLikes } from './question/like.entity';
 import { AnswerModule } from './answer/answer.module';
 import { Answer } from './answer/answer.entity';
-import { AnswerLikes } from './answer/like-answer.entity';
+import { AnswerLikes } from './answer/answer-likes.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({

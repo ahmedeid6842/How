@@ -1,7 +1,7 @@
 import { User } from "src/auth/user.entity";
 import { Question } from "src/question/question.entity";
 import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, Column, OneToMany } from "typeorm";
-import { AnswerLikes } from "./like-answer.entity";
+import { AnswerLikes } from "./answer-likes.entity";
 
 @Entity()
 export class Answer {
