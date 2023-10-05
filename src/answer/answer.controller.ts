@@ -46,4 +46,10 @@ export class AnswerController {
     async deleteAnswer(@OwnerAnswer() answer: Answer) {
         return await this.answerSerivce.deleteAnswer(answer)
     }
+
+    @UseGuards(AuthGuard)
+    @Patch("/like/:answerId")
+    async likeAnswer(@Param("answerId") answerId: string, @CurrentUser() user: User) {
+        return this.answerSerivce.likeAnswer(answerId, user);
+    }
 }

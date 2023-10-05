@@ -1,6 +1,7 @@
 import { User } from "src/auth/user.entity";
 import { Question } from "src/question/question.entity";
-import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, Column, OneToMany } from "typeorm";
+import { AnswerLikes } from "./answer-likes.entity";
 
 @Entity()
 export class Answer {
@@ -18,9 +19,10 @@ export class Answer {
 
     @ManyToOne(() => Question, (question) => question.answers)
     question: Question;
- 
+
     @ManyToOne(() => User, (user) => user.answers)
     respondent: User;
 
-
+    @OneToMany(() => AnswerLikes, (answerLike) => answerLike.answer)
+    likes: AnswerLikes[]
 }
