@@ -8,6 +8,7 @@ import { QueryAnswernDto } from './dto/query-answer.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { AnswerDto } from './dto/answer.dto';
 import { Answer } from './answer.entity';
+import { AnswerOwnerGuard } from './guards/answer-owner.guard';
 
 @Serialize(AnswerDto)
 @Controller('answer')
@@ -31,6 +32,7 @@ export class AnswerController {
     }
 
     @UseGuards(AuthGuard)
+    @UseGuards(AnswerOwnerGuard)
     @Patch("/:answerId")
     async UpdateAnswer(answer: Answer, @Body() body: CreateAnswernDto) {
         return await this.answerSerivce.updateAnswer(answer, body)
