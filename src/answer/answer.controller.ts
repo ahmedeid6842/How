@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { AnswerService } from './answer.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
@@ -7,6 +7,7 @@ import { CreateAnswernDto } from './dto/create-answer.dto';
 import { QueryAnswernDto } from './dto/query-answer.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { AnswerDto } from './dto/answer.dto';
+import { Answer } from './answer.entity';
 
 @Serialize(AnswerDto)
 @Controller('answer')
@@ -16,7 +17,7 @@ export class AnswerController {
     @UseGuards(AuthGuard)
     @Post("/:questionId")
     async createAnswer(@Param('questionId') questionId: string, @Body() body: CreateAnswernDto, @CurrentUser() user: User) {
-        await this.answerSerivce.createAnswer(questionId, body, user)
+        return await this.answerSerivce.createAnswer(questionId, body, user)
     }
 
     @Get("/")
@@ -27,5 +28,11 @@ export class AnswerController {
         }
 
         return answers
+    }
+
+    @UseGuards(AuthGuard)
+    @Patch("/:answerId")
+    async UpdateAnswer(answer: Answer, @Body() body: CreateAnswernDto) {
+        return await this.answerSerivce.updateAnswer(answer, body)
     }
 }

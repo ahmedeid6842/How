@@ -52,7 +52,11 @@ export class AnswerService {
         }
 
         const answers = await queryBuilder.getMany();
-        
+
         return answers;
+    }
+
+    async updateAnswer(answer: Answer, body: CreateAnswernDto) {
+        return "updated answer"
     }
 }
