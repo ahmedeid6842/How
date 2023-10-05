@@ -29,7 +29,30 @@ export class AnswerService {
         await this.answerRepository.save(savedAnswer)
     }
 
-    async getAnswer(queryAnswer:QueryAnswernDto){
-        return "answers"
+    async getAnswer(queryAnswer: QueryAnswernDto) {
+        const { answerId, questionId, respondentId, answer } = queryAnswer;
+        const queryBuilder = await this.answerRepository.createQueryBuilder('answer')
+            .leftJoinAndSelect('answer.respondent', 'respondent')
+            .leftJoinAndSelect('answer.question', 'question')
+
+        if (answerId) {
+            queryBuilder.andWhere('answer.id = :answerId', { answerId })
+        }
+
+        if (questionId) {
+            queryBuilder.andWhere('answer.questionId = :questionId', { questionId })
+        }
+
+        if (respondentId) {
+            queryBuilder.andWhere('answer.respondentId = :respondentId', { respondentId })
+        }
+
+        if (answer) {
+            queryBuilder.andWhere('answer.answer ILIKE :answer', { answer: `%${answer}%` });
+        }
+
+        const answers = await queryBuilder.getMany();
+        
+        return answers;
     }
 }
