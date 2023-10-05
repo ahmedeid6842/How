@@ -5,6 +5,7 @@ import { QuestionService } from 'src/question/question.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Answer } from './answer.entity';
 import { Repository } from 'typeorm';
+import { QueryAnswernDto } from './dto/query-answer.dto';
 
 @Injectable()
 export class AnswerService {
@@ -26,5 +27,9 @@ export class AnswerService {
         })
 
         await this.answerRepository.save(savedAnswer)
+    }
+
+    async getAnswer(queryAnswer:QueryAnswernDto){
+        return "answers"
     }
 }
