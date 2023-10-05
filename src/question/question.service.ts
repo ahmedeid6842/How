@@ -5,11 +5,15 @@ import { Question } from './question.entity';
 import { Repository } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { QueryQuestionDto } from './dto/query-question.dto';
+import { QuestionLikesService } from './question-likes.service';
 
 @Injectable()
 export class QuestionService {
 
-    constructor(@InjectRepository(Question) private readonly questionRepository: Repository<Question>) { }
+    constructor(
+        @InjectRepository(Question) private readonly questionRepository: Repository<Question>,
+        private readonly questionLikesService: QuestionLikesService
+    ) { }
 
     async addQuestion(questionBody: CreateQuestionDto, user: User) {
         const { title, description } = questionBody;
@@ -65,4 +69,22 @@ export class QuestionService {
         return await this.questionRepository.remove(question);
     }
 
+    async likeQuestion(questionId: string, user: User) {
+        const [question] = await this.getQuestion({ questionId });
+
+        if (!question) {
+            throw new NotFoundException("No question found with the given id")
+        }
+
+        const likeExists = await this.questionLikesService.getLike(questionId, user.id);
+
+        if (likeExists) {
+            throw new BadRequestException("you have liked this question before")
+        }
+        
+        const newLike = this.questionLikesService.addLike(question, user)
+
+        question.likes_count += 1;
+        await this.questionRepository.save(question);
+    }
 }

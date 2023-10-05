@@ -1,11 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Follow } from "src/follow/follow.entity";
 import { Question } from "src/question/question.entity";
+import { QuestionLikes } from "src/question/like.entity";
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
-  id: number;
+  id: string;
 
   @Column({ length: 100 })
   email: string;
@@ -21,4 +22,7 @@ export class User {
 
   @OneToMany(() => Question, (question) => question.author)
   questions: Question[]
+
+  @OneToMany(() => QuestionLikes, (like) => like.user)
+  questionLikes: QuestionLikes[]
 }

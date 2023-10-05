@@ -61,7 +61,7 @@ export class AuthService {
     }
 
     async resetPassword(token: string, password: string) {
-        const { userId } = await this.jwtService.decode(token) as { userId: number };
+        const { userId } = await this.jwtService.decode(token) as { userId: string };
 
         if (!userId) {
             throw new BadRequestException('Invalid reset password token.');
@@ -72,7 +72,7 @@ export class AuthService {
         return await this.userService.update(userId, { password })
     }
 
-    private generateResetPasswordToken(userId: number): string {
+    private generateResetPasswordToken(userId: string): string {
         return this.jwtService.sign({ userId }, { expiresIn: '1h' })
     }
 }
