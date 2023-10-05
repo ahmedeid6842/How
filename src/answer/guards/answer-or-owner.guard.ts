@@ -23,7 +23,6 @@ export class AnswerOrQuestionOwnerGuard implements CanActivate {
             return true;
         }
 
-console.log(answer.question)
         if (answer.question.author.id === request.currentUser.id) {
             request.ownerAnswer = answer;
             return true;

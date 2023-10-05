@@ -13,6 +13,7 @@ import { Question } from './question/question.entity';
 import { QuestionLikes } from './question/like.entity';
 import { AnswerModule } from './answer/answer.module';
 import { Answer } from './answer/answer.entity';
+import { AnswerLikes } from './answer/like-answer.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -22,7 +23,7 @@ import { Answer } from './answer/answer.entity';
     username: 'postgres',
     password: 'root',
     database: 'How',
-    entities: [User, Follow, Question, QuestionLikes, Answer],
+    entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes],
     synchronize: process.env.NODE_ENV == 'development' ? true : false
   }),
   JwtModule.register({
