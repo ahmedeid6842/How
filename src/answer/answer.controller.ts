@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { AnswerService } from './answer.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
@@ -37,5 +37,12 @@ export class AnswerController {
     @Patch("/:answerId")
     async UpdateAnswer(@OwnerAnswer() answer: Answer, @Body() body: CreateAnswernDto) {
         return await this.answerSerivce.updateAnswer(answer, body)
+    }
+
+    @UseGuards(AuthGuard)
+    @UseGuards(AnswerOwnerGuard)
+    @Delete("/:answerId")
+    async deleteAnswer(@OwnerAnswer() answer: Answer) {
+        return await this.answerSerivce.deleteAnswer(answer)
     }
 }
