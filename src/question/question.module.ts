@@ -9,6 +9,7 @@ import { QuestionLikesService } from './question-likes.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Question, QuestionLikes])],
   providers: [QuestionService,QuestionLikesService],
-  controllers: [QuestionController]
+  controllers: [QuestionController],
+  exports:[QuestionService]
 })
 export class QuestionModule { }
