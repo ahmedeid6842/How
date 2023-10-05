@@ -34,6 +34,7 @@ export class AnswerService {
         const queryBuilder = await this.answerRepository.createQueryBuilder('answer')
             .leftJoinAndSelect('answer.respondent', 'respondent')
             .leftJoinAndSelect('answer.question', 'question')
+            .leftJoinAndSelect('question.author', 'author');
 
         if (answerId) {
             queryBuilder.andWhere('answer.id = :answerId', { answerId })
