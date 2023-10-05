@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { User } from 'src/auth/user.entity';
 import { CreateAnswernDto } from './dto/create-answer.dto';
 import { QuestionService } from 'src/question/question.service';
@@ -6,12 +6,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Answer } from './answer.entity';
 import { Repository } from 'typeorm';
 import { QueryAnswernDto } from './dto/query-answer.dto';
+import { AnswerLikesService } from './answer-likes.service';
 
 @Injectable()
 export class AnswerService {
     constructor(
         private readonly questionService: QuestionService,
-        @InjectRepository(Answer) private readonly answerRepository: Repository<Answer>
+        @InjectRepository(Answer) private readonly answerRepository: Repository<Answer>,
+        private readonly answerLikeService: AnswerLikesService
     ) { }
 
     async createAnswer(questionId: string, body: CreateAnswernDto, user: User) {
@@ -64,5 +66,24 @@ export class AnswerService {
 
     async deleteAnswer(answer: Answer) {
         await this.answerRepository.remove(answer)
+    }
+
+    async likeAnswer(answerId: string, user: User) {
+        const [answer] = await this.getAnswer({ answerId });
+
+        if (!answer) {
+            throw new NotFoundException("No answer found with the given id")
+        }
+
+        const likeExists = await this.answerLikeService.getLike(answerId, user.id);
+
+        if (likeExists) {
+            throw new BadRequestException("you have like this answer before")
+        }
+
+        await this.answerLikeService.addLike(answer, user)
+
+        answer.likes_count += 1;
+        await this.answerRepository.save(answer)
     }
 }
