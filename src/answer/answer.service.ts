@@ -60,4 +60,8 @@ export class AnswerService {
         Object.assign(answer, body);
         return await this.answerRepository.save(answer);
     }
+
+    async deleteAnswer(answer: Answer) {
+        await this.answerRepository.remove(answer)
+    }
 }
