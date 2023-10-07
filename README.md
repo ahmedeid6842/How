@@ -16,6 +16,7 @@
 - [🔍 APIs Reference](#api-reference)
 - [🏗️🔨 Database ERD](#erd)
 - [🔄 Sequence Diagrams](#sequence-diagram)
+- [📐 UML Diagram](#uml-diagram)
 - [👥 Author](#author)
 - [🤝 Contributing](#contribution)
 - [⭐️ Show Your Support](#support)
@@ -119,7 +120,7 @@ The application will be accessible at http://localhost:3000.
 
 ![ERD-Diagram](https://github.com/ahmedeid6842/how/assets/57197702/b4c0a57c-2318-408a-98c6-dc2a3932d465) 
 
-## Sequence Diagrams <a name="sequence-diagram"></a>
+## 🔄 Sequence Diagrams <a name="sequence-diagram"></a>
 
 <div align="center"> <h3> Auth Module </h3> </div>
 
@@ -388,6 +389,85 @@ sequenceDiagram
 ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## 📐 UML Diagram <a name="uml-diagram"></a>
+
+```mermaid
+classDiagram
+    class UsersService {
+        - userRepo
+        + create()
+        + findOne()
+        + find()
+        + update()
+    }
+
+    class AuthService {
+        - userService
+        - emailService
+        + register()
+        + login()
+        + sendResetPasswordEmail()
+        + resetPassword()
+    }
+
+    class FollowService {
+        - followRepo
+        - userService
+        + startUserFollowing()
+        + getUserFollowers()
+        + getUserFollowing()
+        + unFollowUser()
+    }
+
+    class QuestionService {
+        - questionRepository
+        - questionLikesService
+        + addQuestion()
+        + getQuestion()
+        + updateQuestion()
+        + deleteQuestion()
+        + likeQuestion()
+    }
+
+    class QuestionLikesService {
+        - questionLikesRepository
+        + getLike()
+        + addLike()
+    }
+
+    class EmailService {
+        - transporter
+        - email
+        - password
+        + sendResetPasswordEmail()
+    }
+
+    class AnswerService {
+        - questionService
+        - answerRepository
+        - answerLikeService
+        + createAnswer()
+        + getAnswer()
+        + updateAnswer()
+        + deleteAnswer()
+        + likeAnswer()
+    }
+
+    class AnswerLikesService {
+        - answerLikesRepository
+        + getLike()
+        + addLike()
+    }
+
+    
+
+    AuthService --> EmailService : depends on
+    AuthService --> UsersService : depends on
+    FollowService --> UsersService : depends on
+    QuestionService --> QuestionLikesService : depends on
+    AnswerService --> QuestionService : depends on
+    AnswerService --> AnswerLikesService : depends on
+```
 
 ## 👤 Author <a name="author"></a>
 **Ahmed Eid 🙋‍♂️**
