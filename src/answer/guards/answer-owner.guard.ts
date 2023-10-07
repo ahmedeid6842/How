@@ -7,23 +7,25 @@ export class AnswerOwnerGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
         const { answerId } = request.params;
-
+        console.log("here")
+        
         if (!answerId) {
-            throw new BadRequestException('No answer Id provided');
+            return false;
         }
-
+        
         const [answer] = await this.answerService.getAnswer({ answerId });
+        request.ownerAnswer = answer;
 
         if (!answer) {
-            throw new NotFoundException("Not answer found with the given ID")
+            return false;
         }
 
         if (answer.respondent.id !== request.currentUser.id) {
-            throw new UnauthorizedException("You aren't the owner of this answer");
+            return false;
         }
-
-        request.ownerAnswer = answer;
-
+        
+        
+        console.log("here22")
         return true;
     }
 }
