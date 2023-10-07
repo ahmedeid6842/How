@@ -7,7 +7,6 @@ export class AnswerOwnerGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
         const { answerId } = request.params;
-        console.log("here")
         
         if (!answerId) {
             return false;
@@ -24,8 +23,6 @@ export class AnswerOwnerGuard implements CanActivate {
             return false;
         }
         
-        
-        console.log("here22")
         return true;
     }
 }

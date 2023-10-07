@@ -1,5 +1,5 @@
 import { User } from "src/auth/user.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { QuestionLikes } from "./question-likes.entity";
 import { Answer } from "src/answer/answer.entity";
 
@@ -19,6 +19,9 @@ export class Question {
 
   @CreateDateColumn()
   creation_date: Date;
+
+  @UpdateDateColumn()
+  update_date: Date;
 
   @ManyToOne(() => User, (user) => user.questions, { onDelete: "CASCADE" })
   author: User;

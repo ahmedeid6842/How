@@ -8,7 +8,6 @@ export class QuestionOwnerGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
         const { questionId } = request.params;
-        console.log("here22")
 
         if (!questionId) {
             return false;
