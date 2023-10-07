@@ -7,10 +7,10 @@ export class Follow {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @ManyToOne(() => User, user => user.follows)
+    @ManyToOne(() => User, user => user.follows,{ onDelete: "CASCADE" })
     user: User;
 
-    @ManyToOne(() => User, user => user.follows)
+    @ManyToOne(() => User, user => user.follows,{ onDelete: "CASCADE" })
     follower: User;
 
     @CreateDateColumn()

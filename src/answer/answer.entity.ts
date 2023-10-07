@@ -17,10 +17,10 @@ export class Answer {
     @Column({ default: 0 })
     likes_count: number;
 
-    @ManyToOne(() => Question, (question) => question.answers)
+    @ManyToOne(() => Question, (question) => question.answers,{ onDelete: "CASCADE" })
     question: Question;
 
-    @ManyToOne(() => User, (user) => user.answers)
+    @ManyToOne(() => User, (user) => user.answers,{ onDelete: "CASCADE" })
     respondent: User;
 
     @OneToMany(() => AnswerLikes, (answerLike) => answerLike.answer)

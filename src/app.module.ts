@@ -11,7 +11,7 @@ import { FollowModule } from './follow/follow.module';
 import { Follow } from './follow/follow.entity';
 import { QuestionModule } from './question/question.module';
 import { Question } from './question/question.entity';
-import { QuestionLikes } from './question/like.entity';
+import { QuestionLikes } from './question/question-likes.entity';
 import { AnswerModule } from './answer/answer.module';
 import { Answer } from './answer/answer.entity';
 import { AnswerLikes } from './answer/answer-likes.entity';

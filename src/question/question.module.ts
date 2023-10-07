@@ -3,7 +3,7 @@ import { QuestionService } from './question.service';
 import { QuestionController } from './question.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Question } from './question.entity';
-import { QuestionLikes } from './like.entity';
+import { QuestionLikes } from './question-likes.entity';
 import { QuestionLikesService } from './question-likes.service';
 
 @Module({
