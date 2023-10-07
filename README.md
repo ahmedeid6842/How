@@ -15,6 +15,7 @@
   - [Usage 🤿 🏃‍♂️](#usage)
 - [🔍 APIs Reference](#api-reference)
 - [🏗️🔨 Database ERD](#erd)
+- [🔄 Sequence Diagrams](#sequence-diagram)
 - [👥 Author](#author)
 - [🤝 Contributing](#contribution)
 - [⭐️ Show Your Support](#support)
@@ -111,14 +112,282 @@ The application will be accessible at http://localhost:3000.
    <img src="https://github.com/ahmedeid6842/how/assets/57197702/2a91efba-779d-4980-8cc8-382c47d1c139"/>
 
   <h3> Answer </h3> 
-   <img src="https://github.com/ahmedeid6842/how/assets/57197702/0fd7f6ec-f8c5-46c6-8e5a-1c05226bda7f"/>
+   <img src="https://github.com/ahmedeid6842/How/assets/57197702/9949862b-9b3e-4e68-8536-f1a28e20a9e9"/>
 </div>
 
 ## 🏗️🔨 [Database ERD](https://drawsql.app/teams/microverse-114/diagrams/how) <a name="erd"></a>
 
-![ERD-Diagram](https://github.com/ahmedeid6842/how/assets/57197702/b4c0a57c-2318-408a-98c6-dc2a3932d465)
+![ERD-Diagram](https://github.com/ahmedeid6842/how/assets/57197702/b4c0a57c-2318-408a-98c6-dc2a3932d465) 
+
+## Sequence Diagrams <a name="sequence-diagram"></a>
+
+<div align="center"> <h3> Auth Module </h3> </div>
+
+```mermaid
+   sequenceDiagram
+      participant User
+      participant AuthController
+      participant AuthService
+      participant UsersService
+      participant EmailService
+      participant JwtService
+
+      User->>+AuthController: register()
+      AuthController->>+AuthService: register(userCredentials)
+      AuthService->>+UsersService: createUser(userCredentials)
+      UsersService-->>-AuthService: user
+      AuthService->>+EmailService: sendRegistrationEmail(user)
+      EmailService-->>-AuthService: emailSent
+      AuthService-->>-AuthController: registrationSuccess
+
+      User->>+AuthController: login(credentials)
+      AuthController->>+AuthService: login(credentials)
+      AuthService->>+UsersService: getUserByEmail(email)
+      UsersService-->>-AuthService: user
+      AuthService->>+AuthService: comparePasswords(password, user.password)
+      AuthService->>+JwtService: generateToken(user)
+      JwtService-->>-AuthService: token
+      AuthService-->>-AuthController: loginSuccess(token)
+
+      User->>+AuthController: requestPasswordReset(email)
+      AuthController->>+AuthService: requestPasswordReset(email)
+      AuthService->>+UsersService: getUserByEmail(email)
+      UsersService-->>-AuthService: user
+      AuthService->>+AuthService: generatePasswordResetToken(user)
+      AuthService->>+EmailService: sendPasswordResetEmail(user, resetToken)
+      EmailService-->>-AuthService: emailSent
+      AuthService-->>-AuthController: passwordResetEmailSent()
+
+      User->>+AuthController: resetPassword(resetToken, newPassword)
+      AuthController->>+AuthService: resetPassword(resetToken, newPassword)
+      AuthService->>+AuthService: verifyPasswordResetToken(resetToken)
+      AuthService->>+UsersService: getUserById(userId)
+      UsersService-->>-AuthService: user
+      AuthService->>+AuthService: hashPassword(newPassword)
+      AuthService->>+UsersService: updatePassword(user, hashedPassword)
+      UsersService-->>-AuthService: updatedUser
+      AuthService-->>-AuthController: passwordResetSuccess()
+
+      User->>+AuthController: logout()
+      AuthController->>+AuthService: logout()
+      AuthService-->>-AuthController: logoutSuccess()
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<div align="center"> <h3> Follow Module </h3> </div>
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant FollowController
+    participant FollowService
+    participant UserRepository
+    participant UserService
+
+Client->FollowController: POST /follow
+FollowController->FollowService: followUser(following_id, follower)
+FollowService->UserService: findOne(followingId)
+UserService-->FollowService: following
+alt Invalid user id
+    FollowService-->FollowController: Throw BadRequestException("Invalid user id")
+else
+    FollowService->FollowService: followExist(followingId, follower.id)
+    FollowService->UserService: findOne(follower.id)
+    UserService-->FollowService: follower
+    alt You can't follow yourself
+        FollowService-->FollowController: Throw BadRequestException("you can't follow yourself")
+    else
+        alt You already a follower
+            FollowService-->FollowController: Throw BadRequestException("you already a follower")
+        else
+            FollowService->UserRepository: create(following, follower)
+            UserRepository-->FollowService: follow
+            FollowService->UserRepository: save(follow)
+            UserRepository-->FollowService: savedFollow
+            FollowService-->FollowController: savedFollow
+        end
+    end
+end
+
+Client->FollowController: GET /follow/followers/:id
+FollowController->FollowService: getUserFollowers(userId)
+FollowService->UserRepository: find({ user: { id: userId } })
+UserRepository-->FollowService: follows
+FollowService-->FollowController: follows
+
+Client->FollowController: GET /follow/following/:id
+FollowController->FollowService: getUserFollowing(userId)
+FollowService->UserRepository: find({ follower: { id: userId } })
+UserRepository-->FollowService: follows
+FollowService-->FollowController: follows
+
+Client->FollowController: PATCH /follow/unfollow
+FollowController->FollowService: unFollowUser(following_id, follower)
+FollowService->UserService: findOne(followingId)
+UserService-->FollowService: following
+alt Invalid user id
+    FollowService-->FollowController: Throw BadRequestException("Invalid user id")
+else
+    FollowService->FollowService: followExist(followingId, follower.id)
+    alt You are not following this user
+        FollowService-->FollowController: Throw BadRequestException("You are not following this user")
+    else
+        FollowService->UserRepository: remove(follow)
+        UserRepository-->FollowService: removedFollow
+        FollowService-->FollowController: removedFollow
+    end
+end
+```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<div align="center"> <h3> Question Module </h3> </div>
+
+```mermaid
+sequenceDiagram
+  participant Client
+  participant Controller
+  participant Service
+  participant Repository
+  participant QuestionLikesService
+
+  Client->>Controller: POST /question
+  Controller->>Service: createQuestion()
+  alt Unique question check
+    Service->>Service: getQuestion({ title })
+    Service->>Repository: queryBuilder.getMany()
+    Repository->>Service: questions
+    alt Question not unique
+      Service->>Controller: BadRequestException
+    else
+      Service->>Repository: create()
+      Repository->>Service: savedQuestion
+    end
+  else
+    Service->>Repository: create()
+    Repository->>Service: savedQuestion
+  end
+
+  Service->>Service: addQuestion()
+
+  Client->>Controller: GET /question
+  Controller->>Service: getQuestion()
+  Service->>Repository: queryBuilder.getMany()
+  Repository->>Service: questions
+  alt No questions found
+    Service->>Controller: NotFoundException
+  else
+    Service->>Controller: questions
+  end
+
+  Client->>Controller: PATCH /question/:questionId
+  Controller->>Service: updateQuestion()
+  Service->>Repository: save()
+  Repository->>Service: updatedQuestion
+
+  Client->>Controller: DELETE /question/:questionId
+  Controller->>Service: deleteQuestion()
+  Service->>Repository: remove()
+
+  Client->>Controller: PATCH /question/like/:questionId
+  Controller->>Service: likeQuestion()
+  Service->>Service: getQuestion()
+  Service->>Repository: queryBuilder.getMany()
+  Repository->>Service: questions
+  alt Question not found
+    Service->>Controller: NotFoundException
+  else
+    Service->>QuestionLikesService: getLike()
+    QuestionLikesService->>Repository: findOne()
+    Repository->>QuestionLikesService: like
+    alt Like exists
+      Service->>Controller: BadRequestException
+    else
+      QuestionLikesService->>Repository: create()
+      Repository->>QuestionLikesService: like
+      QuestionLikesService->>Repository: save()
+    end
+    Service->>Repository: save()
+    Repository->>Service: question
+  end
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<div align="center"> <h3> Answer Module </h3> </div>
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Controller
+    participant Service
+    participant Repository
+    participant QuestionService
+    participant AnswerLikesService
+
+    Client->>Controller: POST /answer/:questionId
+    Controller->>Service: createAnswer(questionId, body, user)
+    Service->>QuestionService: getQuestion({ questionId })
+    QuestionService-->>Service: questionExist
+    alt questionExist is null
+        Service->>Controller: throw NotFoundException
+    else questionExist is not null
+        Service->>Repository: create(answer, questionExist, user)
+        Repository-->>Service: savedAnswer
+    end
+
+    Client->>Controller: GET /answer/?query
+    Controller->>Service: getAnswer(query)
+    Service->>Repository: queryBuilder.getMany()
+    Repository-->>Service: answers
+    alt answers is empty
+        Service->>Controller: throw NotFoundException
+    else answers is not empty
+        Service-->>Controller: answers
+    end
+
+    Client->>Controller: PATCH /answer/:answerId
+    Controller->>Service: updateAnswer(answer, body)
+    Service->>Repository: save(answer)
+    Repository-->>Service: updatedAnswer
+    Service-->>Controller: updatedAnswer
+
+    Client->>Controller: DELETE /answer/:questionId/:answerId
+    Controller->>Service: deleteAnswer(answer)
+    Service->>Repository: remove(answer)
+
+    Client->>Controller: PATCH /answer/like/:answerId
+    Controller->>Service: likeAnswer(answerId, user)
+    Service->>Service: getAnswer({ answerId })
+    Service->>AnswerLikesService: getLike(answerId, user.id)
+    AnswerLikesService-->>Service: likeExists
+    alt likeExists is not null
+        Service->>Controller: throw BadRequestException
+    else likeExists is null
+        Service->>AnswerLikesService: addLike(answer, user)
+        Service->>Repository: save(answer)
+    end
+
+```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<div align="center"> <h3> Email Module </h3> </div>
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant EmailService
+    participant nodemailer
+
+    Client->>EmailService: sendResetPasswordEmail(email, resetPasswordUrl)
+    EmailService->>nodemailer: createTransport(options)
+    nodemailer-->>EmailService: transporter
+    EmailService->>nodemailer: sendMail(message)
+    nodemailer-->>EmailService: result
+    EmailService-->>Client: result
+```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 ## 👤 Author <a name="author"></a>
 **Ahmed Eid 🙋‍♂️**
