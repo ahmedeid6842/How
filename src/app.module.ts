@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { config } from 'dotenv';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from "@nestjs/typeorm"
@@ -10,25 +11,27 @@ import { FollowModule } from './follow/follow.module';
 import { Follow } from './follow/follow.entity';
 import { QuestionModule } from './question/question.module';
 import { Question } from './question/question.entity';
-import { QuestionLikes } from './question/like.entity';
+import { QuestionLikes } from './question/question-likes.entity';
 import { AnswerModule } from './answer/answer.module';
 import { Answer } from './answer/answer.entity';
 import { AnswerLikes } from './answer/answer-likes.entity';
 
+config();
+
 @Module({
   imports: [TypeOrmModule.forRoot({
-    type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: 'root',
-    database: 'How',
+    type: "postgres",
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT),
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
     entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes],
     synchronize: process.env.NODE_ENV == 'development' ? true : false
   }),
   JwtModule.register({
     global: true,
-    secret: "ThisIsMySecert",
+    secret: process.env.JWT_SECRET,
     signOptions: { expiresIn: '60s' }
   }),
     AuthModule,

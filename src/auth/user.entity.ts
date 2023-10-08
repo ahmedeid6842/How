@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Follow } from "src/follow/follow.entity";
 import { Question } from "src/question/question.entity";
-import { QuestionLikes } from "src/question/like.entity";
+import { QuestionLikes } from "src/question/question-likes.entity";
 import { Answer } from "src/answer/answer.entity";
 
 @Entity()

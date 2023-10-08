@@ -10,20 +10,19 @@ export class QuestionOwnerGuard implements CanActivate {
         const { questionId } = request.params;
 
         if (!questionId) {
-            throw new BadRequestException('No question id provided');
+            return false;
         }
 
         const [question] = await this.questionService.getQuestion({ questionId });
+        request.ownerQuestion = question;
 
         if (!question) {
-            throw new NotFoundException("Not question found with the given ID")
-        }
-        
-        if (question.author.id !== request.currentUser.id) {
-            throw new UnauthorizedException("You aren't the owner of this question");
+            return false;
         }
 
-        request.ownerQuestion = question;
+        if (question.author.id !== request.currentUser.id) {
+            return false;
+        }
 
         return true;
     }

@@ -10,7 +10,7 @@ import { AnswerDto } from './dto/answer.dto';
 import { Answer } from './answer.entity';
 import { AnswerOwnerGuard } from './guards/answer-owner.guard';
 import { OwnerAnswer } from './decorators/owner-answer.decorator';
-import { AnswerOrQuestionOwnerGuard } from './guards/answer-or-owner.guard';
+import { AnswerOrQuestionOwnerGuard } from './guards/answer-or-question-owner.guard';
 
 @Serialize(AnswerDto)
 @Controller('answer')
@@ -42,7 +42,7 @@ export class AnswerController {
 
     @UseGuards(AuthGuard)
     @UseGuards(AnswerOrQuestionOwnerGuard)
-    @Delete("/:answerId")
+    @Delete("/:questionId/:answerId")
     async deleteAnswer(@OwnerAnswer() answer: Answer) {
         return await this.answerSerivce.deleteAnswer(answer)
     }

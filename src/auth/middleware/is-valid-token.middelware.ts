@@ -17,10 +17,10 @@ export class IsValidToken implements NestMiddleware {
             await this.jwtService.verifyAsync(
                 token,
                 {
-                    secret: "ThisIsMySecert"
+                    secret: process.env.JWT_SECRET
                 }
             );
-
+            
             next()
         } catch (error) {
             throw new UnauthorizedException();
