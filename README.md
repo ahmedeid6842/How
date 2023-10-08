@@ -1,6 +1,7 @@
 <a name="readme-top"></a>
 
-![logo-no-background](https://github.com/ahmedeid6842/how/assets/57197702/8d2185de-4903-4f2c-8cda-0ca569c0dafb)
+![how-high-resolution-logo-color-on-transparent-background](https://github.com/ahmedeid6842/How/assets/57197702/ece33093-9dc2-4b87-bfb0-cca817860a72)
+
 <br>
 <br>
 
@@ -103,22 +104,22 @@ The application will be accessible at http://localhost:3000.
 
 <div align="center">
   <h3> Authentication </h3> 
-   <img src="https://github.com/ahmedeid6842/how/assets/57197702/006c7edf-a781-4ed7-94c2-56538f6c11f1"/>
+   <img src="https://github.com/ahmedeid6842/How/assets/57197702/2269e670-2129-41bb-b85d-6405daaa24d7"/>
 
   <h3> Follow </h3> 
-   <img src="https://github.com/ahmedeid6842/how/assets/57197702/59769717-0aa0-4005-afe9-6a8e6b4eb9a1"/>
-
+   <img src="https://github.com/ahmedeid6842/How/assets/57197702/b834ed6f-6a38-4673-bc8c-4232be53e76a"/>
 
   <h3> Question </h3> 
-   <img src="https://github.com/ahmedeid6842/how/assets/57197702/2a91efba-779d-4980-8cc8-382c47d1c139"/>
+   <img src="https://github.com/ahmedeid6842/How/assets/57197702/0b54a1c0-46b0-4afc-b32d-cbc6001995a3"/>
 
   <h3> Answer </h3> 
-   <img src="https://github.com/ahmedeid6842/How/assets/57197702/9949862b-9b3e-4e68-8536-f1a28e20a9e9"/>
+   <img src="https://github.com/ahmedeid6842/How/assets/57197702/3bd50d4f-03ef-4f18-b2ca-a5a68fbc12b6"/>
 </div>
 
 ## 🏗️🔨 [Database ERD](https://drawsql.app/teams/microverse-114/diagrams/how) <a name="erd"></a>
 
-![ERD-Diagram](https://github.com/ahmedeid6842/how/assets/57197702/b4c0a57c-2318-408a-98c6-dc2a3932d465) 
+![ERD-V2](https://github.com/ahmedeid6842/How/assets/57197702/ccbccdff-c9ee-45fa-b174-ec697de62000)
+
 
 ## 🔄 Sequence Diagrams <a name="sequence-diagram"></a>
 
