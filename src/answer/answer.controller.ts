@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AnswerService } from './answer.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
@@ -12,6 +12,7 @@ import { AnswerOwnerGuard } from './guards/answer-owner.guard';
 import { OwnerAnswer } from './decorators/owner-answer.decorator';
 import { AnswerOrQuestionOwnerGuard } from './guards/answer-or-question-owner.guard';
 import { PaginationDto } from './dto/pagination.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Serialize(AnswerDto)
 @Controller('answer')
@@ -24,6 +25,7 @@ export class AnswerController {
         return await this.answerSerivce.createAnswer(questionId, body, user)
     }
 
+    @UseInterceptors(CacheInterceptor)
     @Get("/")
     async getAnswer(
         @Query() query: QueryAnswernDto,
