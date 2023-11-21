@@ -11,6 +11,7 @@ import { Answer } from './answer.entity';
 import { AnswerOwnerGuard } from './guards/answer-owner.guard';
 import { OwnerAnswer } from './decorators/owner-answer.decorator';
 import { AnswerOrQuestionOwnerGuard } from './guards/answer-or-question-owner.guard';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Serialize(AnswerDto)
 @Controller('answer')
@@ -24,8 +25,11 @@ export class AnswerController {
     }
 
     @Get("/")
-    async getAnswer(@Query() query: QueryAnswernDto) {
-        const answers = await this.answerSerivce.getAnswer(query);
+    async getAnswer(
+        @Query() query: QueryAnswernDto,
+        @Query() pagination: PaginationDto
+    ) {
+        const answers = await this.answerSerivce.getAnswer(query, pagination);
         if (!answers.length) {
             throw new NotFoundException("No answer found with the given properties")
         }

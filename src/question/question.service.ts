@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { QueryQuestionDto } from './dto/query-question.dto';
 import { QuestionLikesService } from './question-likes.service';
+import { PaginationDto } from 'src/answer/dto/pagination.dto';
 
 @Injectable()
 export class QuestionService {
@@ -32,8 +33,10 @@ export class QuestionService {
         await this.questionRepository.save(savedQuestion);
     }
 
-    async getQuestion(queryQuestion: QueryQuestionDto) {
+    async getQuestion(queryQuestion: QueryQuestionDto, pagination?: PaginationDto) {
         const { questionId, title, description, authorId, creationDate } = queryQuestion;
+        const { page, limit } = pagination;
+        const skip = (page - 1) * limit;
 
         const queryBuilder = await this.questionRepository.createQueryBuilder('question').leftJoinAndSelect('question.author', 'author');
 
@@ -53,7 +56,10 @@ export class QuestionService {
             queryBuilder.andWhere('question.authorId = :authorId', { authorId });
         }
 
-        const questions = await queryBuilder.getMany();
+        const questions = await queryBuilder
+            .skip(skip)
+            .take(limit)
+            .getMany();
 
         return questions;
     }
@@ -81,7 +87,7 @@ export class QuestionService {
         if (likeExists) {
             throw new BadRequestException("you have liked this question before")
         }
-        
+
         const newLike = this.questionLikesService.addLike(question, user)
 
         question.likes_count += 1;

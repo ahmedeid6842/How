@@ -10,6 +10,7 @@ import { QuestionDto } from './dto/question.dto';
 import { QuestionOwnerGuard } from './guards/question-owner.guard';
 import { OwnerQuestion } from './decorators/owner-question.decorator';
 import { Question } from './question.entity';
+import { PaginationDto } from 'src/answer/dto/pagination.dto';
 
 @Serialize(QuestionDto)
 @Controller('question')
@@ -23,8 +24,8 @@ export class QuestionController {
     }
 
     @Get("/")
-    async getQuestion(@Query() query: QueryQuestionDto) {
-        const questions = await this.questionService.getQuestion(query);
+    async getQuestion(@Query() query: QueryQuestionDto, @Query() pagination: PaginationDto) {
+        const questions = await this.questionService.getQuestion(query, pagination);
 
         if (!questions.length) {
             throw new NotFoundException("No question found with the given properties")
