@@ -60,9 +60,9 @@ export class AnswerService {
 
         const answers = await queryBuilder
             .skip(skip)
-            .limit(limit)
+            .take(limit)
             .getMany();
-
+            
         return answers;
     }
 
