@@ -35,8 +35,9 @@ export class QuestionService {
 
     async getQuestion(queryQuestion: QueryQuestionDto, pagination?: PaginationDto) {
         const { questionId, title, description, authorId, creationDate } = queryQuestion;
-        const { page, limit } = pagination;
-        const skip = (page - 1) * limit;
+
+        const { page, limit } = pagination || {};
+        const skip = (page - 1) * limit || 0;
 
         const queryBuilder = await this.questionRepository.createQueryBuilder('question').leftJoinAndSelect('question.author', 'author');
 
