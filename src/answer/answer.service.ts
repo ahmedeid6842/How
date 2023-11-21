@@ -7,6 +7,7 @@ import { Answer } from './answer.entity';
 import { Repository } from 'typeorm';
 import { QueryAnswernDto } from './dto/query-answer.dto';
 import { AnswerLikesService } from './answer-likes.service';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class AnswerService {
@@ -31,8 +32,11 @@ export class AnswerService {
         await this.answerRepository.save(savedAnswer)
     }
 
-    async getAnswer(queryAnswer: QueryAnswernDto) {
+    async getAnswer(queryAnswer: QueryAnswernDto, pagination?: PaginationDto) {
         const { answerId, questionId, respondentId, answer } = queryAnswer;
+        const { page, limit } = pagination;
+        const skip = (page - 1) * limit;
+
         const queryBuilder = await this.answerRepository.createQueryBuilder('answer')
             .leftJoinAndSelect('answer.respondent', 'respondent')
             .leftJoinAndSelect('answer.question', 'question')
@@ -54,7 +58,10 @@ export class AnswerService {
             queryBuilder.andWhere('answer.answer ILIKE :answer', { answer: `%${answer}%` });
         }
 
-        const answers = await queryBuilder.getMany();
+        const answers = await queryBuilder
+            .skip(skip)
+            .limit(limit)
+            .getMany();
 
         return answers;
     }
