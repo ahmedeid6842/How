@@ -15,7 +15,8 @@ import { QuestionLikes } from './question/question-likes.entity';
 import { AnswerModule } from './answer/answer.module';
 import { Answer } from './answer/answer.entity';
 import { AnswerLikes } from './answer/answer-likes.entity';
-
+import { CacheModule } from '@nestjs/cache-manager';
+import * as redisStore from 'cache-manager-redis-store'
 config();
 
 @Module({
@@ -34,11 +35,18 @@ config();
     secret: process.env.JWT_SECRET,
     signOptions: { expiresIn: '60s' }
   }),
+  CacheModule.register({
+    isGlobal: true,
+    store: redisStore,
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT
+  }),
     AuthModule,
     EmailModule,
     FollowModule,
     QuestionModule,
-    AnswerModule],
+    AnswerModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
