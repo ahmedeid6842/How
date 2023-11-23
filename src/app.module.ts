@@ -23,6 +23,9 @@ config();
   imports: [TypeOrmModule.forRoot({
     type: "postgres",
     url: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
     entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes],
     synchronize: process.env.NODE_ENV == 'development' ? true : false
   }),
