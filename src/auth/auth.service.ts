@@ -55,7 +55,7 @@ export class AuthService {
         }
 
         const token = this.generateResetPasswordToken(user.id)
-        const resetPasswordUrl = `${process.env.HOST}:${process.env.PORT}/auth/reset-password/${token}`
+        const resetPasswordUrl = process.env.HOW_URL || `${process.env.HOST}:${process.env.PORT}/auth/reset-password/${token}`
 
         await this.emailService.sendResetPasswordEmail(user.email, resetPasswordUrl);
     }
