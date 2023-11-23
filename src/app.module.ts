@@ -40,8 +40,7 @@ config();
     store: redisStore,
     ttl: parseInt(process.env.REDIS_EXPIRE_IN_SECONDS),
     max: parseInt(process.env.REDIS_MAX_ROWS),
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT
+    url: process.env.REDIS_URL
   }),
     AuthModule,
     EmailModule,
