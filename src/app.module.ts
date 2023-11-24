@@ -26,8 +26,10 @@ config();
     ssl: {
       rejectUnauthorized: false,
     },
-    entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes],
-    synchronize: process.env.NODE_ENV == 'development' ? true : false
+    // entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes],
+    entities: ['dist/**/*.entity{.ts,.js}'],
+    synchronize: process.env.NODE_ENV == 'development' ? true : false,
+    autoLoadEntities: true,
   }),
   JwtModule.register({
     global: true,
