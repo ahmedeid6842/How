@@ -27,7 +27,7 @@ config();
       rejectUnauthorized: false,
     },
     // entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes],
-    entities: ['dist/**/*.entity{.ts,.js}'],
+    entities: ['**/*.entity.{js, ts}'],
     synchronize: process.env.NODE_ENV == 'development' ? true : false,
     autoLoadEntities: true,
   }),
