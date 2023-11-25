@@ -8,7 +8,8 @@
 ---
 ### 📑 Table of Contents
 - [📘 Introduction](#introduction)
-- [🚀 Getting Started](#getting-started)
+- [🚀 Live Demo](#live-demo)
+- [💻 Getting Started](#getting-started)
   - [Prerequisites ❗](#prerequisites)
   - [Environment Variables :key:](#environment-variables)
   - [Setup ⬇️](#setup)
@@ -36,9 +37,18 @@ The authentication module provides secure user registration, login, and password
 
 <p align="center"> With serialization and interception powered by the SerializeInterceptor, sensitive information is automatically excluded from outgoing responses, ensuring data privacy. </p> 
 
+<p align="center">
+To optimize performance, caching has been implemented using Redis. The @nestjs/cache-manager package is used for caching, with Redis as the database store. The Cache-Aside Pattern and TTL (Time to Live) strategy are employed for cache management, improving response times and reducing database load.
+</p>
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 🚀 Getting Started <a name="getting-started"></a>
+## 🚀 Live Demo <a name="live-demo"></a>
+
+- [API main Live Demo Link _heroku_](https://how-fcb5f9de2993.herokuapp.com/)
+- [API alternative Demo Link _render_](https://how-backend.onrender.com/)
+
+## 💻 Getting Started <a name="getting-started"></a>
 
 To get a local copy up and running, follow these steps.
 
@@ -59,11 +69,8 @@ To run this project, you will need to add the following environment variables to
 
 - `HOST`: the host of your project (e.g. localhost)
 - `PORT`: the port of which your project work on (e.g. 3000)
-- `DB_HOST`: the postgres host (e.g. localhost)
-- `DB_PORT`: the port on which postgres are working on (e.g. 5432)
-- `DB_USERNAME`: your postgres username (e.g. postgres) 
-- `DB_PASSWORD`: your postgres password (e.g. root)
-- `DB_DATABASE`: the database name on which the project will use (e.g. How) 
+- `DATABASE_URL`: the postgres connection string _postgres://username:password@host:port/databsename_ (e.g postgres://postgres:root@localhost:5432/How)
+- `REDIS_URL`: the redis connection string _redis://host:port_ (e.g redis://localhost:6379)
 - `JWT_SECRET`: the json web token signature to create or validate token (e.g. jwtsecret)
 - `NODEMAILER_EMAIL`: the gmail account you will use to forward email (e.g. your-email@gmail.com)
 - `NODEMAILER_PASSWORD`: you should SMTP server password form you gmail and enable you 2-step verficaiotn (watch this [video](https://www.youtube.com/watch?v=-MqVdG9w_lY) to get your password)
@@ -96,11 +103,11 @@ npm run start:dev
 
 The application will be accessible at http://localhost:3000.
 
-- Alright, it's showtime! 🔥 Hit `http://localhost:3000` and BOOM! 💥  You should see the "Hello world" message and the Car APIs working flawlessly. ✨🧙‍♂️
+- Alright, it's showtime! 🔥 Hit `http://localhost:3000` and BOOM! 💥  You should see the docs page and the HOW APIs working flawlessly. ✨🧙‍♂️
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 🔍 [APIs Reference](https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&page-id=BcYSwGQVorOAWQsO1LIz&title=Routes.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1rYo7LO-z3DNOGVwCRl8imrcIe3nDMNLH%26export%3Ddownload) <a name="api-reference"></a>
+## 🔍 [APIs Reference](https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&page-id=pBkF-awqWtSFPUcyi1-K&title=Routes.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1D-TuhzpAZRQlZboRrvKCF1oMvUy1BSBy%26export%3Ddownload) <a name="api-reference"></a>
 
 <div align="center">
   <h3> Authentication </h3> 
@@ -110,10 +117,10 @@ The application will be accessible at http://localhost:3000.
    <img src="https://github.com/ahmedeid6842/How/assets/57197702/b834ed6f-6a38-4673-bc8c-4232be53e76a"/>
 
   <h3> Question </h3> 
-   <img src="https://github.com/ahmedeid6842/How/assets/57197702/0b54a1c0-46b0-4afc-b32d-cbc6001995a3"/>
+   <img src="https://github.com/ahmedeid6842/How/assets/57197702/870ef0d1-ac32-43c7-8561-62fe57f9f8e2"/>
 
   <h3> Answer </h3> 
-   <img src="https://github.com/ahmedeid6842/How/assets/57197702/3bd50d4f-03ef-4f18-b2ca-a5a68fbc12b6"/>
+   <img src="https://github.com/ahmedeid6842/How/assets/57197702/9cf9b4d9-9ae8-4fb6-bc63-4426b84e82b3"/>
 </div>
 
 ## 🏗️🔨 [Database ERD](https://drawsql.app/teams/microverse-114/diagrams/how) <a name="erd"></a>
@@ -489,8 +496,8 @@ If you find this project helpful, I would greatly appreciate it if you could lea
 ## 🔭 Up next <a name="up-next"></a>
 
 - [ ] Implement Search engine for different question searches 
-- [ ] Support pagination for getting questions
-- [ ] Enhance the DataBase queries time by using redis LRU caching
+- [x] Support pagination for getting questions
+- [x] Enhance the DataBase queries time by using redis LRU caching
 - [ ] Move from monolithic to microservices architecture.
 - [ ] Apply Background jobs and task scheduling Use a job queue system like Bull or Agenda to handle time-consuming tasks.
 
