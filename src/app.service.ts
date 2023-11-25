@@ -724,15 +724,15 @@ export class AppService {
                             in Computer Science. My primary area of interest is web development, with a particular focus on the
                             Backend track.</p>
                         <div class="connect-icons">
-                            <a href="#" class="social-icon">
+                            <a href="https://www.linkedin.com/in/ameid/" target="_blank" class="social-icon">
                                 <img src="https://github.com/ahmedeid6842/How/assets/57197702/85f60950-d168-4e81-86f9-b8c6a96c0613"
                                     alt="twitter-logo">
                             </a>
-                            <a href="#" class="social-icon">
+                            <a href="https://github.com/ahmedeid6842" target="_blank" class="social-icon">
                                 <img src="https://github.com/ahmedeid6842/How/assets/57197702/a686cb35-0f74-423a-85a2-63a14802def9"
                                     alt="twitter-logo">
                             </a>
-                            <a href="#" class="social-icon">
+                            <a href="https://twitter.com/ahmedeid2684" target="_blank" class="social-icon">
                                 <img src="https://github.com/ahmedeid6842/How/assets/57197702/ef57b75b-33cf-4863-97ec-7f46b1d5a250"
                                     alt="twitter-logo">
                             </a>
