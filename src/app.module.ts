@@ -22,7 +22,7 @@ config();
 @Module({
   imports: [TypeOrmModule.forRoot({
     type: "postgres",
-    url: process.env.DATABASE_URL,
+    url: process.env.DATABASE_URL, 
     ssl: {
       rejectUnauthorized: false,
     },
@@ -43,7 +43,7 @@ config();
     url: process.env.REDIS_URL
   }),
     AuthModule,
-    EmailModule,
+    EmailModule, 
     FollowModule,
     QuestionModule,
     AnswerModule
