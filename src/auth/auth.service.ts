@@ -29,7 +29,10 @@ export class AuthService {
         const salt = await bcrypt.genSalt()
         password = await bcrypt.hash(password, salt);
 
-        const user = await this.userService.create(email, userName, password);
+        const verificationCode = this.generateVerificationCode();
+        const verificationCodeExpiresAt = this.generateVerificationCodeExpiration();
+
+        const user = await this.userService.create(email, userName, password, verificationCode, verificationCodeExpiresAt);
         return user;
     }
 
@@ -78,7 +81,7 @@ export class AuthService {
         return this.jwtService.sign({ userId }, { expiresIn: '1h' })
     }
 
-    private generateVerificationCode():string {
+    private generateVerificationCode(): string {
         const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         const codeLength = 6;
         return customAlphabet(alphabet, codeLength)();
