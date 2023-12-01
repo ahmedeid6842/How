@@ -78,9 +78,15 @@ export class AuthService {
         return this.jwtService.sign({ userId }, { expiresIn: '1h' })
     }
 
-    private generateVerificationCode() {
+    private generateVerificationCode():string {
         const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         const codeLength = 6;
         return customAlphabet(alphabet, codeLength)();
+    }
+
+    private generateVerificationCodeExpiration(): Date {
+        const expiration = new Date();
+        expiration.setHours(expiration.getHours() + 1);
+        return expiration;
     }
 }
