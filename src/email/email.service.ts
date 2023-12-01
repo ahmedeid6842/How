@@ -18,6 +18,7 @@ export class EmailService {
             }
         })
     }
+    
     async sendResetPasswordEmail(email: string, resetPasswordUrl: string) {
         const message = {
             from: process.env.NODEMAILER_EMAIL,
