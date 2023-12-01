@@ -33,7 +33,7 @@ export class AuthService {
         const verificationCodeExpiresAt = this.generateVerificationCodeExpiration();
 
         const user = await this.userService.create(email, userName, password, verificationCode, verificationCodeExpiresAt);
-        
+
         await this.emailService.sendVerificationEmail(email, verificationCode);
 
         return user;
@@ -78,6 +78,28 @@ export class AuthService {
         const salt = await bcrypt.genSalt()
         password = await bcrypt.hash(password, salt);
         return await this.userService.update(userId, { password })
+    }
+
+    async verifyEmail(email: string, verificationCode: string) {
+        const [user] = await this.userService.find(email);
+
+        if (!user) {
+            throw new NotFoundException(`user not found`)
+        }
+
+        if (user.isVerified) {
+            throw new BadRequestException(`user already verified`)
+        }
+
+        if (user.verificationCode !== verificationCode) {
+            throw new BadRequestException(`invalid verification code`)
+        }
+
+        if (user.verificationCodeExpiresAt < new Date()) {
+            throw new BadRequestException(`verification code expired`)
+        }
+
+        return await this.userService.update(user.id, { isVerified: true, verificationCode: null, verificationCodeExpiresAt: null })
     }
 
     private generateResetPasswordToken(userId: string): string {
