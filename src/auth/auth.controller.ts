@@ -14,10 +14,8 @@ export class AuthController {
 
     @Post('/register')
     @UseGuards(NotLoggedGuard)
-    async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    async createUser(@Body() body: CreateUserDto) {
         const user = await this.authService.register(body.email, body.userName, body.password);
-
-        session.userId = user.id
 
         return user;
     }

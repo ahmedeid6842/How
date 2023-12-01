@@ -33,6 +33,9 @@ export class AuthService {
         const verificationCodeExpiresAt = this.generateVerificationCodeExpiration();
 
         const user = await this.userService.create(email, userName, password, verificationCode, verificationCodeExpiresAt);
+        
+        await this.emailService.sendVerificationEmail(email, verificationCode);
+
         return user;
     }
 
