@@ -4,6 +4,8 @@ import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { EmailService } from '../email/email.service';
 import { JwtService } from "@nestjs/jwt"
+import { customAlphabet } from 'nanoid';
+
 
 @Injectable()
 export class AuthService {
@@ -74,5 +76,11 @@ export class AuthService {
 
     private generateResetPasswordToken(userId: string): string {
         return this.jwtService.sign({ userId }, { expiresIn: '1h' })
+    }
+
+    private generateVerificationCode() {
+        const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        const codeLength = 6;
+        return customAlphabet(alphabet, codeLength)();
     }
 }
