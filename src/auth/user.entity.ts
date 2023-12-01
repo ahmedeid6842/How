@@ -18,6 +18,15 @@ export class User {
   @Column()
   password: string;
 
+  @Column({nullable: true, name: "verification_code"})
+  verificationCode: string;
+
+  @Column({ default: false, name: "is_verified" })
+  isVerified: boolean;
+
+  @Column({ name: "verification_code_expires_at", type: "timestamp", nullable: true})
+  verificationCodeExpiresAt: Date;
+
   @OneToMany(() => Follow, (follow) => follow.user)
   follows: Follow[];
 
