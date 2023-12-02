@@ -12,7 +12,11 @@ export class ProfileService {
 
     async createProfile(profile: CreateProfileDto, user: User): Promise<Profile> {
         const newProfile = this.profileRepo.create({ ...profile, user });
-      
+
         return await this.profileRepo.save(newProfile);
-      }
+    }
+
+    async updateProfile(userId: string, profile: Partial<CreateProfileDto>) {
+        await this.profileRepo.update({ user: { id: userId } }, profile);
+    }
 }
