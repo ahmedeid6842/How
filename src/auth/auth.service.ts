@@ -100,8 +100,8 @@ export class AuthService {
         if (user.verificationCodeExpiresAt < new Date()) {
             throw new BadRequestException(`verification code expired`)
         }
-        
-        await this.profileService.createProfile({ name: user.userName, user })
+
+        await this.profileService.createProfile({ name: user.userName}, user)
         return await this.userService.update(user.id, { isVerified: true, verificationCode: null, verificationCodeExpiresAt: null })
     }
 

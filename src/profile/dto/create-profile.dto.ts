@@ -32,6 +32,4 @@ export class CreateProfileDto {
     @IsOptional()
     @IsBoolean()
     isPublic?: boolean;
-
-    user: UserDto;
 }
