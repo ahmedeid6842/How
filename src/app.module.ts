@@ -16,6 +16,7 @@ import { AnswerModule } from './answer/answer.module';
 import { Answer } from './answer/answer.entity';
 import { AnswerLikes } from './answer/answer-likes.entity';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ProfileModule } from './profile/profile.module';
 import * as redisStore from 'cache-manager-redis-store'
 config();
 
@@ -46,7 +47,8 @@ config();
     EmailModule, 
     FollowModule,
     QuestionModule,
-    AnswerModule
+    AnswerModule,
+    ProfileModule
   ],
   controllers: [AppController],
   providers: [AppService],
