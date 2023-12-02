@@ -9,9 +9,10 @@ import { User } from 'src/auth/user.entity';
 export class ProfileService {
     constructor(@InjectRepository(Profile) private profileRepo: Repository<Profile>) { }
 
-    createProfile(profile: CreateProfileDto): Promise<Profile> {
-        const newProfile = this.profileRepo.create(profile);
+    async createProfile(profile: CreateProfileDto): Promise<Profile> {
+        const newProfile = this.profileRepo.create(); 
+        newProfile.name = profile.name;  
 
-        return this.profileRepo.save(newProfile);
+        return await this.profileRepo.save(newProfile); 
     }
 }
