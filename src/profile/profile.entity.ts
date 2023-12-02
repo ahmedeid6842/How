@@ -10,7 +10,7 @@ export class Profile {
     @Column({ length: 100 })
     name: string;
 
-    @Column({ type: "text", nullable: true, length: 500 })
+    @Column({ type: "text", nullable: true })
     bio: string;
 
     @Column({ type: "simple-array", default: [], name: "social_linkes", nullable: true, array: true })
