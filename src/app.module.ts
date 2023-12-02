@@ -18,6 +18,7 @@ import { AnswerLikes } from './answer/answer-likes.entity';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ProfileModule } from './profile/profile.module';
 import * as redisStore from 'cache-manager-redis-store'
+import { Profile } from './profile/profile.entity';
 config();
 
 @Module({
@@ -27,7 +28,7 @@ config();
     ssl: {
       rejectUnauthorized: false,
     },
-    entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes],
+    entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes, Profile],
     synchronize: true,
     autoLoadEntities: true,
   }),
