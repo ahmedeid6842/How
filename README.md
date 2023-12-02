@@ -107,14 +107,14 @@ The application will be accessible at http://localhost:3000.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 🔍 [APIs Reference](https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&page-id=pBkF-awqWtSFPUcyi1-K&title=Routes.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1D-TuhzpAZRQlZboRrvKCF1oMvUy1BSBy%26export%3Ddownload) <a name="api-reference"></a>
+## 🔍 [APIs Reference](https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1#G1zp_68xm9VNrmI_5EYJxrQ3wwn3kOHgd_) <a name="api-reference"></a>
 
 <div align="center">
   <h3> Authentication </h3> 
-   <img src="https://github.com/ahmedeid6842/How/assets/57197702/2269e670-2129-41bb-b85d-6405daaa24d7"/>
+   <img src="https://github.com/ahmedeid6842/How/assets/57197702/a71cf117-b429-4cb1-982e-b08318fb84ca"/>
 
   <h3> Follow </h3> 
-   <img src="https://github.com/ahmedeid6842/How/assets/57197702/b834ed6f-6a38-4673-bc8c-4232be53e76a"/>
+   <img src="https://github.com/ahmedeid6842/How/assets/57197702/f964b401-1366-4760-b539-79da9c0725b2"/>
 
   <h3> Question </h3> 
    <img src="https://github.com/ahmedeid6842/How/assets/57197702/870ef0d1-ac32-43c7-8561-62fe57f9f8e2"/>
@@ -125,7 +125,7 @@ The application will be accessible at http://localhost:3000.
 
 ## 🏗️🔨 [Database ERD](https://drawsql.app/teams/microverse-114/diagrams/how) <a name="erd"></a>
 
-![ERD-V2](https://github.com/ahmedeid6842/How/assets/57197702/ccbccdff-c9ee-45fa-b174-ec697de62000)
+![ERD-V2](https://github.com/ahmedeid6842/How/assets/57197702/7059bb7a-1eb6-4324-9a95-33754313f946)
 
 
 ## 🔄 Sequence Diagrams <a name="sequence-diagram"></a>
@@ -133,53 +133,62 @@ The application will be accessible at http://localhost:3000.
 <div align="center"> <h3> Auth Module </h3> </div>
 
 ```mermaid
-   sequenceDiagram
-      participant User
-      participant AuthController
-      participant AuthService
-      participant UsersService
-      participant EmailService
-      participant JwtService
+sequenceDiagram
+    participant User
+    participant AuthController
+    participant AuthService
+    participant UsersService
+    participant EmailService
+    participant JwtService
 
-      User->>+AuthController: register()
-      AuthController->>+AuthService: register(userCredentials)
-      AuthService->>+UsersService: createUser(userCredentials)
-      UsersService-->>-AuthService: user
-      AuthService->>+EmailService: sendRegistrationEmail(user)
-      EmailService-->>-AuthService: emailSent
-      AuthService-->>-AuthController: registrationSuccess
+    User->>+AuthController: register()
+    AuthController->>+AuthService: register(userCredentials)
+    AuthService->>+UsersService: createUser(userCredentials)
+    UsersService-->>-AuthService: user
+    AuthService->>+EmailService: sendRegistrationEmail(user)
+    EmailService-->>-AuthService: emailSent
+    AuthService-->>-AuthController: registrationSuccess
 
-      User->>+AuthController: login(credentials)
-      AuthController->>+AuthService: login(credentials)
-      AuthService->>+UsersService: getUserByEmail(email)
-      UsersService-->>-AuthService: user
-      AuthService->>+AuthService: comparePasswords(password, user.password)
-      AuthService->>+JwtService: generateToken(user)
-      JwtService-->>-AuthService: token
-      AuthService-->>-AuthController: loginSuccess(token)
+    User->>+AuthController: login(credentials)
+    AuthController->>+AuthService: login(credentials)
+    AuthService->>+UsersService: getUserByEmail(email)
+    UsersService-->>-AuthService: user
+    AuthService->>+AuthService: comparePasswords(password, user.password)
+    AuthService->>+JwtService: generateToken(user)
+    JwtService-->>-AuthService: token
+    AuthService-->>-AuthController: loginSuccess(token)
 
-      User->>+AuthController: requestPasswordReset(email)
-      AuthController->>+AuthService: requestPasswordReset(email)
-      AuthService->>+UsersService: getUserByEmail(email)
-      UsersService-->>-AuthService: user
-      AuthService->>+AuthService: generatePasswordResetToken(user)
-      AuthService->>+EmailService: sendPasswordResetEmail(user, resetToken)
-      EmailService-->>-AuthService: emailSent
-      AuthService-->>-AuthController: passwordResetEmailSent()
+    User->>+AuthController: requestPasswordReset(email)
+    AuthController->>+AuthService: requestPasswordReset(email)
+    AuthService->>+UsersService: getUserByEmail(email)
+    UsersService-->>-AuthService: user
+    AuthService->>+AuthService: generatePasswordResetToken(user)
+    AuthService->>+EmailService: sendPasswordResetEmail(user, resetToken)
+    EmailService-->>-AuthService: emailSent
+    AuthService-->>-AuthController: passwordResetEmailSent()
 
-      User->>+AuthController: resetPassword(resetToken, newPassword)
-      AuthController->>+AuthService: resetPassword(resetToken, newPassword)
-      AuthService->>+AuthService: verifyPasswordResetToken(resetToken)
-      AuthService->>+UsersService: getUserById(userId)
-      UsersService-->>-AuthService: user
-      AuthService->>+AuthService: hashPassword(newPassword)
-      AuthService->>+UsersService: updatePassword(user, hashedPassword)
-      UsersService-->>-AuthService: updatedUser
-      AuthService-->>-AuthController: passwordResetSuccess()
+    User->>+AuthController: resetPassword(resetToken, newPassword)
+    AuthController->>+AuthService: resetPassword(resetToken, newPassword)
+    AuthService->>+AuthService: verifyPasswordResetToken(resetToken)
+    AuthService->>+UsersService: getUserById(userId)
+    UsersService-->>-AuthService: user
+    AuthService->>+AuthService: hashPassword(newPassword)
+    AuthService->>+UsersService: updatePassword(user, hashedPassword)
+    UsersService-->>-AuthService: updatedUser
+    AuthService-->>-AuthController: passwordResetSuccess()
 
-      User->>+AuthController: logout()
-      AuthController->>+AuthService: logout()
-      AuthService-->>-AuthController: logoutSuccess()
+    User->>+AuthController: verifyEmail(email, verificationCode)
+    AuthController->>+AuthService: verifyEmail(email, verificationCode)
+    AuthService->>+UsersService: getUserByEmail(email)
+    UsersService-->>-AuthService: user
+    AuthService->>+AuthService: verifyEmail(user, verificationCode)
+    AuthService->>+UsersService: updateUserVerification(user)
+    UsersService-->>-AuthService: updatedUser
+    AuthService-->>-AuthController: emailVerificationSuccess()
+
+    User->>+AuthController: logout()
+    AuthController->>+AuthService: logout()
+    AuthService-->>-AuthController: logoutSuccess()
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
