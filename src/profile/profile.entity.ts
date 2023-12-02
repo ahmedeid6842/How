@@ -10,29 +10,32 @@ export class Profile {
     @Column({ length: 100 })
     name: string;
 
-    @Column({ type: "text", nullable: true })
+    @Column({ type: "text", nullable: true, length: 500 })
     bio: string;
 
-    @Column({ type: "simple-array", default: [], name: "social_linkes", nullable: true,array: true  })
+    @Column({ type: "simple-array", default: [], name: "social_linkes", nullable: true, array: true })
     socialLinks: string[];
 
-    @Column({ type: "simple-array", default: [],nullable: true, array: true})
+    @Column({ type: "simple-array", default: [], nullable: true, array: true })
     interests: string[];
 
-    @Column({default: 0, name: "num_question_asked"})
+    @Column({ default: 0, name: "num_question_asked" })
     numQuestionAsked: number;
 
-    @Column({default: 0, name: "num_question_answered"})
+    @Column({ default: 0, name: "num_question_answered" })
     numQuestionAnswered: number;
 
-    @Column({default: 0, name: "num_followers"})
+    @Column({ default: 0, name: "num_followers" })
     numFollowers: number;
 
-    @Column({default: 0, name: "num_following"})
+    @Column({ default: 0, name: "num_following" })
     numFollowing: number;
 
-    @Column({default: 0, name: "num_likes"})
+    @Column({ default: 0, name: "num_likes" })
     numLikes: number;
+
+    @Column({ type: "boolean", default: true, name: 'is_public' })
+    isPublic: boolean;
 
     @OneToOne(() => User, (user) => user.profile)
     user: User;
