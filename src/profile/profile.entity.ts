@@ -1,5 +1,5 @@
 import { User } from "src/auth/user.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Profile {
@@ -37,6 +37,7 @@ export class Profile {
     @Column({ type: "boolean", default: true, name: 'is_public' })
     isPublic: boolean;
 
-    @OneToOne(() => User, (user) => user.profile)
+    @OneToOne(() => User, (user) => user.profile, { cascade: true })
+    @JoinColumn({name:'user_id'})
     user: User;
 }
