@@ -13,11 +13,11 @@ export class Profile {
     @Column({ type: "text", nullable: true })
     bio: string;
 
-    @Column({ type: "array", default: [], name: "social_linkes", nullable: true  })
+    @Column({ type: "simple-array", default: [], name: "social_linkes", nullable: true,array: true  })
     socialLinks: string[];
 
-    @Column({ type: "array", default: [], name: "interests", nullable: true , length: 10})
-    interests: string;
+    @Column({ type: "simple-array", default: [],nullable: true, array: true})
+    interests: string[];
 
     @Column({default: 0, name: "num_question_asked"})
     numQuestionAsked: number;
