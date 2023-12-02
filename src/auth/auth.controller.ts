@@ -6,6 +6,7 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { NotLoggedGuard } from './guards/not-logged.guard';
+import { VerifyEmailDto } from './dto/verify-email.dto';
 
 @Serialize(UserDto)
 @Controller('auth')
@@ -14,10 +15,8 @@ export class AuthController {
 
     @Post('/register')
     @UseGuards(NotLoggedGuard)
-    async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    async createUser(@Body() body: CreateUserDto) {
         const user = await this.authService.register(body.email, body.userName, body.password);
-
-        session.userId = user.id
 
         return user;
     }
@@ -40,6 +39,16 @@ export class AuthController {
     @Post('/reset-password/:token')
     async resetPassword(@Param('token') token: string, @Body() body: ResetPasswordDto) {
         const user = await this.authService.resetPassword(token, body.password)
+        return user;
+    }
+
+    @Post('/verify-email')
+    @UseGuards(NotLoggedGuard)
+    async verifyEmail(@Body() body: VerifyEmailDto, @Session() session: any) {
+        const user = await this.authService.verifyEmail(body.email, body.verificationCode);
+        
+        session.userId = user.id;
+
         return user;
     }
 

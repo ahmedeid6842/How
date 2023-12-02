@@ -33,6 +33,7 @@
     "class-validator": "^0.14.0",
     "cookie-session": "^2.0.0",
     "dotenv": "^16.3.1",
+    "nanoid": "^3.3.7",
     "nodemailer": "^6.9.5",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
