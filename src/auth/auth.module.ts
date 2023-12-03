@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod, forwardRef } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UsersService } from './user.service';
@@ -10,7 +10,7 @@ import { CurrentUserMiddleware } from './middleware/current-user.middleware';
 import { ProfileModule } from 'src/profile/profile.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), ProfileModule],
+  imports: [TypeOrmModule.forFeature([User]), forwardRef(() => ProfileModule)],
   controllers: [AuthController],
   providers: [AuthService, UsersService, EmailService],
   exports: [UsersService]
