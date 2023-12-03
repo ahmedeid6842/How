@@ -7,13 +7,15 @@ import { CreateQuestionDto } from './dto/create-question.dto';
 import { QueryQuestionDto } from './dto/query-question.dto';
 import { QuestionLikesService } from './question-likes.service';
 import { PaginationDto } from 'src/answer/dto/pagination.dto';
+import { ProfileService } from 'src/profile/profile.service';
 
 @Injectable()
 export class QuestionService {
 
     constructor(
         @InjectRepository(Question) private readonly questionRepository: Repository<Question>,
-        private readonly questionLikesService: QuestionLikesService
+        private readonly questionLikesService: QuestionLikesService,
+        private readonly profileService: ProfileService
     ) { }
 
     async addQuestion(questionBody: CreateQuestionDto, user: User) {
@@ -30,6 +32,7 @@ export class QuestionService {
             description: description
         })
 
+        await this.profileService.updateProfileStatistics(user.id, 'numQuestionAsked', 1)
         await this.questionRepository.save(savedQuestion);
     }
 
@@ -73,6 +76,7 @@ export class QuestionService {
     }
 
     async deleteQuestion(question: Question) {
+        await this.profileService.updateProfileStatistics(question.author.id, 'numQuestionAsked', -1)
         return await this.questionRepository.remove(question);
     }
 
@@ -91,6 +95,7 @@ export class QuestionService {
 
         const newLike = this.questionLikesService.addLike(question, user)
 
+        await this.profileService.updateProfileStatistics(user.id, 'numLikes', 1)
         question.likes_count += 1;
         await this.questionRepository.save(question);
     }
