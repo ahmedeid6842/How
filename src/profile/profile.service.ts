@@ -38,4 +38,11 @@ export class ProfileService {
         await this.profileRepo.update({ user: { id: userId } }, profile);
     }
 
+    async updateProfileStatistics(userId: string, field: string, increaseBy: number) {
+        const updateQuery = {
+            [field]: () => `${field} + ${increaseBy}`,
+        };
+
+        await this.profileRepo.update({ user: { id: userId } }, updateQuery);
+    }
 }
