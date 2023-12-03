@@ -20,10 +20,10 @@ export class ProfileService {
     async getProfile(userId: string, currentUser: User) {
         const profile = await this.profileRepo.findOne({ where: { user: { id: userId } } })
         if (profile.isPublic == false) {
-            
             if (
                 (await this.followService.followExist(userId, currentUser.id)).length ||
-                (await this.followService.followExist(currentUser.id, userId)).length
+                (await this.followService.followExist(currentUser.id, userId)).length ||
+                userId == currentUser.id
             ) {
                 return profile;
             }
