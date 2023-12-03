@@ -37,8 +37,8 @@ export class AnswerService {
 
     async getAnswer(queryAnswer: QueryAnswernDto, pagination?: PaginationDto) {
         const { answerId, questionId, respondentId, answer } = queryAnswer;
-        const { page, limit } = pagination;
-        const skip = (page - 1) * limit;
+        const { page, limit } = pagination??{};
+        const skip = (page - 1) * limit || 0;
 
         const queryBuilder = await this.answerRepository.createQueryBuilder('answer')
             .leftJoinAndSelect('answer.respondent', 'respondent')
