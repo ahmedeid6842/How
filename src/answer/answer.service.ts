@@ -8,13 +8,15 @@ import { Repository } from 'typeorm';
 import { QueryAnswernDto } from './dto/query-answer.dto';
 import { AnswerLikesService } from './answer-likes.service';
 import { PaginationDto } from './dto/pagination.dto';
+import { ProfileService } from 'src/profile/profile.service';
 
 @Injectable()
 export class AnswerService {
     constructor(
         private readonly questionService: QuestionService,
         @InjectRepository(Answer) private readonly answerRepository: Repository<Answer>,
-        private readonly answerLikeService: AnswerLikesService
+        private readonly answerLikeService: AnswerLikesService,
+        private readonly profileService: ProfileService
     ) { }
 
     async createAnswer(questionId: string, body: CreateAnswernDto, user: User) {
@@ -29,6 +31,7 @@ export class AnswerService {
             respondent: user
         })
 
+        await this.profileService.updateProfileStatistics(user.id, 'numQuestionAnswered', 1)
         await this.answerRepository.save(savedAnswer)
     }
 
@@ -72,6 +75,7 @@ export class AnswerService {
     }
 
     async deleteAnswer(answer: Answer) {
+        await this.profileService.updateProfileStatistics(answer.respondent.id, 'numQuestionAnswered', -1)
         await this.answerRepository.remove(answer)
     }
 
@@ -90,6 +94,7 @@ export class AnswerService {
 
         await this.answerLikeService.addLike(answer, user)
 
+        await this.profileService.updateProfileStatistics(user.id, 'numLikes', 1)
         answer.likes_count += 1;
         await this.answerRepository.save(answer)
     }
