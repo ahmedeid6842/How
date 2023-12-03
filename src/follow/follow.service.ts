@@ -72,7 +72,7 @@ export class FollowService {
         await this.followRepository.remove(follow);
     }
 
-    private async followExist(userId, followerId): Promise<Follow[]> {
+    async followExist(userId, followerId): Promise<Follow[]> {
         const follow = await this.followRepository.find({
             where: {
                 user: { id: userId },
