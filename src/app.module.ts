@@ -16,39 +16,45 @@ import { AnswerModule } from './answer/answer.module';
 import { Answer } from './answer/answer.entity';
 import { AnswerLikes } from './answer/answer-likes.entity';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ProfileModule } from './profile/profile.module';
 import * as redisStore from 'cache-manager-redis-store'
+import { Profile } from './profile/profile.entity';
 config();
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: "postgres",
-    url: process.env.DATABASE_URL, 
-    ssl: {
-      rejectUnauthorized: false,
-    },
-    entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes],
-    synchronize: true,
-    autoLoadEntities: true,
-  }),
-  JwtModule.register({
-    global: true,
-    secret: process.env.JWT_SECRET,
-    signOptions: { expiresIn: '60s' }
-  }),
-  CacheModule.register({
-    isGlobal: true,
-    store: redisStore,
-    ttl: parseInt(process.env.REDIS_EXPIRE_IN_SECONDS),
-    max: parseInt(process.env.REDIS_MAX_ROWS),
-    url: process.env.REDIS_URL
-  }),
+  imports: [
+    TypeOrmModule.forRoot({
+      type: "postgres",
+      url: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      entities: [User, Follow, Question, QuestionLikes, Answer, AnswerLikes, Profile],
+      synchronize: true,
+      autoLoadEntities: true,
+    }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '60s' }
+    }),
+    CacheModule.register({
+      isGlobal: true,
+      store: redisStore,
+      ttl: parseInt(process.env.REDIS_EXPIRE_IN_SECONDS),
+      max: parseInt(process.env.REDIS_MAX_ROWS),
+      url: process.env.REDIS_URL
+    }),
     AuthModule,
-    EmailModule, 
+    EmailModule,
     FollowModule,
     QuestionModule,
-    AnswerModule
+    AnswerModule,
+    ProfileModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule { }
+
+      

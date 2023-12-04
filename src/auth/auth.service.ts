@@ -5,13 +5,15 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { EmailService } from '../email/email.service';
 import { JwtService } from "@nestjs/jwt"
 import { customAlphabet } from 'nanoid';
+import { ProfileService } from 'src/profile/profile.service';
 
 
 @Injectable()
 export class AuthService {
     constructor(private userService: UsersService,
         private emailService: EmailService,
-        private jwtService: JwtService) { }
+        private jwtService: JwtService,
+        private profileService: ProfileService) { }
 
     async register(email: string, userName: string, password: string) {
         // check if user email is unique
@@ -99,6 +101,7 @@ export class AuthService {
             throw new BadRequestException(`verification code expired`)
         }
 
+        await this.profileService.createProfile({ name: user.userName}, user)
         return await this.userService.update(user.id, { isVerified: true, verificationCode: null, verificationCodeExpiresAt: null })
     }
 

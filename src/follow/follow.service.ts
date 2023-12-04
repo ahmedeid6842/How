@@ -1,16 +1,17 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Follow } from './follow.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from 'src/auth/user.service';
 import { User } from 'src/auth/user.entity';
+import { ProfileService } from 'src/profile/profile.service';
 
 @Injectable()
 export class FollowService {
     constructor(
-        @InjectRepository(Follow)
-        private readonly followRepository: Repository<Follow>,
-        private readonly userService: UsersService
+        @InjectRepository(Follow) private readonly followRepository: Repository<Follow>,
+        private readonly userService: UsersService,
+        @Inject(forwardRef(() => ProfileService)) private readonly profileService: ProfileService
     ) { }
 
     async startUserFollowing(followingId: string, follower: User) {
@@ -34,6 +35,9 @@ export class FollowService {
             user: following,
             follower
         });
+
+        await this.profileService.updateProfileStatistics(followingId, 'numFollowers', 1)
+        await this.profileService.updateProfileStatistics(follower.id, 'numFollowing', 1)
 
         await this.followRepository.save(follow);
     }
@@ -64,15 +68,17 @@ export class FollowService {
 
         const follow = await this.followExist(followingId, follower.id);
 
-
         if (!follow.length) {
             throw new BadRequestException("You are not following this user");
         }
 
+        await this.profileService.updateProfileStatistics(followingId, 'numFollowers', -1)
+        await this.profileService.updateProfileStatistics(follower.id, 'numFollowing', -1)
+
         await this.followRepository.remove(follow);
     }
 
-    private async followExist(userId, followerId): Promise<Follow[]> {
+    async followExist(userId, followerId): Promise<Follow[]> {
         const follow = await this.followRepository.find({
             where: {
                 user: { id: userId },
