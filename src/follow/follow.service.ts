@@ -36,6 +36,9 @@ export class FollowService {
             follower
         });
 
+        await this.profileService.updateProfileStatistics(followingId, 'numFollowers', 1)
+        await this.profileService.updateProfileStatistics(follower.id, 'numFollowing', 1)
+
         await this.followRepository.save(follow);
     }
 
@@ -69,7 +72,9 @@ export class FollowService {
             throw new BadRequestException("You are not following this user");
         }
 
-        
+        await this.profileService.updateProfileStatistics(followingId, 'numFollowers', -1)
+        await this.profileService.updateProfileStatistics(follower.id, 'numFollowing', -1)
+
         await this.followRepository.remove(follow);
     }
 

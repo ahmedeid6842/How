@@ -10,7 +10,7 @@ import { CurrentUserMiddleware } from './middleware/current-user.middleware';
 import { ProfileModule } from 'src/profile/profile.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), forwardRef(() => ProfileModule)],
+  imports: [TypeOrmModule.forFeature([User]), ProfileModule],
   controllers: [AuthController],
   providers: [AuthService, UsersService, EmailService],
   exports: [UsersService]
