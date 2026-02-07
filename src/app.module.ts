@@ -3,22 +3,17 @@ import { config } from 'dotenv';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from "@nestjs/typeorm"
-import { AuthModule } from './auth/auth.module';
-import { User } from './auth/user.entity';
 import { JwtModule } from "@nestjs/jwt"
-import { EmailModule } from './email/email.module';
-import { FollowModule } from './follow/follow.module';
-import { Follow } from './follow/follow.entity';
-import { QuestionModule } from './question/question.module';
-import { Question } from './question/question.entity';
-import { QuestionLikes } from './question/question-likes.entity';
-import { AnswerModule } from './answer/answer.module';
-import { Answer } from './answer/answer.entity';
-import { AnswerLikes } from './answer/answer-likes.entity';
 import { CacheModule } from '@nestjs/cache-manager';
-import { ProfileModule } from './profile/profile.module';
 import * as redisStore from 'cache-manager-redis-store'
-import { Profile } from './profile/profile.entity';
+import { User, Follow, Question, QuestionLikes, Answer, AnswerLikes, Profile } from './database/entities';
+import { AuthModule } from './modules/auth/auth.module';
+import { EmailModule } from './modules/email/email.module';
+import { FollowModule } from './modules/follow/follow.module';
+import { QuestionModule } from './modules/question/question.module';
+import { AnswerModule } from './modules/answer/answer.module';
+import { ProfileModule } from './modules/profile/profile.module';
+
 config();
 
 @Module({
@@ -56,5 +51,3 @@ config();
   providers: [AppService],
 })
 export class AppModule { }
-
-      

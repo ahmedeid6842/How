@@ -1,0 +1,19 @@
+import { Exclude, Expose, Type } from 'class-transformer';
+import { UserDto } from 'src/modules/auth/dto/user.dto';
+
+
+export class FollowDto {
+    @Expose()
+    id: string;
+
+    @Expose()
+    created_at: Date
+
+    @Expose()
+    @Type(() => UserDto)
+    follower: UserDto;
+
+    @Expose()
+    @Type(() => UserDto)
+    user: UserDto;
+}

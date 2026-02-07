@@ -1,0 +1,72 @@
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { User, Question } from 'src/database/entities';
+import { QuestionRepository } from 'src/database/repositories';
+import { CreateQuestionDto } from './dto/create-question.dto';
+import { QueryQuestionDto } from './dto/query-question.dto';
+import { QuestionLikesService } from './question-likes.service';
+import { PaginationDto } from 'src/modules/answer/dto/pagination.dto';
+import { ProfileService } from 'src/modules/profile/profile.service';
+
+@Injectable()
+export class QuestionService {
+
+    constructor(
+        private readonly questionRepository: QuestionRepository,
+        private readonly questionLikesService: QuestionLikesService,
+        private readonly profileService: ProfileService
+    ) { }
+
+    async addQuestion(questionBody: CreateQuestionDto, user: User) {
+        const { title, description } = questionBody;
+        const uniqueQuestion = await this.getQuestion({ title: title });
+
+        if (uniqueQuestion.length) {
+            throw new BadRequestException(`this question title already exists id:${uniqueQuestion[0].id}`)
+        }
+
+        await this.questionRepository.create({
+            author: user,
+            title: title,
+            description: description
+        })
+
+        await this.profileService.updateProfileStatistics(user.id, 'numQuestionAsked', 1)
+    }
+
+    async getQuestion(queryQuestion: QueryQuestionDto, pagination?: PaginationDto) {
+        const { page, limit } = pagination || {};
+        const skip = (page - 1) * limit || 0;
+
+        return this.questionRepository.findWithFilter(queryQuestion, skip, limit);
+    }
+
+    async updateQuestion(question: Question, body: Partial<CreateQuestionDto>) {
+        Object.assign(question, body);
+        return await this.questionRepository.save(question);
+    }
+
+    async deleteQuestion(question: Question) {
+        await this.profileService.updateProfileStatistics(question.author.id, 'numQuestionAsked', -1)
+        return await this.questionRepository.remove(question);
+    }
+
+    async likeQuestion(questionId: string, user: User) {
+        const [question] = await this.getQuestion({ questionId });
+
+        if (!question) {
+            throw new NotFoundException("No question found with the given id")
+        }
+
+        const likeExists = await this.questionLikesService.getLike(questionId, user.id);
+
+        if (likeExists) {
+            throw new BadRequestException("you have liked this question before")
+        }
+
+        const newLike = this.questionLikesService.addLike(question, user)
+
+        await this.profileService.updateProfileStatistics(user.id, 'numLikes', 1)
+        question.likes_count += 1;
+        await this.questionRepository.save(question);
+    }
+}
