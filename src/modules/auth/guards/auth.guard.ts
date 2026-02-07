@@ -10,7 +10,7 @@ export class AuthGuard extends BaseGuard {
     }
 
     if (!request.currentUser.isVerified) {
-      throw new ForbiddenError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.USER_NOT_VERIFIED, "User is not verified. Please verify your account.");
+      throw new ForbiddenError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.USER_NOT_VERIFIED, 'auth.user_not_verified');
     }
 
     return true;

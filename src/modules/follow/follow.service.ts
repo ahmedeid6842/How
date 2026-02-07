@@ -17,17 +17,17 @@ export class FollowService {
         const following = await this.userService.findOne(followingId);
 
         if (followingId == follower.id) {
-            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.CANNOT_FOLLOW_SELF, "You can't follow yourself")
+            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.CANNOT_FOLLOW_SELF, 'follow.cannot_follow_self')
         }
 
         if (!following) {
-            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.INVALID_USER_ID_FOLLOW, "Invalid user id")
+            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.INVALID_USER_ID_FOLLOW, 'follow.invalid_user_id')
         }
 
         const isFollowExists = await this.followExist(followingId, follower.id);
 
         if (isFollowExists.length) {
-            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.ALREADY_FOLLOWING, "You already a follower")
+            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.ALREADY_FOLLOWING, 'follow.already_following')
         }
 
         await this.followRepository.create({
@@ -51,13 +51,13 @@ export class FollowService {
         const following = await this.userService.findOne(followingId);
 
         if (!following) {
-            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.INVALID_USER_ID_UNFOLLOW, "Invalid user id");
+            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.INVALID_USER_ID_UNFOLLOW, 'follow.invalid_user_id');
         }
 
         const follow = await this.followExist(followingId, follower.id);
 
         if (!follow.length) {
-            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.NOT_FOLLOWING, "You are not following this user");
+            throw new BadRequestError(FOLLOW_ERRORS.PREFIX.BUSINESS, FOLLOW_ERRORS.NUMBER.NOT_FOLLOWING, 'follow.not_following');
         }
 
         await this.profileService.updateProfileStatistics(followingId, 'numFollowers', -1)

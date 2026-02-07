@@ -12,7 +12,7 @@ export class IsValidToken implements NestMiddleware {
     async use(req: Request, res: Response, next: NextFunction) {
         const { token } = req.params || {}
         if (!token) {
-            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.NO_TOKEN_PROVIDED, "No token provided");
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.NO_TOKEN_PROVIDED, 'auth.no_token_provided');
         }
         try {
             await this.jwtService.verifyAsync(
@@ -24,7 +24,7 @@ export class IsValidToken implements NestMiddleware {
             
             next()
         } catch (error) {
-            throw new UnauthorizedError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.INVALID_TOKEN, "Invalid or expired token");
+            throw new UnauthorizedError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.INVALID_TOKEN, 'auth.invalid_token');
         }
     }
 }

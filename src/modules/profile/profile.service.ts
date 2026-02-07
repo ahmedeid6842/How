@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Profile, User } from 'src/database/entities';
 import { ProfileRepository } from 'src/database/repositories';
 import { ForbiddenError, PROFILE_ERRORS } from 'src/common/exceptions';
+
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { FollowService } from 'src/modules/follow/follow.service';
 
@@ -26,7 +27,7 @@ export class ProfileService {
             ) {
                 return profile;
             }
-            throw new ForbiddenError(PROFILE_ERRORS.PREFIX.BUSINESS, PROFILE_ERRORS.NUMBER.ACCOUNT_IS_PRIVATE, 'This account is private');
+            throw new ForbiddenError(PROFILE_ERRORS.PREFIX.BUSINESS, PROFILE_ERRORS.NUMBER.ACCOUNT_IS_PRIVATE, 'profile.account_is_private');
         }
 
         return profile;
