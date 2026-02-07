@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { User, Question } from 'src/database/entities';
 import { QuestionRepository } from 'src/database/repositories';
 import { BadRequestError, NotFoundError, QUESTION_ERRORS } from 'src/common/exceptions';
-import { CreateQuestionDto } from './dto/create-question.dto';
-import { QueryQuestionDto } from './dto/query-question.dto';
+import { CreateQuestionDto } from './dto/request/create-question.dto';
+import { QueryQuestionDto } from './dto/request/query-question.dto';
 import { QuestionLikesService } from './question-likes.service';
-import { PaginationDto } from 'src/modules/answer/dto/pagination.dto';
+import { PaginationDto } from 'src/modules/answer/dto/request/pagination.dto';
 import { ProfileService } from 'src/modules/profile/profile.service';
 
 @Injectable()

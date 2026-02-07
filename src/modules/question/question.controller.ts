@@ -14,14 +14,14 @@ import {
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { User, Question } from 'src/database/entities';
 import { QuestionService } from './question.service';
-import { CreateQuestionDto } from './dto/create-question.dto';
+import { CreateQuestionDto } from './dto/request/create-question.dto';
 import { AuthGuard } from 'src/core/guards/auth.guard';
-import { QueryQuestionDto } from './dto/query-question.dto';
+import { QueryQuestionDto } from './dto/request/query-question.dto';
 import { Serialize } from 'src/core/interceptors/serialize.interceptor';
-import { QuestionDto } from './dto/question.dto';
+import { QuestionDto } from './dto/response/question.dto';
 import { QuestionOwnerGuard } from './guards/question-owner.guard';
 import { OwnerQuestion } from 'src/common/decorators/owner-question.decorator';
-import { PaginationDto } from 'src/modules/answer/dto/pagination.dto';
+import { PaginationDto } from 'src/modules/answer/dto/request/pagination.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Serialize(QuestionDto)
