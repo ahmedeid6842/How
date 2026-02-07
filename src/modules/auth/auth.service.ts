@@ -3,7 +3,7 @@ import { UsersService } from './user.service';
 import { BadRequestError, NotFoundError, AUTH_ERRORS } from 'src/common/exceptions';
 
 import * as bcrypt from 'bcrypt';
-import { LoginUserDto } from './dto/login-user.dto';
+import { LoginUserDto } from './dto/request/login-user.dto';
 import { EmailService } from 'src/modules/email/email.service';
 import { JwtService } from "@nestjs/jwt"
 import { customAlphabet } from 'nanoid';

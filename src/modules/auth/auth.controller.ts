@@ -7,13 +7,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
+import { CreateUserDto } from './dto/request/create-user.dto';
+import { LoginUserDto } from './dto/request/login-user.dto';
 import { Serialize } from 'src/core/interceptors/serialize.interceptor';
-import { UserDto } from './dto/user.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
+import { UserDto } from './dto/response/user.dto';
+import { ResetPasswordDto } from './dto/request/reset-password.dto';
 import { NotLoggedGuard } from 'src/core/guards/not-logged.guard';
-import { VerifyEmailDto } from './dto/verify-email.dto';
+import { VerifyEmailDto } from './dto/request/verify-email.dto';
 
 @Serialize(UserDto)
 @Controller('auth')
