@@ -1,15 +1,6 @@
 import { Injectable, NestMiddleware } from "@nestjs/common"
 import { NextFunction, Request, Response } from "express";
 import { UsersService } from "src/modules/auth/user.service";
-import { User } from "src/database/entities";
-
-declare global {
-    namespace Express {
-        interface Request {
-            currentUser?: User
-        }
-    }
-}
 
 @Injectable()
 export class CurrentUserMiddleware implements NestMiddleware {
