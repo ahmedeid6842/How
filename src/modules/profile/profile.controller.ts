@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { ProfileService } from './profile.service';
-import { AuthGuard } from 'src/modules/auth/guards/auth.guard';
-import { CurrentUser } from 'src/modules/auth/decorators/current-user.decorator';
+import { AuthGuard } from 'src/core/guards/auth.guard';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { User } from 'src/database/entities';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 

@@ -11,16 +11,16 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { CurrentUser } from 'src/modules/auth/decorators/current-user.decorator';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { User, Question } from 'src/database/entities';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
-import { AuthGuard } from 'src/modules/auth/guards/auth.guard';
+import { AuthGuard } from 'src/core/guards/auth.guard';
 import { QueryQuestionDto } from './dto/query-question.dto';
 import { Serialize } from 'src/core/interceptors/serialize.interceptor';
 import { QuestionDto } from './dto/question.dto';
 import { QuestionOwnerGuard } from './guards/question-owner.guard';
-import { OwnerQuestion } from './decorators/owner-question.decorator';
+import { OwnerQuestion } from 'src/common/decorators/owner-question.decorator';
 import { PaginationDto } from 'src/modules/answer/dto/pagination.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 

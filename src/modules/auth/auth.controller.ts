@@ -12,7 +12,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { Serialize } from 'src/core/interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { NotLoggedGuard } from './guards/not-logged.guard';
+import { NotLoggedGuard } from 'src/core/guards/not-logged.guard';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 
 @Serialize(UserDto)
