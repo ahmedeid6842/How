@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { config } from 'dotenv';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { JwtModule } from "@nestjs/jwt"
 import { CacheModule } from '@nestjs/cache-manager';
+import { I18nModule, AcceptLanguageResolver } from 'nestjs-i18n';
+import * as path from 'path';
 import * as redisStore from 'cache-manager-redis-store'
 import { User, Follow, Question, QuestionLikes, Answer, AnswerLikes, Profile } from './database/entities';
+import { DomainExceptionFilter } from './common/exceptions';
 import { AuthModule } from './modules/auth/auth.module';
 import { EmailModule } from './modules/email/email.module';
 import { FollowModule } from './modules/follow/follow.module';
@@ -45,9 +49,20 @@ config();
     FollowModule,
     QuestionModule,
     AnswerModule,
-    ProfileModule
+    ProfileModule,
+    I18nModule.forRoot({
+      fallbackLanguage: 'en',
+      loaderOptions: {
+        path: path.join(__dirname, '/i18n/'),
+        watch: true,
+      },
+      resolvers: [AcceptLanguageResolver],
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_FILTER, useClass: DomainExceptionFilter },
+  ],
 })
 export class AppModule { }
