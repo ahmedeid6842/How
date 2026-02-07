@@ -3,8 +3,10 @@ import {
   Catch,
   ArgumentsHost,
   HttpStatus,
+  Injectable,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { I18nService } from 'nestjs-i18n';
 import {
   DomainError,
   BadRequestError,
@@ -14,15 +16,20 @@ import {
 } from './domain.exception';
 
 @Catch(DomainError)
+@Injectable()
 export class DomainExceptionFilter implements ExceptionFilter {
+  constructor(private readonly i18n: I18nService) {}
+
   catch(exception: DomainError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
+    const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
+    const lang = request.headers['accept-language']?.startsWith('ar') ? 'ar' : 'en';
     const statusCode = this.getHttpStatus(exception);
 
     response.status(statusCode).json({
       errorCode: exception.errorCode,
-      message: exception.message,
+      message: this.i18n.t(exception.messageKey, { lang }),
     });
   }
 
