@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User, Question } from 'src/database/entities';
 import { QuestionRepository } from 'src/database/repositories';
+import { BadRequestError, NotFoundError, QUESTION_ERRORS } from 'src/common/exceptions';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { QueryQuestionDto } from './dto/query-question.dto';
 import { QuestionLikesService } from './question-likes.service';
@@ -21,7 +22,7 @@ export class QuestionService {
         const uniqueQuestion = await this.getQuestion({ title: title });
 
         if (uniqueQuestion.length) {
-            throw new BadRequestException(`this question title already exists id:${uniqueQuestion[0].id}`)
+            throw new BadRequestError(QUESTION_ERRORS.PREFIX.BUSINESS, QUESTION_ERRORS.NUMBER.TITLE_ALREADY_EXISTS, `This question title already exists id:${uniqueQuestion[0].id}`)
         }
 
         await this.questionRepository.create({
@@ -54,13 +55,13 @@ export class QuestionService {
         const [question] = await this.getQuestion({ questionId });
 
         if (!question) {
-            throw new NotFoundException("No question found with the given id")
+            throw new NotFoundError(QUESTION_ERRORS.PREFIX.BUSINESS, QUESTION_ERRORS.NUMBER.QUESTION_NOT_FOUND, "No question found with the given id")
         }
 
         const likeExists = await this.questionLikesService.getLike(questionId, user.id);
 
         if (likeExists) {
-            throw new BadRequestException("you have liked this question before")
+            throw new BadRequestError(QUESTION_ERRORS.PREFIX.BUSINESS, QUESTION_ERRORS.NUMBER.ALREADY_LIKED, "You have liked this question before")
         }
 
         const newLike = this.questionLikesService.addLike(question, user)

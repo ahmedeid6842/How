@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User, Answer } from 'src/database/entities';
 import { AnswerRepository } from 'src/database/repositories';
+import { BadRequestError, NotFoundError, ANSWER_ERRORS } from 'src/common/exceptions';
 import { CreateAnswernDto } from './dto/create-answer.dto';
 import { QuestionService } from 'src/modules/question/question.service';
 import { QueryAnswernDto } from './dto/query-answer.dto';
@@ -20,7 +21,7 @@ export class AnswerService {
     async createAnswer(questionId: string, body: CreateAnswernDto, user: User) {
         const [questionExist] = await this.questionService.getQuestion({ questionId })
         if (!questionExist) {
-            throw new NotFoundException("No question found with the given ID ")
+            throw new NotFoundError(ANSWER_ERRORS.PREFIX.BUSINESS, ANSWER_ERRORS.NUMBER.QUESTION_NOT_FOUND, "No question found with the given ID")
         }
 
         await this.answerRepository.create({
@@ -53,13 +54,13 @@ export class AnswerService {
         const [answer] = await this.getAnswer({ answerId });
 
         if (!answer) {
-            throw new NotFoundException("No answer found with the given id")
+            throw new NotFoundError(ANSWER_ERRORS.PREFIX.BUSINESS, ANSWER_ERRORS.NUMBER.ANSWER_NOT_FOUND, "No answer found with the given id")
         }
 
         const likeExists = await this.answerLikeService.getLike(answerId, user.id);
 
         if (likeExists) {
-            throw new BadRequestException("you have like this answer before")
+            throw new BadRequestError(ANSWER_ERRORS.PREFIX.BUSINESS, ANSWER_ERRORS.NUMBER.ALREADY_LIKED, "You have liked this answer before")
         }
 
         await this.answerLikeService.addLike(answer, user)

@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FollowService } from './follow.service';
-import { Serialize } from 'src/common/interceptors/serialize.interceptor';
+import { Serialize } from 'src/core/interceptors/serialize.interceptor';
 import { Follow, User } from 'src/database/entities';
 import { FollowDto } from './dto/follow.dto';
 import { AuthGuard } from 'src/modules/auth/guards/auth.guard';
@@ -11,10 +20,13 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 @UseGuards(AuthGuard)
 @Controller('follow')
 export class FollowController {
-  constructor(private readonly followService: FollowService) { }
+  constructor(private readonly followService: FollowService) {}
 
   @Post('/')
-  async followUser(@Body('following_id') followingId: string, @CurrentUser() follower: User) {
+  async followUser(
+    @Body('following_id') followingId: string,
+    @CurrentUser() follower: User,
+  ) {
     return this.followService.startUserFollowing(followingId, follower);
   }
 
@@ -31,7 +43,10 @@ export class FollowController {
   }
 
   @Patch('/unfollow')
-  async unFollowUser(@Body('following_id') followingId: string, @CurrentUser() follower: User) {
+  async unFollowUser(
+    @Body('following_id') followingId: string,
+    @CurrentUser() follower: User,
+  ) {
     return this.followService.unFollowUser(followingId, follower);
   }
 }
