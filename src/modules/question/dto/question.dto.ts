@@ -13,10 +13,10 @@ export class QuestionDto {
     description: string;
 
     @Expose()
-    likes_count: number;
+    likesCount: number;
 
     @Expose()
-    created_at: Date;
+    createdAt: Date;
 
     @Expose()
     @Type(() => UserDto)

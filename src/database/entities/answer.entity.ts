@@ -9,8 +9,8 @@ export class Answer extends AuditableEntity {
     @Column()
     answer: string
 
-    @Column({ default: 0 })
-    likes_count: number;
+    @Column({ default: 0, name: 'likes_count' })
+    likesCount: number;
 
     @ManyToOne(() => Question, (question) => question.answers, { onDelete: "CASCADE" })
     question: Question;

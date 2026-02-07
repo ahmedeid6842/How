@@ -66,7 +66,7 @@ export class QuestionService {
         const newLike = this.questionLikesService.addLike(question, user)
 
         await this.profileService.updateProfileStatistics(user.id, 'numLikes', 1)
-        question.likes_count += 1;
+        question.likesCount += 1;
         await this.questionRepository.save(question);
     }
 }

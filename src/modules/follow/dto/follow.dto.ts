@@ -7,7 +7,7 @@ export class FollowDto {
     id: string;
 
     @Expose()
-    created_at: Date
+    createdAt: Date
 
     @Expose()
     @Type(() => UserDto)

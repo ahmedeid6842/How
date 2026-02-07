@@ -12,8 +12,8 @@ export class Question extends AuditableEntity {
   @Column()
   description: string;
 
-  @Column({ default: 0 })
-  likes_count: number;
+  @Column({ default: 0, name: 'likes_count' })
+  likesCount: number;
 
   @ManyToOne(() => User, (user) => user.questions, { onDelete: "CASCADE" })
   author: User;

@@ -65,7 +65,7 @@ export class AnswerService {
         await this.answerLikeService.addLike(answer, user)
 
         await this.profileService.updateProfileStatistics(user.id, 'numLikes', 1)
-        answer.likes_count += 1;
+        answer.likesCount += 1;
         await this.answerRepository.save(answer)
     }
 }
