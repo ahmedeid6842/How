@@ -1,0 +1,71 @@
+export const AUTH_ERRORS = {
+    PREFIX: {
+        BUSINESS: 'BAUTH',
+        TECHNICAL: 'TAUTH',
+    },
+    NUMBER: {
+        EMAIL_ALREADY_EXISTS: 1,
+        USERNAME_ALREADY_EXISTS: 2,
+        USER_NOT_FOUND_LOGIN: 3,
+        INCORRECT_PASSWORD: 4,
+        USER_NOT_FOUND_RESET: 5,
+        INVALID_RESET_TOKEN: 6,
+        USER_NOT_FOUND_VERIFY: 7,
+        USER_ALREADY_VERIFIED: 8,
+        INVALID_VERIFICATION_CODE: 9,
+        VERIFICATION_CODE_EXPIRED: 10,
+        MISSING_EMAIL_OR_USERNAME: 11,
+        USER_NOT_FOUND_UPDATE: 12,
+        NO_TOKEN_PROVIDED: 13,
+        INVALID_TOKEN: 14,
+        USER_NOT_VERIFIED: 15,
+    },
+} as const;
+
+export const QUESTION_ERRORS = {
+    PREFIX: {
+        BUSINESS: 'BQUESTION',
+        TECHNICAL: 'TQUESTION',
+    },
+    NUMBER: {
+        TITLE_ALREADY_EXISTS: 1,
+        QUESTION_NOT_FOUND: 2,
+        ALREADY_LIKED: 3,
+    },
+} as const;
+
+export const ANSWER_ERRORS = {
+    PREFIX: {
+        BUSINESS: 'BANSWER',
+        TECHNICAL: 'TANSWER',
+    },
+    NUMBER: {
+        QUESTION_NOT_FOUND: 1,
+        ANSWER_NOT_FOUND: 2,
+        ALREADY_LIKED: 3,
+    },
+} as const;
+
+export const FOLLOW_ERRORS = {
+    PREFIX: {
+        BUSINESS: 'BFOLLOW',
+        TECHNICAL: 'TFOLLOW',
+    },
+    NUMBER: {
+        CANNOT_FOLLOW_SELF: 1,
+        INVALID_USER_ID_FOLLOW: 2,
+        ALREADY_FOLLOWING: 3,
+        INVALID_USER_ID_UNFOLLOW: 4,
+        NOT_FOLLOWING: 5,
+    },
+} as const;
+
+export const PROFILE_ERRORS = {
+    PREFIX: {
+        BUSINESS: 'BPROFILE',
+        TECHNICAL: 'TPROFILE',
+    },
+    NUMBER: {
+        ACCOUNT_IS_PRIVATE: 1,
+    },
+} as const;

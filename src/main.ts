@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { DomainExceptionFilter } from './common/exceptions';
 const cookieSession = require('cookie-session');
 
 async function bootstrap() {
@@ -9,8 +10,9 @@ async function bootstrap() {
     keys: [process.env.COOKIE_SESSION_SECRET]
   }))
 
+  app.useGlobalFilters(new DomainExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({
-    whitelist: true // set the white list to true to execlude the unspecified properties
+    whitelist: true
   }))
   await app.listen(process.env.PORT);
 }
