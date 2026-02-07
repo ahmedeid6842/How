@@ -11,7 +11,7 @@ import {
 import { FollowService } from './follow.service';
 import { Serialize } from 'src/core/interceptors/serialize.interceptor';
 import { Follow, User } from 'src/database/entities';
-import { FollowDto } from './dto/follow.dto';
+import { FollowDto } from './dto/response/follow.dto';
 import { AuthGuard } from 'src/core/guards/auth.guard';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { CacheInterceptor } from '@nestjs/cache-manager';
