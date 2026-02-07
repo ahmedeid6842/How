@@ -1,0 +1,82 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { AnswerService } from './answer.service';
+import { AuthGuard } from 'src/core/guards/auth.guard';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { User, Answer } from 'src/database/entities';
+import { CreateAnswernDto } from './dto/request/create-answer.dto';
+import { QueryAnswernDto } from './dto/request/query-answer.dto';
+import { Serialize } from 'src/core/interceptors/serialize.interceptor';
+import { AnswerDto } from './dto/response/answer.dto';
+import { AnswerOwnerGuard } from './guards/answer-owner.guard';
+import { OwnerAnswer } from 'src/common/decorators/owner-answer.decorator';
+import { AnswerOrQuestionOwnerGuard } from './guards/answer-or-question-owner.guard';
+import { PaginationDto } from './dto/request/pagination.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
+
+@Serialize(AnswerDto)
+@Controller('answer')
+export class AnswerController {
+  constructor(private answerSerivce: AnswerService) {}
+
+  @UseGuards(AuthGuard)
+  @Post('/:questionId')
+  async createAnswer(
+    @Param('questionId') questionId: string,
+    @Body() body: CreateAnswernDto,
+    @CurrentUser() user: User,
+  ) {
+    return await this.answerSerivce.createAnswer(questionId, body, user);
+  }
+
+  @UseInterceptors(CacheInterceptor)
+  @Get('/')
+  async getAnswer(
+    @Query() query: QueryAnswernDto,
+    @Query() pagination: PaginationDto,
+  ) {
+    const answers = await this.answerSerivce.getAnswer(query, pagination);
+    if (!answers.length) {
+      throw new NotFoundException('No answer found with the given properties');
+    }
+
+    return answers;
+  }
+
+  @UseGuards(AuthGuard)
+  @UseGuards(AnswerOwnerGuard)
+  @Patch('/:answerId')
+  async UpdateAnswer(
+    @OwnerAnswer() answer: Answer,
+    @Body() body: CreateAnswernDto,
+  ) {
+    return await this.answerSerivce.updateAnswer(answer, body);
+  }
+
+  @UseGuards(AuthGuard)
+  @UseGuards(AnswerOrQuestionOwnerGuard)
+  @Delete('/:questionId/:answerId')
+  async deleteAnswer(@OwnerAnswer() answer: Answer) {
+    return await this.answerSerivce.deleteAnswer(answer);
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch('/like/:answerId')
+  async likeAnswer(
+    @Param('answerId') answerId: string,
+    @CurrentUser() user: User,
+  ) {
+    return this.answerSerivce.likeAnswer(answerId, user);
+  }
+}
