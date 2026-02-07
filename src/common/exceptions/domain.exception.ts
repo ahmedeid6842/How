@@ -1,17 +1,13 @@
 export abstract class DomainError extends Error {
-    public readonly errorCode: string;
-    public readonly messageKey: string;
+  public readonly errorCode: string;
+  public readonly messageKey: string;
 
-    constructor(
-        prefix: string,
-        errorNumber: number,
-        messageKey: string,
-    ) {
-        super(messageKey);
-        this.name = this.constructor.name;
-        this.errorCode = `${prefix}-${String(errorNumber).padStart(3, '0')}`;
-        this.messageKey = messageKey;
-    }
+  constructor(prefix: string, errorNumber: number, messageKey: string) {
+    super(messageKey);
+    this.name = this.constructor.name;
+    this.errorCode = `${prefix}-${String(errorNumber).padStart(3, '0')}`;
+    this.messageKey = messageKey;
+  }
 }
 
 export class BadRequestError extends DomainError {}

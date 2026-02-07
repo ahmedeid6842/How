@@ -1,8 +1,8 @@
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
-import { User } from "./user.entity";
-import { QuestionLikes } from "./question-likes.entity";
-import { Answer } from "./answer.entity";
-import { AuditableEntity } from "./common";
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { User } from './user.entity';
+import { QuestionLikes } from './question-likes.entity';
+import { Answer } from './answer.entity';
+import { AuditableEntity } from './common';
 
 @Entity()
 export class Question extends AuditableEntity {
@@ -15,7 +15,7 @@ export class Question extends AuditableEntity {
   @Column({ default: 0, name: 'likes_count' })
   likesCount: number;
 
-  @ManyToOne(() => User, (user) => user.questions, { onDelete: "CASCADE" })
+  @ManyToOne(() => User, (user) => user.questions, { onDelete: 'CASCADE' })
   author: User;
 
   @OneToMany(() => QuestionLikes, (likes) => likes.question)

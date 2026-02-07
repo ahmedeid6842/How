@@ -11,6 +11,11 @@ import { ProfileModule } from 'src/modules/profile/profile.module';
 @Module({
   imports: [DatabaseModule, QuestionModule, ProfileModule],
   controllers: [AnswerController],
-  providers: [AnswerService, AnswerLikesService, AnswerOwnerGuard, QuestionOwnerGuard]
+  providers: [
+    AnswerService,
+    AnswerLikesService,
+    AnswerOwnerGuard,
+    QuestionOwnerGuard,
+  ],
 })
-export class AnswerModule { }
+export class AnswerModule {}

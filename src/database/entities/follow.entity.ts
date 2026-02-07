@@ -1,13 +1,13 @@
-import { Entity, ManyToOne, Unique } from "typeorm";
-import { User } from "./user.entity";
-import { AuditableEntity } from "./common";
+import { Entity, ManyToOne, Unique } from 'typeorm';
+import { User } from './user.entity';
+import { AuditableEntity } from './common';
 
 @Entity()
-@Unique(["user", "follower"])
+@Unique(['user', 'follower'])
 export class Follow extends AuditableEntity {
-    @ManyToOne(() => User, user => user.follows,{ onDelete: "CASCADE" })
-    user: User;
+  @ManyToOne(() => User, (user) => user.follows, { onDelete: 'CASCADE' })
+  user: User;
 
-    @ManyToOne(() => User, user => user.follows,{ onDelete: "CASCADE" })
-    follower: User;
+  @ManyToOne(() => User, (user) => user.follows, { onDelete: 'CASCADE' })
+  follower: User;
 }

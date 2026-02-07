@@ -2,14 +2,14 @@ import { Expose } from 'class-transformer';
 
 // this DTO specify what properties should be expose to the outgoing responses
 export class UserDto {
-    // specify this property will be exposed to responses
-    @Expose()
-    id: string;
+  // specify this property will be exposed to responses
+  @Expose()
+  id: string;
 
-    // sepcify this peropty will be exposed to responses
-    @Expose()
-    email: string;
+  // sepcify this peropty will be exposed to responses
+  @Expose()
+  email: string;
 
-    @Expose()
-    userName: string;
+  @Expose()
+  userName: string;
 }

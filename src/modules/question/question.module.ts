@@ -7,8 +7,8 @@ import { ProfileModule } from 'src/modules/profile/profile.module';
 
 @Module({
   imports: [DatabaseModule, ProfileModule],
-  providers: [QuestionService,QuestionLikesService],
+  providers: [QuestionService, QuestionLikesService],
   controllers: [QuestionController],
-  exports:[QuestionService]
+  exports: [QuestionService],
 })
-export class QuestionModule { }
+export class QuestionModule {}

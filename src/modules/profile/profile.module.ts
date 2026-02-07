@@ -5,12 +5,9 @@ import { DatabaseModule } from 'src/database';
 import { FollowModule } from 'src/modules/follow/follow.module';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    forwardRef(() => FollowModule)
-  ],
+  imports: [DatabaseModule, forwardRef(() => FollowModule)],
   controllers: [ProfileController],
   providers: [ProfileService],
-  exports: [ProfileService]
+  exports: [ProfileService],
 })
-export class ProfileModule { }
+export class ProfileModule {}

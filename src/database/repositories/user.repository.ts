@@ -6,29 +6,29 @@ import { BaseRepository } from './base.repository';
 
 @Injectable()
 export class UserRepository extends BaseRepository<User> {
-    constructor(@InjectRepository(User) repository: Repository<User>) {
-        super(repository);
+  constructor(@InjectRepository(User) repository: Repository<User>) {
+    super(repository);
+  }
+
+  async findByEmail(email: string): Promise<User[]> {
+    return this.repository.find({ where: { email } });
+  }
+
+  async findByUserName(userName: string): Promise<User[]> {
+    return this.repository.find({ where: { userName } });
+  }
+
+  async findByFilter(email?: string, userName?: string): Promise<User[]> {
+    const where: FindManyOptions<User>['where'] = {};
+
+    if (email) {
+      where.email = email;
     }
 
-    async findByEmail(email: string): Promise<User[]> {
-        return this.repository.find({ where: { email } });
+    if (userName) {
+      where.userName = userName;
     }
 
-    async findByUserName(userName: string): Promise<User[]> {
-        return this.repository.find({ where: { userName } });
-    }
-
-    async findByFilter(email?: string, userName?: string): Promise<User[]> {
-        const where: FindManyOptions<User>['where'] = {};
-
-        if (email) {
-            where.email = email;
-        }
-
-        if (userName) {
-            where.userName = userName;
-        }
-
-        return this.repository.find({ where });
-    }
+    return this.repository.find({ where });
+  }
 }

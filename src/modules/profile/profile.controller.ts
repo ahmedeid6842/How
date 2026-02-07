@@ -10,16 +10,22 @@ import { ProfileDto } from './dto/response/profile.dto';
 @Serialize(ProfileDto)
 @Controller('profile')
 export class ProfileController {
-    constructor(private profileService: ProfileService) { }
+  constructor(private profileService: ProfileService) {}
 
-    @Get("/:userId")
-    async getProfile(@Param("userId") userId: string, @CurrentUser() currentUser: User) {
-        return await this.profileService.getProfile(userId,currentUser);
-    }
- 
-    @Patch()
-    @UseGuards(AuthGuard)
-    async updateProfile(@Body() body: UpdateProfileDto, @CurrentUser() user: User) {
-        return await this.profileService.updateProfile(user.id, body);
-    }
+  @Get('/:userId')
+  async getProfile(
+    @Param('userId') userId: string,
+    @CurrentUser() currentUser: User,
+  ) {
+    return await this.profileService.getProfile(userId, currentUser);
+  }
+
+  @Patch()
+  @UseGuards(AuthGuard)
+  async updateProfile(
+    @Body() body: UpdateProfileDto,
+    @CurrentUser() user: User,
+  ) {
+    return await this.profileService.updateProfile(user.id, body);
+  }
 }

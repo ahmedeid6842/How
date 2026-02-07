@@ -1,41 +1,41 @@
-import { Injectable } from "@nestjs/common";
-import * as nodemailer from 'nodemailer'
+import { Injectable } from '@nestjs/common';
+import * as nodemailer from 'nodemailer';
 @Injectable()
 export class EmailService {
-    private transporter: nodemailer.Transporter;
-    private email: string;
-    private password: string;
+  private transporter: nodemailer.Transporter;
+  private email: string;
+  private password: string;
 
-    constructor() {
-        this.email = process.env.NODEMAILER_EMAIL;
-        this.password = process.env.NODEMAILER_PASSWORD;
+  constructor() {
+    this.email = process.env.NODEMAILER_EMAIL;
+    this.password = process.env.NODEMAILER_PASSWORD;
 
-        this.transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: this.email,
-                pass: this.password,
-            }
-        })
-    }
-    
-    async sendResetPasswordEmail(email: string, resetPasswordUrl: string) {
-        const message = {
-            from: process.env.NODEMAILER_EMAIL,
-            to: email,
-            subject: 'Password Reset',
-            text: `Click the following link to reset your password: ${resetPasswordUrl}`,
-        };
+    this.transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: this.email,
+        pass: this.password,
+      },
+    });
+  }
 
-        return await this.transporter.sendMail(message);
-    }
+  async sendResetPasswordEmail(email: string, resetPasswordUrl: string) {
+    const message = {
+      from: process.env.NODEMAILER_EMAIL,
+      to: email,
+      subject: 'Password Reset',
+      text: `Click the following link to reset your password: ${resetPasswordUrl}`,
+    };
 
-    async sendVerificationEmail(email: string, verificationCode: string) {
-        const message = {
-            from: process.env.NODEMAILER_EMAIL,
-            to: email,
-            subject: 'How Account Verification',
-            html: `
+    return await this.transporter.sendMail(message);
+  }
+
+  async sendVerificationEmail(email: string, verificationCode: string) {
+    const message = {
+      from: process.env.NODEMAILER_EMAIL,
+      to: email,
+      subject: 'How Account Verification',
+      html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 8px; background-color: #f9f9f9;">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <img src="https://github.com/ahmedeid6842/How/assets/57197702/754529bf-a888-499f-afd2-8d910f498f93" alt="Company Logo" style="max-width: 150px;">
@@ -53,8 +53,8 @@ export class EmailService {
                 </div>
             </div>
             `,
-        };
+    };
 
-        return await this.transporter.sendMail(message);
-    }
+    return await this.transporter.sendMail(message);
+  }
 }

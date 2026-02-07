@@ -6,30 +6,33 @@ import { BaseRepository } from './base.repository';
 
 @Injectable()
 export class FollowRepository extends BaseRepository<Follow> {
-    constructor(@InjectRepository(Follow) repository: Repository<Follow>) {
-        super(repository);
-    }
+  constructor(@InjectRepository(Follow) repository: Repository<Follow>) {
+    super(repository);
+  }
 
-    async findFollowers(userId: string): Promise<Follow[]> {
-        return this.repository.find({
-            where: { user: { id: userId } },
-            relations: ['follower'],
-        });
-    }
+  async findFollowers(userId: string): Promise<Follow[]> {
+    return this.repository.find({
+      where: { user: { id: userId } },
+      relations: ['follower'],
+    });
+  }
 
-    async findFollowing(userId: string): Promise<Follow[]> {
-        return this.repository.find({
-            where: { follower: { id: userId } },
-            relations: ['user'],
-        });
-    }
+  async findFollowing(userId: string): Promise<Follow[]> {
+    return this.repository.find({
+      where: { follower: { id: userId } },
+      relations: ['user'],
+    });
+  }
 
-    async findByUserAndFollower(userId: string, followerId: string): Promise<Follow[]> {
-        return this.repository.find({
-            where: {
-                user: { id: userId },
-                follower: { id: followerId },
-            },
-        });
-    }
+  async findByUserAndFollower(
+    userId: string,
+    followerId: string,
+  ): Promise<Follow[]> {
+    return this.repository.find({
+      where: {
+        user: { id: userId },
+        follower: { id: followerId },
+      },
+    });
+  }
 }

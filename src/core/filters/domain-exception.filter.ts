@@ -24,7 +24,9 @@ export class DomainExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
-    const lang = request.headers['accept-language']?.startsWith('ar') ? 'ar' : 'en';
+    const lang = request.headers['accept-language']?.startsWith('ar')
+      ? 'ar'
+      : 'en';
     const statusCode = this.getHttpStatus(exception);
 
     response.status(statusCode).json({

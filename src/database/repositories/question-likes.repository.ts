@@ -6,20 +6,25 @@ import { BaseRepository } from './base.repository';
 
 @Injectable()
 export class QuestionLikesRepository extends BaseRepository<QuestionLikes> {
-    constructor(@InjectRepository(QuestionLikes) repository: Repository<QuestionLikes>) {
-        super(repository);
+  constructor(
+    @InjectRepository(QuestionLikes) repository: Repository<QuestionLikes>,
+  ) {
+    super(repository);
+  }
+
+  async findByQuestionAndUser(
+    questionId: string,
+    userId: string,
+  ): Promise<QuestionLikes | null> {
+    if (questionId == null || userId == null) {
+      return null;
     }
 
-    async findByQuestionAndUser(questionId: string, userId: string): Promise<QuestionLikes | null> {
-        if (questionId == null || userId == null) {
-            return null;
-        }
-
-        return this.repository.findOne({
-            where: {
-                user: { id: userId },
-                question: { id: questionId },
-            },
-        });
-    }
+    return this.repository.findOne({
+      where: {
+        user: { id: userId },
+        question: { id: questionId },
+      },
+    });
+  }
 }

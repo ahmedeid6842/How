@@ -13,9 +13,7 @@ export class QueryAnswernDto {
   @IsUUID()
   answerId?: string;
 
-
   @IsOptional()
   @IsString()
   answer?: string;
-
 }

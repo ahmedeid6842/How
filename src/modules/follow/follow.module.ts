@@ -15,4 +15,4 @@ import { ProfileModule } from 'src/modules/profile/profile.module';
   providers: [FollowService],
   exports: [FollowService],
 })
-export class FollowModule { }
+export class FollowModule {}

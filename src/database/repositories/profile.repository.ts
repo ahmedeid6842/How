@@ -6,23 +6,27 @@ import { BaseRepository } from './base.repository';
 
 @Injectable()
 export class ProfileRepository extends BaseRepository<Profile> {
-    constructor(@InjectRepository(Profile) repository: Repository<Profile>) {
-        super(repository);
-    }
+  constructor(@InjectRepository(Profile) repository: Repository<Profile>) {
+    super(repository);
+  }
 
-    async findByUserId(userId: string): Promise<Profile | null> {
-        return this.repository.findOne({ where: { user: { id: userId } } });
-    }
+  async findByUserId(userId: string): Promise<Profile | null> {
+    return this.repository.findOne({ where: { user: { id: userId } } });
+  }
 
-    async updateByUserId(userId: string, data: Partial<Profile>): Promise<void> {
-        await this.repository.update({ user: { id: userId } }, data);
-    }
+  async updateByUserId(userId: string, data: Partial<Profile>): Promise<void> {
+    await this.repository.update({ user: { id: userId } }, data);
+  }
 
-    async updateStatistics(userId: string, field: string, increaseBy: number): Promise<void> {
-        const updateQuery = {
-            [field]: () => `${field} + ${increaseBy}`,
-        };
+  async updateStatistics(
+    userId: string,
+    field: string,
+    increaseBy: number,
+  ): Promise<void> {
+    const updateQuery = {
+      [field]: () => `${field} + ${increaseBy}`,
+    };
 
-        await this.repository.update({ user: { id: userId } }, updateQuery);
-    }
+    await this.repository.update({ user: { id: userId } }, updateQuery);
+  }
 }
