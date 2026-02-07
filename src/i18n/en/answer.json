@@ -1,0 +1,5 @@
+{
+  "question_not_found": "No question found with the given ID",
+  "answer_not_found": "No answer found with the given id",
+  "already_liked": "You have liked this answer before"
+}

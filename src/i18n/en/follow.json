@@ -1,0 +1,6 @@
+{
+  "cannot_follow_self": "You can't follow yourself",
+  "invalid_user_id": "Invalid user id",
+  "already_following": "You are already a follower",
+  "not_following": "You are not following this user"
+}

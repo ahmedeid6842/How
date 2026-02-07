@@ -1,0 +1,5 @@
+{
+  "title_already_exists": "This question title already exists",
+  "question_not_found": "No question found with the given id",
+  "already_liked": "You have liked this question before"
+}
