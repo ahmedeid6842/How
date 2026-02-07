@@ -13,7 +13,7 @@ import {
   NotFoundError,
   ForbiddenError,
   UnauthorizedError,
-} from './domain.exception';
+} from 'src/common/exceptions/domain.exception';
 
 @Catch(DomainError)
 @Injectable()
