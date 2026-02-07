@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable, NestMiddleware, UnauthorizedException } from "@nestjs/common";
+import { Injectable, NestMiddleware } from "@nestjs/common";
+import { BadRequestError, UnauthorizedError, AUTH_ERRORS } from "src/common/exceptions";
 import { NextFunction, Request, Response } from "express";
 import { JwtService } from "@nestjs/jwt"
 
@@ -11,7 +12,7 @@ export class IsValidToken implements NestMiddleware {
     async use(req: Request, res: Response, next: NextFunction) {
         const { token } = req.params || {}
         if (!token) {
-            throw new BadRequestException("not token provided");
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.NO_TOKEN_PROVIDED, "No token provided");
         }
         try {
             await this.jwtService.verifyAsync(
@@ -23,7 +24,7 @@ export class IsValidToken implements NestMiddleware {
             
             next()
         } catch (error) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.INVALID_TOKEN, "Invalid or expired token");
         }
     }
 }

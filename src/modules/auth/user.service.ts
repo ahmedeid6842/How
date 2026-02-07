@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { User } from "src/database/entities";
 import { UserRepository } from "src/database/repositories";
+import { BadRequestError, NotFoundError, AUTH_ERRORS } from "src/common/exceptions";
 
 @Injectable()
 export class UsersService {
@@ -20,7 +21,7 @@ export class UsersService {
 
     find(email?: string, userName?: string) {
         if (!email && !userName) {
-            throw new BadRequestException("At least one of email or userName must be provided.")
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.MISSING_EMAIL_OR_USERNAME, "At least one of email or userName must be provided")
         }
 
         return this.userRepository.findByFilter(email, userName);
@@ -30,7 +31,7 @@ export class UsersService {
         const user = await this.findOne(userId);
 
         if (!user) {
-            throw new NotFoundException('user not found');
+            throw new NotFoundError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.USER_NOT_FOUND_UPDATE, 'User not found');
         }
 
         Object.assign(user, attrs);

@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { BaseGuard } from "./base.guard";
-import { ForbiddenException } from "@nestjs/common";
+import { ForbiddenError, AUTH_ERRORS } from "src/common/exceptions";
 
 export class AuthGuard extends BaseGuard {
 
@@ -10,7 +10,7 @@ export class AuthGuard extends BaseGuard {
     }
 
     if (!request.currentUser.isVerified) {
-      throw new ForbiddenException("User is not verified. Please verify your account.");
+      throw new ForbiddenError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.USER_NOT_VERIFIED, "User is not verified. Please verify your account.");
     }
 
     return true;

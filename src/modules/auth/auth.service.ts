@@ -1,5 +1,6 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from './user.service';
+import { BadRequestError, NotFoundError, AUTH_ERRORS } from 'src/common/exceptions';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { EmailService } from 'src/modules/email/email.service';
@@ -19,13 +20,13 @@ export class AuthService {
         // check if user email is unique
         const userByEmail = await this.userService.find(email);
         if (userByEmail.length) {
-            throw new BadRequestException(`this email:${email} already exists`);
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.EMAIL_ALREADY_EXISTS, `This email: ${email} already exists`);
         }
 
-        // check if user userName is unique 
+        // check if user userName is unique
         const userByName = await this.userService.find(null, userName);
         if (userByName.length) {
-            throw new BadRequestException(`this userName: ${userName} already exist`)
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.USERNAME_ALREADY_EXISTS, `This userName: ${userName} already exists`)
         }
 
         const salt = await bcrypt.genSalt()
@@ -45,13 +46,13 @@ export class AuthService {
         const user = await this.userService.find(userCredentials.email, userCredentials.userName);
 
         if (!user.length) {
-            throw new NotFoundException(`user not found`)
+            throw new NotFoundError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.USER_NOT_FOUND_LOGIN, 'User not found')
         }
 
         const verifiedUser = await bcrypt.compare(userCredentials.password, user[0].password)
 
         if (!verifiedUser) {
-            throw new BadRequestException('incorrect password')
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.INCORRECT_PASSWORD, 'Incorrect password')
         }
 
         return user[0];
@@ -61,7 +62,7 @@ export class AuthService {
         const [user] = await this.userService.find(userData.email, userData.userName);
 
         if (!user) {
-            throw new NotFoundException(`user not found`)
+            throw new NotFoundError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.USER_NOT_FOUND_RESET, 'User not found')
         }
 
         const token = this.generateResetPasswordToken(user.id)
@@ -74,7 +75,7 @@ export class AuthService {
         const { userId } = await this.jwtService.decode(token) as { userId: string };
 
         if (!userId) {
-            throw new BadRequestException('Invalid reset password token.');
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.INVALID_RESET_TOKEN, 'Invalid reset password token');
         }
 
         const salt = await bcrypt.genSalt()
@@ -86,19 +87,19 @@ export class AuthService {
         const [user] = await this.userService.find(email);
 
         if (!user) {
-            throw new NotFoundException(`user not found`)
+            throw new NotFoundError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.USER_NOT_FOUND_VERIFY, 'User not found')
         }
 
         if (user.isVerified) {
-            throw new BadRequestException(`user already verified`)
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.USER_ALREADY_VERIFIED, 'User already verified')
         }
 
         if (user.verificationCode !== verificationCode) {
-            throw new BadRequestException(`invalid verification code`)
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.INVALID_VERIFICATION_CODE, 'Invalid verification code')
         }
 
         if (user.verificationCodeExpiresAt < new Date()) {
-            throw new BadRequestException(`verification code expired`)
+            throw new BadRequestError(AUTH_ERRORS.PREFIX.BUSINESS, AUTH_ERRORS.NUMBER.VERIFICATION_CODE_EXPIRED, 'Verification code expired')
         }
 
         await this.profileService.createProfile({ name: user.userName}, user)
