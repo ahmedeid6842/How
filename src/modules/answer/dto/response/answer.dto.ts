@@ -1,6 +1,6 @@
 import { Expose, Type } from "class-transformer";
-import { UserDto } from "src/modules/auth/dto/user.dto";
-import { QuestionDto } from "src/modules/question/dto/question.dto";
+import { UserDto } from "src/modules/auth/dto/response/user.dto";
+import { QuestionDto } from "src/modules/question/dto/response/question.dto";
 
 export class AnswerDto {
     @Expose()

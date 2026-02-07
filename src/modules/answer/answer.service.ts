@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { User, Answer } from 'src/database/entities';
 import { AnswerRepository } from 'src/database/repositories';
 import { BadRequestError, NotFoundError, ANSWER_ERRORS } from 'src/common/exceptions';
-import { CreateAnswernDto } from './dto/create-answer.dto';
+import { CreateAnswernDto } from './dto/request/create-answer.dto';
 import { QuestionService } from 'src/modules/question/question.service';
-import { QueryAnswernDto } from './dto/query-answer.dto';
+import { QueryAnswernDto } from './dto/request/query-answer.dto';
 import { AnswerLikesService } from './answer-likes.service';
-import { PaginationDto } from './dto/pagination.dto';
+import { PaginationDto } from './dto/request/pagination.dto';
 import { ProfileService } from 'src/modules/profile/profile.service';
 
 @Injectable()

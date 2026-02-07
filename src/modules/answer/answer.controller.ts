@@ -15,14 +15,14 @@ import { AnswerService } from './answer.service';
 import { AuthGuard } from 'src/core/guards/auth.guard';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { User, Answer } from 'src/database/entities';
-import { CreateAnswernDto } from './dto/create-answer.dto';
-import { QueryAnswernDto } from './dto/query-answer.dto';
+import { CreateAnswernDto } from './dto/request/create-answer.dto';
+import { QueryAnswernDto } from './dto/request/query-answer.dto';
 import { Serialize } from 'src/core/interceptors/serialize.interceptor';
-import { AnswerDto } from './dto/answer.dto';
+import { AnswerDto } from './dto/response/answer.dto';
 import { AnswerOwnerGuard } from './guards/answer-owner.guard';
 import { OwnerAnswer } from 'src/common/decorators/owner-answer.decorator';
 import { AnswerOrQuestionOwnerGuard } from './guards/answer-or-question-owner.guard';
-import { PaginationDto } from './dto/pagination.dto';
+import { PaginationDto } from './dto/request/pagination.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Serialize(AnswerDto)
