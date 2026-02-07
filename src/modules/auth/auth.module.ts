@@ -4,8 +4,8 @@ import { AuthService } from './auth.service';
 import { UsersService } from './user.service';
 import { DatabaseModule } from 'src/database';
 import { EmailService } from 'src/modules/email/email.service';
-import { IsValidToken } from './middleware/is-valid-token.middelware';
-import { CurrentUserMiddleware } from './middleware/current-user.middleware';
+import { IsValidToken } from 'src/core/middleware/is-valid-token.middleware';
+import { CurrentUserMiddleware } from 'src/core/middleware/current-user.middleware';
 import { ProfileModule } from 'src/modules/profile/profile.module';
 
 @Module({
