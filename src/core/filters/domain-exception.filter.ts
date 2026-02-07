@@ -28,6 +28,7 @@ export class DomainExceptionFilter implements ExceptionFilter {
     const statusCode = this.getHttpStatus(exception);
 
     response.status(statusCode).json({
+      requestId: request.requestId,
       errorCode: exception.errorCode,
       message: this.i18n.t(exception.messageKey, { lang }),
     });
