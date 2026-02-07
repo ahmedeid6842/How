@@ -3,7 +3,7 @@ import { Profile, User } from 'src/database/entities';
 import { ProfileRepository } from 'src/database/repositories';
 import { ForbiddenError, PROFILE_ERRORS } from 'src/common/exceptions';
 
-import { CreateProfileDto } from './dto/create-profile.dto';
+import { CreateProfileDto } from './dto/request/create-profile.dto';
 import { FollowService } from 'src/modules/follow/follow.service';
 
 @Injectable()

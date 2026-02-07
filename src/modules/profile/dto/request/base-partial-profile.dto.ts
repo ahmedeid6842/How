@@ -1,5 +1,5 @@
 import { ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsBoolean, IsOptional, IsString, Length } from "class-validator";
-import { UserDto } from "src/modules/auth/dto/user.dto";
+import { UserDto } from "src/modules/auth/dto/response/user.dto";
 
 export class BasePartialProfileDto {
     @IsOptional()
