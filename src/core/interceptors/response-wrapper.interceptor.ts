@@ -17,7 +17,7 @@ export class ResponseWrapperInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       map((body) => {
-        return { requestId: request.requestId, data: body };
+        return { requestId: request.requestId, data: body || null };
       }),
     );
   }

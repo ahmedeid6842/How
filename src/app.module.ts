@@ -28,6 +28,7 @@ import { AnswerModule } from './modules/answer/answer.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { DomainExceptionFilter } from './core/filters/domain-exception.filter';
+import { GlobalExceptionFilter } from './core/filters/global-exception.filter';
 import { RequestIdMiddleware } from './core/middleware/request-id.middleware';
 
 config();
@@ -84,6 +85,7 @@ config();
   controllers: [AppController],
   providers: [
     AppService,
+    { provide: APP_FILTER, useClass: GlobalExceptionFilter },
     { provide: APP_FILTER, useClass: DomainExceptionFilter },
     { provide: APP_INTERCEPTOR, useClass: ResponseWrapperInterceptor },
   ],

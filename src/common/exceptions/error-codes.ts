@@ -70,6 +70,20 @@ export const PROFILE_ERRORS = {
   },
 } as const;
 
+export const SYSTEM_ERRORS = {
+  PREFIX: {
+    TECHNICAL: 'TSYSTEM',
+  },
+  NUMBER: {
+    INTERNAL_SERVER_ERROR: 500,
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    VALIDATION_ERROR: 422,
+  },
+} as const;
+
 export const PAYMENT_ERRORS = {
   PREFIX: {
     BUSINESS: 'BPAYMENT',
