@@ -1,0 +1,7 @@
+{
+  "question_not_found": "لم يتم العثور على السؤال للدفع",
+  "unsupported_provider": "مزود الدفع غير مدعوم",
+  "payment_not_found": "لم يتم العثور على الدفع",
+  "payment_already_completed": "تم إتمام هذا الدفع بالفعل",
+  "initiation_failed": "فشل في بدء الدفع"
+}

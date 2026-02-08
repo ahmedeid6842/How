@@ -1,0 +1,7 @@
+{
+  "question_not_found": "Question not found for payment",
+  "unsupported_provider": "Unsupported payment provider",
+  "payment_not_found": "Payment not found",
+  "payment_already_completed": "This payment has already been completed",
+  "initiation_failed": "Failed to initiate payment"
+}
