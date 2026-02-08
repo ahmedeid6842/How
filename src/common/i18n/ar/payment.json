@@ -3,5 +3,6 @@
   "unsupported_provider": "مزود الدفع غير مدعوم",
   "payment_not_found": "لم يتم العثور على الدفع",
   "payment_already_completed": "تم إتمام هذا الدفع بالفعل",
-  "initiation_failed": "فشل في بدء الدفع"
+  "initiation_failed": "فشل في بدء الدفع",
+  "unsupported_method": "طريقة الدفع غير مدعومة لهذا المزود"
 }
