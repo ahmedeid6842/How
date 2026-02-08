@@ -1,8 +1,15 @@
 import { PaymentStatus } from '../enums';
 
-export interface InitiateResult {
+export interface RedirectResult {
   providerTransactionId: string;
   redirectUrl: string;
+}
+
+export interface SdkCredentials {
+  providerTransactionId: string;
+  profileId: string;
+  serverKey: string;
+  clientKey: string;
 }
 
 export interface CallbackResult {
@@ -11,11 +18,5 @@ export interface CallbackResult {
 }
 
 export interface IPaymentProvider {
-  initiatePayment(
-    amount: number,
-    currency: string,
-    metadata: Record<string, any>,
-  ): Promise<InitiateResult>;
-
   parseCallback(payload: any): CallbackResult;
 }

@@ -3,17 +3,17 @@ import { randomUUID } from 'crypto';
 import { PaymentStatus } from '../enums';
 import {
   IPaymentProvider,
-  InitiateResult,
+  RedirectResult,
   CallbackResult,
 } from './payment-provider.interface';
 
 @Injectable()
 export class StripeProvider implements IPaymentProvider {
-  async initiatePayment(
+  async createCheckoutSession(
     amount: number,
     currency: string,
     metadata: Record<string, any>,
-  ): Promise<InitiateResult> {
+  ): Promise<RedirectResult> {
     const providerTransactionId = randomUUID();
 
     return {
