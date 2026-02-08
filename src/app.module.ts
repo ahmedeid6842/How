@@ -17,6 +17,7 @@ import {
   Answer,
   AnswerLikes,
   Profile,
+  Payment,
 } from './database/entities';
 import { ResponseWrapperInterceptor } from './core/interceptors/response-wrapper.interceptor';
 import { AuthModule } from './modules/auth/auth.module';
@@ -25,6 +26,7 @@ import { FollowModule } from './modules/follow/follow.module';
 import { QuestionModule } from './modules/question/question.module';
 import { AnswerModule } from './modules/answer/answer.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { PaymentModule } from './modules/payment/payment.module';
 import { DomainExceptionFilter } from './core/filters/domain-exception.filter';
 import { RequestIdMiddleware } from './core/middleware/request-id.middleware';
 
@@ -46,6 +48,7 @@ config();
         Answer,
         AnswerLikes,
         Profile,
+        Payment,
       ],
       synchronize: true,
       autoLoadEntities: true,
@@ -68,6 +71,7 @@ config();
     QuestionModule,
     AnswerModule,
     ProfileModule,
+    PaymentModule,
     I18nModule.forRoot({
       fallbackLanguage: 'en',
       loaderOptions: {

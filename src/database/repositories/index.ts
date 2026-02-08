@@ -6,3 +6,4 @@ export * from './question.repository';
 export * from './question-likes.repository';
 export * from './follow.repository';
 export * from './profile.repository';
+export * from './payment.repository';

@@ -8,6 +8,7 @@ import {
   Answer,
   AnswerLikes,
   Profile,
+  Payment,
 } from './entities';
 import {
   UserRepository,
@@ -17,6 +18,7 @@ import {
   QuestionLikesRepository,
   FollowRepository,
   ProfileRepository,
+  PaymentRepository,
 } from './repositories';
 
 const entities = [
@@ -27,6 +29,7 @@ const entities = [
   Answer,
   AnswerLikes,
   Profile,
+  Payment,
 ];
 
 const repositories = [
@@ -37,6 +40,7 @@ const repositories = [
   QuestionLikesRepository,
   FollowRepository,
   ProfileRepository,
+  PaymentRepository,
 ];
 
 @Module({

@@ -69,3 +69,18 @@ export const PROFILE_ERRORS = {
     ACCOUNT_IS_PRIVATE: 1,
   },
 } as const;
+
+export const PAYMENT_ERRORS = {
+  PREFIX: {
+    BUSINESS: 'BPAYMENT',
+    TECHNICAL: 'TPAYMENT',
+  },
+  NUMBER: {
+    QUESTION_NOT_FOUND: 1,
+    UNSUPPORTED_PROVIDER: 2,
+    PAYMENT_NOT_FOUND: 3,
+    PAYMENT_ALREADY_COMPLETED: 4,
+    INITIATION_FAILED: 5,
+    UNSUPPORTED_METHOD: 6,
+  },
+} as const;
