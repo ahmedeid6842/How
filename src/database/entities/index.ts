@@ -6,3 +6,4 @@ export { QuestionLikes } from './question-likes.entity';
 export { Answer } from './answer.entity';
 export { AnswerLikes } from './answer-likes.entity';
 export { Profile } from './profile.entity';
+export { Payment } from './payment.entity';
