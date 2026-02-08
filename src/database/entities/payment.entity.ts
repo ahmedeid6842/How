@@ -4,6 +4,7 @@ import { Question } from './question.entity';
 import { AuditableEntity } from './common';
 import { PaymentStatus } from 'src/modules/payment/enums/payment-status.enum';
 import { PaymentProviderName } from 'src/modules/payment/enums/payment-provider.enum';
+import { PaymentMethod } from 'src/modules/payment/enums/payment-method.enum';
 
 @Entity()
 export class Payment extends AuditableEntity {
@@ -15,6 +16,9 @@ export class Payment extends AuditableEntity {
 
   @Column({ type: 'enum', enum: PaymentProviderName })
   provider: PaymentProviderName;
+
+  @Column({ type: 'enum', enum: PaymentMethod })
+  method: PaymentMethod;
 
   @Column({
     type: 'enum',
