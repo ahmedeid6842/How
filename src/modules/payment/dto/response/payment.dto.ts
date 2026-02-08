@@ -14,6 +14,9 @@ export class PaymentDto {
   provider: string;
 
   @Expose()
+  method: string;
+
+  @Expose()
   status: string;
 
   @Expose()

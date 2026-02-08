@@ -31,18 +31,19 @@ export class PaymentService {
       );
     }
 
-    const provider = this.providerFactory.getProvider(dto.provider);
+    const executor = this.providerFactory.getExecutor(dto.provider, dto.method);
 
-    const result = await provider.initiatePayment(
-      dto.amount,
-      dto.currency || 'USD',
-      { questionId: dto.questionId, userId },
-    );
+    const result = await executor.execute({
+      amount: dto.amount,
+      currency: dto.currency || 'USD',
+      metadata: { questionId: dto.questionId, userId },
+    });
 
     return this.paymentRepository.create({
       amount: dto.amount,
       currency: dto.currency || 'USD',
       provider: dto.provider,
+      method: dto.method,
       status: PaymentStatus.PENDING,
       providerTransactionId: result.providerTransactionId,
       redirectUrl: result.redirectUrl,
