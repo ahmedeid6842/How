@@ -620,7 +620,6 @@ export class AppService {
                     <img class="erd-img"
                         src="https://github.com/ahmedeid6842/How/assets/57197702/ccbccdff-c9ee-45fa-b174-ec697de62000"
                         alt="HOW ERD">
-                    <a href="https://drawsql.app/teams/microverse-114/diagrams/how" target="_blank">ERD</a>
                 </section>
         
                 <section class="benefits" id="benefits">
