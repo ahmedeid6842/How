@@ -123,8 +123,6 @@ The application will be accessible at http://localhost:3000.
    <img src="https://github.com/ahmedeid6842/How/assets/57197702/9cf9b4d9-9ae8-4fb6-bc63-4426b84e82b3"/>
 </div>
 
-## 🏗️🔨 [Database ERD](https://drawsql.app/teams/microverse-114/diagrams/how) <a name="erd"></a>
-
 ![ERD-V2](https://github.com/ahmedeid6842/How/assets/57197702/7059bb7a-1eb6-4324-9a95-33754313f946)
 
 
